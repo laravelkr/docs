@@ -40,7 +40,7 @@ These configuration files allow you to configure things like your database conne
 
 In a hurry? You can get a quick overview of your application's configuration, drivers, and environment via the `about` Artisan command:
 
-시간이 없으신가요? `about` 아티즌 명령을 통해 애플리테이션의 설정, 드라이버, 환경에 대한 개요를 신속히 확인할 수 있습니다.
+시간이 없으신가요? `about` 아티즌 명령을 통해 애플리테이션의 설정, 드라이버, 환경에 대한 항목를 빠르게 확인할 수 있습니다.
 
 ```shell
 php artisan about
@@ -48,10 +48,18 @@ php artisan about
 
 If you're only interested in a particular section of the application overview output, you may filter for that section using the `--only` option:
 
-특정 분야의 개요에만 관심이 있다면 `--only` 옵션을 이용해서 해당 섹션을 골라낼 수 있습니다.
+특정 분야의 섹션에만 관심이 있다면 `--only` 옵션을 이용해서 해당 섹션을 골라낼 수 있습니다.
 
 ```shell
 php artisan about --only=environment
+```
+
+Or, to explore a specific configuration file's values in detail, you may use the `config:show` Artisan command:
+
+보다 자세한 내용을 확인하기 위해서 다음과 같이 특정 섹션을 지정한 `config:show` Artisan 명령어를 사용할 수도 있습니다.  
+
+```shell
+php artisan config:show database
 ```
 
 <a name="environment-configuration"></a>
@@ -62,17 +70,17 @@ It is often helpful to have different configuration values based on the environm
 
 프로그램이 실행되는 구동환경에따라 다른 설정값을 사용할 수 있으면 많은 이점이 있습니다. 예를 들어 실제 제품 서버와 로컬 개발 서버에 각각 다른 캐시 드라이버를 사용하려고 하는 경우가 그렇습니다.
 
-To make this a cinch, Laravel utilizes the [DotEnv](https://github.com/vlucas/phpdotenv) PHP library. In a fresh Laravel installation, the root directory of your application will contain a .env.example file that defines many common environment variables. During the Laravel installation process, this file will automatically be copied to .env.
+To make this a cinch, Laravel utilizes the [DotEnv](https://github.com/vlucas/phpdotenv) PHP library. In a fresh Laravel installation, the root directory of your application will contain a `.env.example` file that defines many common environment variables. During the Laravel installation process, this file will automatically be copied to `.env`.
 
-이것을 간단하게 만들기 위해 라라벨은 [DotEnv](https://github.com/vlucas/phpdotenv) PHP 라이브러리를 사용합니다. 새롭게 라라벨을 인스톨 한 경우 애플리케이션의 루트 디렉토리에는 많은 공통 환경 변수를 정의하는 .env.example 파일이 포함됩니다. 라라벨 설치 과정에서 이 파일은 자동으로 .env에 복사됩니다.
+이것을 간단하게 만들기 위해 라라벨은 [DotEnv](https://github.com/vlucas/phpdotenv) PHP 라이브러리를 사용합니다. 새롭게 라라벨을 인스톨 한 경우 애플리케이션의 루트 디렉토리에는 많은 공통 환경 변수를 정의하는 `.env.example` 파일이 포함됩니다. 라라벨 설치 과정에서 이 파일은 자동으로 `.env` 파일에 복사됩니다.
 
 Laravel's default `.env` file contains some common configuration values that may differ based on whether your application is running locally or on a production web server. These values are then retrieved from various Laravel configuration files within the `config` directory using Laravel's `env` function.
 
 라라벨의 기본 `.env` 파일에는 프로그램이 로컬 개발 서버에서 실행 중인지 아니면 실제 제품 서버에서 실행 중인지에 따라 다를 수 있는 몇 가지 공통 구성 값이 포함되어 있습니다. 이 값은 라라벨의 `env` 기능을 사용하여 `config` 디렉토리 내의 다양한 라라벨 설정 파일에서 쓰입니다.
 
-If you are developing with a team, you may wish to continue including a `.env.example` file with your application. By putting placeholder values in the example configuration file, other developers on your team can clearly see which environment variables are needed to run your application. You may also create a `.env.testing` file. This file will override the `.env` file when running PHPUnit tests or executing Artisan commands with the `--env=testing` option.
+If you are developing with a team, you may wish to continue including a `.env.example` file with your application. By putting placeholder values in the example configuration file, other developers on your team can clearly see which environment variables are needed to run your application.
 
-팀으로 개발을 하는 경우라면 `.env.example` 파일을 애플리케이션에 포함할 수 있습니다. example 설정 파일에 적절한 기본값을 넣어두면 다른 개발자들이 애플리케이션을 실행하는 데 어떤 환경 변수 설정이 필요한지 명확하게 이해할 수 있습니다. 또한 `.env.testing` 파일을 생성할 수 있습니다. 이 파일은 PHPUnit 테스트나 아티즌 명령어가 `--env=testing` 옵션과 함께 실행될 때 `.env`를 오버라이드 합니다.
+팀으로 개발을 하는 경우라면 `.env.example` 파일을 애플리케이션에 포함할 수 있습니다. example 설정 파일에 적절한 기본값을 넣어두면 다른 개발자들이 애플리케이션을 실행하는 데 어떤 환경 변수 설정이 필요한지 명확하게 이해할 수 있습니다. 
 
 > **Note**  
 > Any variable in your `.env` file can be overridden by external environment variables such as server-level or system-level environment variables.
@@ -96,7 +104,7 @@ However, it is possible to encrypt your environment file using Laravel's built-i
 #### Additional Environment Files
 #### 추가 환경 파일
 
-Before loading your application's environment variables, Laravel determines if either the `APP_ENV` environment variable has been externally provided or if the `--env` CLI argument has been specified. If so, Laravel will attempt to load an `.env.[APP_ENV]` file if it exists. If it does not exist, the default `.env` file will be loaded.
+Before loading your application's environment variables, Laravel determines if an `APP_ENV` environment variable has been externally provided or if the `--env` CLI argument has been specified. If so, Laravel will attempt to load an `.env.[APP_ENV]` file if it exists. If it does not exist, the default `.env` file will be loaded.
 
 프로그램의 환경 변수를 로드하기 전에 라라벨은 `APP_ENV` 환경 변수가 외부에서 제공되었는지 또는 `--env` CLI 인수가 지정되었는지 확인합니다. 만약 CLI 인수가 지정되었다면 라라벨은 `.env.[APP_ENV]` 파일이 존재하는 경우 로드를 시도합니다. 존재하지 않으면 기본 `.env` 파일이 로드됩니다.
 
@@ -119,7 +127,7 @@ All variables in your `.env` files are typically parsed as strings, so some rese
 | null         | (null) null   |
 | (null)       | (null) null   |
 
-If you need to define an environment variable with a value that contains spaces, you may do so by enclosing the value in double quotes.
+If you need to define an environment variable with a value that contains spaces, you may do so by enclosing the value in double quotes:
 
 공백이 포함 된 값으로 환경 변수를 정의해야하는 경우 값을 쌍따옴표로 묶어 환경 변수를 정의 할 수 있습니다.
 
@@ -265,9 +273,9 @@ php artisan env:decrypt --force
 ## Accessing Configuration Values
 ## 설정 값에 엑세스 하기
 
-You may easily access your configuration values using the global `config` helper function from anywhere in your application. The configuration values may be accessed using "dot" syntax, which includes the name of the file and option you wish to access. A default value may also be specified and will be returned if the configuration option does not exist:
+You may easily access your configuration values using the global `config` function from anywhere in your application. The configuration values may be accessed using "dot" syntax, which includes the name of the file and option you wish to access. A default value may also be specified and will be returned if the configuration option does not exist:
 
-애플리케이션의 어디에서라도 `config` 헬퍼 함수를 사용하여 손쉽게 설정 값에 엑세스 할 수 있습니다. 설정된 값은 파일의 이름과 엑세스 하고자 하는 옵션에 대해서, ".(점)" 문법을 사용하여 엑세스 할 수 있습니다. 설정된 옵션값이 존재하지 않았을 때 반환될 기본값을 지정할 수 있습니다.
+애플리케이션의 어디에서라도 `config` 함수를 사용하여 손쉽게 설정 값에 엑세스 할 수 있습니다. 설정된 값은 파일의 이름과 엑세스 하고자 하는 옵션에 대해서, ".(점)" 문법을 사용하여 엑세스 할 수 있습니다. 설정된 옵션값이 존재하지 않았을 때 반환될 기본값을 지정할 수 있습니다.
 
     $value = config('app.timezone');
 
@@ -291,6 +299,22 @@ To give your application a speed boost, you should cache all of your configurati
 You should typically run the `php artisan config:cache` command as part of your production deployment process. The command should not be run during local development as configuration options will frequently need to be changed during the course of your application's development.
 
 일반적으로 `php artisan config:cache` 명령어를 애플리케이션 배포 프로세스의 일부에서 실행하도록 해야 합니다. 애플리케이션 개발 중에는 설정 옵션값이 자주 바뀔 필요가 있기 때문에, 로컬 개발 환경에서는 이 명령어를 실행하지 말아야 합니다.
+
+Once the configuration has been cached, your application's `.env` file will not be loaded by the framework during requests or Artisan commands; therefore, the `env` function will only return external, system level environment variables.
+
+설정내용이 캐싱되고나면, 프레임워크는 request-요청을 처리하거나 Artisan 명령어를 처리할 때 애플리케이션의 `.env` 파일을 읽어들이지 않습니다. 따라서 `env` 함수는 외부의 시스템 레벨의 환경변수 값만을 반환합니다. 
+
+For this reason, you should ensure you are only calling the `env` function from within your application's configuration (`config`) files. You can see many examples of this by examining Laravel's default configuration files. Configuration values may be accessed from anywhere in your application using the `config` function [described above](#accessing-configuration-values).
+
+이러한 이유로 애플리케이션의 설정(`config`) 파일 안에서만 `env` 함수를 호출해야합니다. 라라벨의 기본 설정 파일을 살펴보면 이에 대한 많은 예시를 볼 수 있습니다. 설정 값은 [위에 설명된](#accessing-configuration-values) `config` 기능을 사용하여 애플리케이션의 어디에서나 액세스할 수 있습니다.
+
+The `config:clear` command may be used to purge the cached configuration:
+
+`config:clear` 명령어를 사용하면 캐싱된 설정을 제거할 수 있습니다.
+
+```shell
+php artisan config:clear
+```
 
 > **Warning**  
 > If you execute the `config:cache` command during your deployment process, you should be sure that you are only calling the `env` function from within your configuration files. Once the configuration has been cached, the `.env` file will not be loaded; therefore, the `env` function will only return external, system level environment variables.
@@ -430,6 +454,6 @@ While your application is in maintenance mode, no [queued jobs](/docs/{{version}
 #### Alternatives To Maintenance Mode
 #### 점검 모드의 대안
 
-Since maintenance mode requires your application to have several seconds of downtime, consider alternatives like [Envoyer](https://envoyer.io) to accomplish zero-downtime deployment with Laravel.
+Since maintenance mode requires your application to have several seconds of downtime, consider alternatives like [Laravel Vapor](https://vapor.laravel.com) and [Envoyer](https://envoyer.io) to accomplish zero-downtime deployment with Laravel.
 
-점검 모드 동안에는 애플리케이션이 얼마동안 완전히 다운되어 있게 되므로, 라라벨의 제로-타임 배포를 위해서 [Envoyer](https://envoyer.io)같은 대안을 고려할 수도 있습니다.
+점검 모드 동안에는 애플리케이션이 얼마동안 완전히 다운되어 있게 되므로, 라라벨의 제로-타임 배포를 위해서 [라라벨 Vapor](https://vapor.laravel.com), [Envoyer](https://envoyer.io)와 같은 대안을 고려할 수도 있습니다.

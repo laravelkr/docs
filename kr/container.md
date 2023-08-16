@@ -3,10 +3,10 @@
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
-  - [Zero Configuration Resolution](#zero-configuration-resolution)
-  - [설정이 필요없는 의존성 해결](#zero-configuration-resolution)
-  - [When To Use The Container](#when-to-use-the-container)
-  - [컨테이너를 사용할 때](#when-to-use-the-container)
+    - [Zero Configuration Resolution](#zero-configuration-resolution)
+    - [설정이 필요없는 의존성 해결](#zero-configuration-resolution)
+    - [When To Use The Container](#when-to-use-the-container)
+    - [컨테이너를 사용할 때](#when-to-use-the-container)
 - [Binding](#binding)
 - [바인딩](#binding)
     - [Binding Basics](#binding-basics)
@@ -55,34 +55,21 @@ Let's look at a simple example:
     use App\Http\Controllers\Controller;
     use App\Repositories\UserRepository;
     use App\Models\User;
+    use Illuminate\View\View;
 
     class UserController extends Controller
     {
         /**
-         * The user repository implementation.
-         *
-         * @var UserRepository
-         */
-        protected $users;
-
-        /**
          * Create a new controller instance.
-         *
-         * @param  UserRepository  $users
-         * @return void
          */
-        public function __construct(UserRepository $users)
-        {
-            $this->users = $users;
-        }
+        public function __construct(
+            protected UserRepository $users,
+        ) {}
 
         /**
          * Show the profile for the given user.
-         *
-         * @param  int  $id
-         * @return Response
          */
-        public function show($id)
+        public function show(string $id): View
         {
             $user = $this->users->find($id);
 
@@ -110,7 +97,7 @@ If a class has no dependencies or only depends on other concrete classes (not in
 
     class Service
     {
-        //
+        // ...
     }
 
     Route::get('/', function (Service $service) {
@@ -155,9 +142,51 @@ First, if you write a class that implements an interface and you wish to type-hi
 ### Binding Basics
 ### 기본적인 바인딩 
 
+<a name="simple-bindings"></a>
+#### Simple Bindings
+#### 간단한 바인딩
+
 Almost all of your service container bindings will be registered within [service providers](/docs/{{version}}/providers), so most of these examples will demonstrate using the container in that context.
 
 대부분의 서비스 컨테이너 바인딩들은 [서비스 프로바이더](/docs/{{version}}/providers) 내에서 등록됩니다. 따라서 이러한 모든 예제들은 해당 컨텍스트에서 컨테이너를 사용하는 데모가 될 것입니다.
+
+Within a service provider, you always have access to the container via the `$this->app` property. We can register a binding using the `bind` method, passing the class or interface name that we wish to register along with a closure that returns an instance of the class:
+
+하나의 서비스 프로바이더 안에서는 항상 `$this->app` 속성을 통해서 컨테이너 인스턴스에 접근 할 수 있습니다. 또한 `bind` 메소드를 사용하여 클래스나 인터페이스 이름에 대한 의존성을 우리가 원하는 클래스의 인스턴스를 반환하는 클로저를 등록하여 바인딩 할 수 있습니다.
+
+    use App\Services\Transistor;
+    use App\Services\PodcastParser;
+    use Illuminate\Contracts\Foundation\Application;
+
+    $this->app->bind(Transistor::class, function (Application $app) {
+        return new Transistor($app->make(PodcastParser::class));
+    });
+
+Note that we receive the container itself as an argument to the resolver. We can then use the container to resolve sub-dependencies of the object we are building.
+
+클로저에서 컨테이너 자신을 인자로 전달 받고 있다는 것에 유의하십시오. 이를 통해서 연결된 객체의 의존성 문제를 위해서 컨테이너 자신을 사용할 수 있습니다. 
+
+As mentioned, you will typically be interacting with the container within service providers; however, if you would like to interact with the container outside of a service provider, you may do so via the `App` [facade](/docs/{{version}}/facades):
+
+앞서 언급했듯이 일반적으로 서비스 프로바이더 안에서 컨테이너를 다룰수 있습니다. 그렇지만 서비스 프로바이더 외부에서 컨테이너를 다루려고 한다면 `App` [파사드](/docs/{{version}}/facades)를 사용하면 됩니다.
+
+    use App\Services\Transistor;
+    use Illuminate\Contracts\Foundation\Application;
+    use Illuminate\Support\Facades\App;
+
+    App::bind(Transistor::class, function (Application $app) {
+        // ...
+    });
+
+You may use the `bindIf` method to register a container binding only if a binding has not already been registered for the given type:
+
+주어진 타입에 대한 바인딩이 등록되지 않은 경우에만 컨테이너에 바인딩하려면 `bindIf` 메서드를 사용하면 됩니다.
+
+```php
+$this->app->bindIf(Transistor::class, function (Application $app) {
+    return new Transistor($app->make(PodcastParser::class));
+});
+```
 
 > **Note**  
 > There is no need to bind classes into the container if they do not depend on any interfaces. The container does not need to be instructed on how to build these objects, since it can automatically resolve these objects using reflection.
@@ -165,21 +194,7 @@ Almost all of your service container bindings will be registered within [service
 > **Note**  
 > 특정 인터페이스에 대한 의존성이 없을 때에는 컨테이너에 클래스를 바인딩 할 필요는 없습니다. 이러한 객체들은 리플랙션에 의해서 자동으로 의존성이 해결되기 때문에, 컨테이너가 각각의 객체들이 어떻게 생성될지 알 필요는 없습니다. 
 
-#### Simple Bindings
-#### 간단한 바인딩 
-
-Within a service provider, you always have access to the container via the `$this->app` property. We can register a binding using the `bind` method, passing the class or interface name that we wish to register along with a `Closure` that returns an instance of the class:
-
-서비스 프로바이더 안에서는 항상 `$this->app` 속성을 통해서 컨테이너 인스턴스에 접근 할 수 있습니다. 또한 `bind` 메소드를 사용하여 클래스나 인터페이스 이름에 대한 의존성을 우리가 원하는 클래스의 인스턴스를 반환하는 `Closure`를 등록하여 바인딩 할 수 있습니다.
-
-    $this->app->bind('HelpSpot\API', function ($app) {
-        return new \HelpSpot\API($app->make('HttpClient'));
-    });
-
-Note that we receive the container itself as an argument to the resolver. We can then use the container to resolve sub-dependencies of the object we are building.
-
-클로저에서 컨테이너 자신을 인자로 전달 받고 있다는 것에 유의하십시오. 이를 통해서 연결된 객체의 의존성 문제를 위해서 컨테이너 자신을 사용할 수 있습니다. 
-
+<a name="binding-a-singleton"></a>
 #### Binding A Singleton
 #### 싱글톤으로 바인딩하기
 
@@ -187,9 +202,23 @@ The `singleton` method binds a class or interface into the container that should
 
 `singleton` 메소드로 클래스나 인터페이스를 바인딩 하면 컨테이너는 한 번만 해당 의존성을 해결합니다. 싱글톤 바인딩으로 의존성이 해결되면, 컨테이너의 다른 부분에서 호출될 때 동일한 객체 인스턴스가 반환될 것입니다.
 
-    $this->app->singleton('HelpSpot\API', function ($app) {
-        return new \HelpSpot\API($app->make('HttpClient'));
+    use App\Services\Transistor;
+    use App\Services\PodcastParser;
+    use Illuminate\Contracts\Foundation\Application;
+
+    $this->app->singleton(Transistor::class, function (Application $app) {
+        return new Transistor($app->make(PodcastParser::class));
     });
+
+You may use the `singletonIf` method to register a singleton container binding only if a binding has not already been registered for the given type:
+
+주어진 타입에 대한 싱글톤 바인딩이 등록되지 않은 경우에만 컨테이너에 싱글톤 바인딩하려면 `singletonIf` 메서드를 사용하면 됩니다.
+
+```php
+$this->app->singletonIf(Transistor::class, function (Application $app) {
+    return new Transistor($app->make(PodcastParser::class));
+});
+```
 
 <a name="binding-scoped"></a>
 #### Binding Scoped Singletons
@@ -197,12 +226,13 @@ The `singleton` method binds a class or interface into the container that should
 
 The `scoped` method binds a class or interface into the container that should only be resolved one time within a given Laravel request / job lifecycle. While this method is similar to the `singleton` method, instances registered using the `scoped` method will be flushed whenever the Laravel application starts a new "lifecycle", such as when a [Laravel Octane](/docs/{{version}}/octane) worker processes a new request or when a Laravel [queue worker](/docs/{{version}}/queues) processes a new job:
 
-`scoped` 메소드는 주어진 Laravel 요청/작업 라이프사이클 내에서 한 번만 해결되어야 하는 클래스 또는 인터페이스를 컨테이너에 바인딩합니다. `singleton` 메서드와 유사하지만, `scoped` 메서드를 통해 등록된 인스턴스는 [Laravel Octane](/docs/{{version}}/octane) 워커가 새 요청을 처리하거나 [큐 워커](/docs/{{version}}/queues)가 새 "라이프사이클"을 시작할 때마다 컨테이너에서 비워집니다.
+`scoped` 메소드는 주어진 라라벨 request-요청/job-작업 라이프사이클 내에서 한 번만 해결되어야 하는 클래스 또는 인터페이스를 컨테이너에 바인딩합니다. `singleton` 메서드와 유사하지만, `scoped` 메서드를 통해 등록된 인스턴스는 [Laravel Octane](/docs/{{version}}/octane) 워커가 새 요청을 처리하거나 [큐 워커](/docs/{{version}}/queues)가 새 "라이프사이클"을 시작할 때마다 컨테이너에서 비워집니다.
 
     use App\Services\Transistor;
     use App\Services\PodcastParser;
+    use Illuminate\Contracts\Foundation\Application;
 
-    $this->app->scoped(Transistor::class, function ($app) {
+    $this->app->scoped(Transistor::class, function (Application $app) {
         return new Transistor($app->make(PodcastParser::class));
     });
 
@@ -214,9 +244,12 @@ You may also bind an existing object instance into the container using the `inst
 
 `instance` 메소드를 사용하여 이미 존재하는 객체의 인스턴스를 컨테이너에 바인딩 할 수 있습니다. 이후 컨테이너에서 호출이 될 때는 매번 주어진 인스턴스가 반환됩니다. 
 
-    $api = new \HelpSpot\API(new HttpClient);
+    use App\Services\Transistor;
+    use App\Services\PodcastParser;
 
-    $this->app->instance('HelpSpot\API', $api);
+    $service = new Transistor(new PodcastParser);
+
+    $this->app->instance(Transistor::class, $service);
 
 <a name="binding-interfaces-to-implementations"></a>
 ### Binding Interfaces To Implementations
@@ -226,27 +259,23 @@ A very powerful feature of the service container is its ability to bind an inter
 
 서비스 컨테이너의 강력한 기능 중 하나는 주어진 구현 객체에 인터페이스를 바인딩 할 수 있다는 것입니다. 예를 들어 `EventPusher` 인터페이스와 `RedisEventPusher` 구현이 있다고 가정해 보겠습니다. 이 인터페이스를 구현한 `RedisEventPusher` 객체를 구성한 뒤에 이 객체를 다음과 같이 서비스 컨테이너에 등록할 수 있습니다.
 
-    $this->app->bind(
-        'App\Contracts\EventPusher',
-        'App\Services\RedisEventPusher'
-    );
+    use App\Contracts\EventPusher;
+    use App\Services\RedisEventPusher;
 
-This statement tells the container that it should inject the `RedisEventPusher` when a class needs an implementation of `EventPusher`. Now we can type-hint the `EventPusher` interface in a constructor, or any other location where dependencies are injected by the service container:
+    $this->app->bind(EventPusher::class, RedisEventPusher::class);
 
-이것은 구문은 `EventPusher` 인터페이스의 구현 객체가 필요할 때 컨테이너가 `RedisEventPusher` 을 주입해준다는 것을 말합니다. 이제 우리는 `EventPusher` 인터페이스에 대한 타입을 생성자에 지정하면 어디에서라도 서비스 컨테이너가 의존성을 주입해줍니다.
+This statement tells the container that it should inject the `RedisEventPusher` when a class needs an implementation of `EventPusher`. Now we can type-hint the `EventPusher` interface in the constructor of a class that is resolved by the container. Remember, controllers, event listeners, middleware, and various other types of classes within Laravel applications are always resolved using the container:
+
+이 구문은 클래스가 `EventPusher` 인터페이스의 구현 객체가 필요할 때 컨테이너가 `RedisEventPusher` 을 주입해야 한다는 것을 알려줍니다. 이제 우리는 컨테이너에 의해서 의존성 해결되는 어떤 클래스라도 생성자 메서드에 `EventPusher` 인터페이스를 타입힌트할 수 있습니다. 라라벨 애플리케이션의 컨트롤러, 이벤트 리스너, 미들웨어 및 기타 다양한 타입의 클래스는 항상 컨테이너를 사용하여 의존성이 해결된다는 점을 기억하십시오. 
 
     use App\Contracts\EventPusher;
 
     /**
      * Create a new class instance.
-     *
-     * @param  EventPusher  $pusher
-     * @return void
      */
-    public function __construct(EventPusher $pusher)
-    {
-        $this->pusher = $pusher;
-    }
+    public function __construct(
+        protected EventPusher $pusher
+    ) {}
 
 <a name="contextual-binding"></a>
 ### Contextual Binding
@@ -275,54 +304,73 @@ Sometimes you may have two classes that utilize the same interface, but you wish
               });
 
 <a name="binding-primitives"></a>
-#### Binding Primitives
-#### 기본 타입 바인딩
+### Binding Primitives
+### 기본 타입 바인딩
 
 Sometimes you may have a class that receives some injected classes, but also needs an injected primitive value such as an integer. You may easily use contextual binding to inject any value your class may need:
 
 때로는, 클래스가 주입되는 클래스들을 받아들일 수도 있지만, 정수형과 같은 기본 타입의 값들을 주입 할 필요가 있을 수도 있습니다. 여러분은 손쉽게 문맥에 따라 조건적 바인딩을 통해서 클래스가 필요한 값을 주입할 수 있습니다.
 
     use App\Http\Controllers\UserController;
-
+    
     $this->app->when(UserController::class)
               ->needs('$variableName')
               ->give($value);
 
-Sometimes a class may depend on an array of tagged instances. Using the `giveTagged` method, you may easily inject all of the container bindings with that tag:
+Sometimes a class may depend on an array of [tagged](#tagging) instances. Using the `giveTagged` method, you may easily inject all of the container bindings with that tag:
 
-때때로 클래스는 태그 된 인스턴스의 배열에 의존 할 수 있습니다. `giveTagged` 메소드를 사용하면 해당 태그로 모든 컨테이너 바인딩을 쉽게 삽입 할 수 있습니다.
+때때로 클래스는 [태그된](#tagging) 인스턴스의 배열에 의존 할 수 있습니다. `giveTagged` 메소드를 사용하면 해당 태그로 모든 컨테이너 바인딩을 쉽게 삽입 할 수 있습니다.
 
     $this->app->when(ReportAggregator::class)
         ->needs('$reports')
         ->giveTagged('reports');
 
+If you need to inject a value from one of your application's configuration files, you may use the `giveConfig` method:
+
+    $this->app->when(ReportAggregator::class)
+        ->needs('$timezone')
+        ->giveConfig('app.timezone');
+
 <a name="binding-typed-variadics"></a>
 ### Binding Typed Variadics
 ### Typed Variadic 바인딩
 
-Occasionally you may have a class that receives an array of typed objects using a variadic constructor argument:
+Occasionally, you may have a class that receives an array of typed objects using a variadic constructor argument:
 
 때때로 가변 생성자 인수를 사용하여 유형이 지정된 객체의 배열을 받는 클래스가 있을 수 있습니다.
 
+    <?php
+
+    use App\Models\Filter;
+    use App\Services\Logger;
+
     class Firewall
     {
-        protected $logger;
+        /**
+         * The filter instances.
+         *
+         * @var array
+         */
         protected $filters;
 
-        public function __construct(Logger $logger, Filter ...$filters)
-        {
-            $this->logger = $logger;
+        /**
+         * Create a new class instance.
+         */
+        public function __construct(
+            protected Logger $logger,
+            Filter ...$filters,
+        ) {
             $this->filters = $filters;
         }
     }
 
-Using contextual binding, you may resolve this dependency by providing the `give` method with a Closure that returns an array of resolved `Filter` instances:
+Using contextual binding, you may resolve this dependency by providing the `give` method with a closure that returns an array of resolved `Filter` instances:
 
-컨텍스트 바인딩을 사용하면 해결 된 `Filter` 인스턴스의 배열을 반환하는 Closure와 함께 `give` 메서드를 제공하여 이 종속성을 해결할 수 있습니다.
+컨텍스트 바인딩을 사용하면 해결 된 `Filter` 인스턴스의 배열을 반환하는 클로저와 함께 `give` 메서드를 제공하여 이 종속성을 해결할 수 있습니다.
 
     $this->app->when(Firewall::class)
               ->needs(Filter::class)
-              ->give(function ($app) {
+              ->give(function (Application $app) {
                     return [
                         $app->make(NullFilter::class),
                         $app->make(ProfanityFilter::class),
@@ -346,9 +394,9 @@ For convenience, you may also just provide an array of class names to be resolve
 #### Variadic Tag Dependencies
 #### 가변 태그 종속성
 
-Sometimes a class may have a variadic dependency that is type-hinted as a given class (`Report ...$reports`). Using the `needs` and `giveTagged` methods, you may easily inject all of the container bindings with that tag for the given dependency:
+Sometimes a class may have a variadic dependency that is type-hinted as a given class (`Report ...$reports`). Using the `needs` and `giveTagged` methods, you may easily inject all of the container bindings with that [tag](#tagging) for the given dependency:
 
-때때로 클래스는 주어진 클래스 (`Report ... $reports`)로 타입 힌트 된 가변 종속성을 가질 수 있습니다. `needs` 및 `giveTagged` 메소드를 사용하면 주어진 종속성에 대해 해당 태그로 모든 컨테이너 바인딩을 쉽게 삽입 할 수 있습니다.
+때때로 클래스는 주어진 클래스 (`Report ... $reports`)로 타입 힌트 된 가변 종속성을 가질 수 있습니다. `needs` 및 `giveTagged` 메소드를 사용하면 주어진 종속성에 대해 해당 [태그](#tagging)로 모든 컨테이너 바인딩을 쉽게 삽입 할 수 있습니다.
 
     $this->app->when(ReportAggregator::class)
         ->needs(Report::class)
@@ -358,26 +406,26 @@ Sometimes a class may have a variadic dependency that is type-hinted as a given 
 ### Tagging
 ### 태깅
 
-Occasionally, you may need to resolve all of a certain "category" of binding. For example, perhaps you are building a report aggregator that receives an array of many different `Report` interface implementations. After registering the `Report` implementations, you can assign them a tag using the `tag` method:
+Occasionally, you may need to resolve all of a certain "category" of binding. For example, perhaps you are building a report analyzer that receives an array of many different `Report` interface implementations. After registering the `Report` implementations, you can assign them a tag using the `tag` method:
 
-가끔은, 바인딩의 특정 "카테고리" 전체에 대한 의존성 해결을 해야 할 때도 있습니다. 예를 들어, 서로 다른 `Report` 인터페이스의 구현 객체를 포함하는 배열을 전달받는 보고서 수집기를 개발하고 있다고 해봅시다. `Report` 구현 객체를 등록한 뒤에, `tag` 메소드를 사용하여 태그를 달 수 있습니다.
+가끔은, 바인딩의 특정 "카테고리" 전체에 대한 의존성 해결을 해야 할 때도 있습니다. 예를 들어, 서로 다른 `Report` 인터페이스의 구현 객체를 포함하는 배열을 전달받는 보고서 분석기를 개발하고 있다고 해봅시다. `Report` 구현 객체를 등록한 뒤에, `tag` 메소드를 사용하여 태그를 달 수 있습니다.
 
-    $this->app->bind('SpeedReport', function () {
-        //
+    $this->app->bind(CpuReport::class, function () {
+        // ...
     });
 
-    $this->app->bind('MemoryReport', function () {
-        //
+    $this->app->bind(MemoryReport::class, function () {
+        // ...
     });
 
-    $this->app->tag(['SpeedReport', 'MemoryReport'], 'reports');
+    $this->app->tag([CpuReport::class, MemoryReport::class], 'reports');
 
-Once the services have been tagged, you may easily resolve them all via the `tagged` method:
+Once the services have been tagged, you may easily resolve them all via the container's `tagged` method:
 
-서비스에 태그가 붙으면 `tagged` 메소드를 사용하여 손쉽게 의존성을 해결할 수 있습니다. 
+서비스에 태그가 붙으면 컨테이너의 `tagged` 메소드를 사용하여 손쉽게 의존성을 해결할 수 있습니다. 
 
-    $this->app->bind('ReportAggregator', function ($app) {
-        return new ReportAggregator($app->tagged('reports'));
+    $this->app->bind(ReportAnalyzer::class, function (Application $app) {
+        return new ReportAnalyzer($app->tagged('reports'));
     });
 
 <a name="extending-bindings"></a>
@@ -388,7 +436,7 @@ The `extend` method allows the modification of resolved services. For example, w
 
 `extend` 메소드로 서비스의 의존성을 수정할 수 있습니다. 예를 들어, 서비스의 의존성이 해결되었을 때, 서비스를 꾸미거나(decorate) 혹은 설정하는 위한 추가 코드를 실행할 수 있습니다. `extend` 메서드는 두 인자를 받습니다. 하나는 확장하려는 서비스 클래스이고 다른 하나는 수정된 서비스를 반환할 클로저입니다. 클로저는 해결중인 서비스와 컨테이너 인스턴스를 입력 받습니다.  
 
-    $this->app->extend(Service::class, function ($service, $app) {
+    $this->app->extend(Service::class, function (Service $service, Application $app) {
         return new DecoratedService($service);
     });
 
@@ -397,8 +445,8 @@ The `extend` method allows the modification of resolved services. For example, w
 ## 의존성 해결
 
 <a name="the-make-method"></a>
-#### The `make` Method
-#### `make` 메소드
+### The `make` Method
+### `make` 메소드
 
 You may use the `make` method to resolve a class instance from the container. The `make` method accepts the name of the class or interface you wish to resolve:
 
@@ -408,13 +456,21 @@ You may use the `make` method to resolve a class instance from the container. Th
 
     $transistor = $this->app->make(Transistor::class);
 
-If some of your class' dependencies are not resolvable via the container, you may inject them by passing them as an associative array into the `makeWith` method. For example, we may manually pass the `$id` constructor argument required by the `Transistor` service:
+If some of your class's dependencies are not resolvable via the container, you may inject them by passing them as an associative array into the `makeWith` method. For example, we may manually pass the `$id` constructor argument required by the `Transistor` service:
 
 클래스의 의존성 중 일부가 컨테이너를 통해 해결될 수 없는 경우 `makeWith` 메서드에 연관 배열로 전달하여 의존성을 주입할 수 있습니다. 예를 들어 `Transistor` 서비스에 필요한 생성자 인수 `$id`를 수동으로 전달할 수 있습니다.
 
     use App\Services\Transistor;
 
     $transistor = $this->app->makeWith(Transistor::class, ['id' => 1]);
+
+The `bound` method may be used to determine if a class or interface has been explicitly bound in the container:
+
+`bound` 메서드는 클래스 또는 인터페이스가 명시적으로 컨테이너에 바인딩을 가지고 있는지 확인합니다.
+
+    if ($this->app->bound(Transistor::class)) {
+        // ...
+    }
 
 If you are outside of a service provider in a location of your code that does not have access to the `$app` variable, you may use the `App` [facade](/docs/{{version}}/facades) or the `app` [helper](/docs/{{version}}/helpers#method-app) to resolve a class instance from the container:
 
@@ -427,7 +483,7 @@ If you are outside of a service provider in a location of your code that does no
 
     $transistor = app(Transistor::class);
 
-If you would like to have the Laravel container instance itself injected into a class that is being resolved by the container, you may type-hint the `Illuminate\Container\Container` class on your class' constructor:
+If you would like to have the Laravel container instance itself injected into a class that is being resolved by the container, you may type-hint the `Illuminate\Container\Container` class on your class's constructor:
 
 컨테이너에 의해 리졸브되는 클래스에 컨테이너 자체를 의존성 주입하려면 클래스 생성자에 `Illuminate\Container\Container` 클래스를 타입힌트 하면 됩니다.
 
@@ -435,22 +491,18 @@ If you would like to have the Laravel container instance itself injected into a 
 
     /**
      * Create a new class instance.
-     *
-     * @param  \Illuminate\Container\Container  $container
-     * @return void
      */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
+    public function __construct(
+        protected Container $container
+    ) {}
 
 <a name="automatic-injection"></a>
-#### Automatic Injection
-#### 자동 주입
+### Automatic Injection
+### 자동 주입
 
-Alternatively, and importantly, you may "type-hint" the dependency in the constructor of a class that is resolved by the container, including [controllers](/docs/{{version}}/controllers), [event listeners](/docs/{{version}}/events), [middleware](/docs/{{version}}/middleware), and more. Additionally, you may type-hint dependencies in the `handle` method of [queued jobs](/docs/{{version}}/queues). In practice, this is how most of your objects should be resolved by the container.
+Alternatively, and importantly, you may type-hint the dependency in the constructor of a class that is resolved by the container, including [controllers](/docs/{{version}}/controllers), [event listeners](/docs/{{version}}/events), [middleware](/docs/{{version}}/middleware), and more. Additionally, you may type-hint dependencies in the `handle` method of [queued jobs](/docs/{{version}}/queues). In practice, this is how most of your objects should be resolved by the container.
 
-앞서 이야기한 방법과 다르게, 그리고 가장 중요한 것은 [컨트롤러](/docs/{{version}}/controllers), [이벤트 리스너](/docs/{{version}}/events), [미들웨어](/docs/{{version}}/middleware) 등 을 포함하여 클래스의 생성자에 "타입-힌트" 를 선언함으로써 컨테이너가 의존성을 해결할 수 있도록 하는 것입니다. 또한 [queued jobs](/docs/{{version}}/queues)의 `handle` 메소드에도 종속성을 입력할 수 있습니다. 실제로 이 방법이 개발에서 컨테이너에 의해서 객체의 의존성을 해결할 때 가장 많이 사용되는 방법입니다.
+앞서 이야기한 방법과 다르게, 그리고 가장 중요한 것은 [컨트롤러](/docs/{{version}}/controllers), [이벤트 리스너](/docs/{{version}}/events), [미들웨어](/docs/{{version}}/middleware) 등 을 포함하여 클래스의 생성자에 타입-힌트를 선언함으로써 컨테이너가 의존성을 해결할 수 있도록 하는 것입니다. 또한 [queued jobs](/docs/{{version}}/queues)의 `handle` 메소드에도 종속성을 입력할 수 있습니다. 실제로 이 방법이 개발에서 컨테이너에 의해서 객체의 의존성을 해결할 때 가장 많이 사용되는 방법입니다.
 
 For example, you may type-hint a repository defined by your application in a controller's constructor. The repository will automatically be resolved and injected into the class:
 
@@ -460,35 +512,26 @@ For example, you may type-hint a repository defined by your application in a con
 
     namespace App\Http\Controllers;
 
-    use App\Models\Users\Repository as UserRepository;
+    use App\Repositories\UserRepository;
+    use App\Models\User;
 
     class UserController extends Controller
     {
         /**
-         * The user repository instance.
-         */
-        protected $users;
-
-        /**
          * Create a new controller instance.
-         *
-         * @param  UserRepository  $users
-         * @return void
          */
-        public function __construct(UserRepository $users)
-        {
-            $this->users = $users;
-        }
+        public function __construct(
+            protected UserRepository $users,
+        ) {}
 
         /**
          * Show the user with the given ID.
-         *
-         * @param  int  $id
-         * @return Response
          */
-        public function show($id)
+        public function show(string $id): User
         {
-            //
+            $user = $this->users->findOrFail($id);
+
+            return $user;
         }
     }
 
@@ -510,13 +553,12 @@ Sometimes you may wish to invoke a method on an object instance while allowing t
     {
         /**
          * Generate a new user report.
-         *
-         * @param  \App\Repositories\UserRepository  $repository
-         * @return array
          */
-        public function generate(UserRepository $repository)
+        public function generate(UserRepository $repository): array
         {
-            // ...
+            return [
+                // ...
+            ];
         }
     }
 
@@ -548,12 +590,15 @@ The service container fires an event each time it resolves an object. You may li
 
 서비스 컨테이너는 객체의 의존성 해결을 수행할 때마다 이벤트를 발생시킵니다. `resolving` 메소드를 사용하여 이 이벤트들에 대응할 수 있습니다. 
 
-    $this->app->resolving(function ($object, $app) {
-        // Called when container resolves object of any type...
+    use App\Services\Transistor;
+    use Illuminate\Contracts\Foundation\Application;
+
+    $this->app->resolving(Transistor::class, function (Transistor $transistor, Application $app) {
+        // Called when container resolves objects of type "Transistor"...
     });
 
-    $this->app->resolving(\HelpSpot\API::class, function ($api, $app) {
-        // Called when container resolves objects of type "HelpSpot\API"...
+    $this->app->resolving(function (mixed $object, Application $app) {
+        // Called when container resolves object of any type...
     });
 
 As you can see, the object being resolved will be passed to the callback, allowing you to set any additional properties on the object before it is given to its consumer.
@@ -568,12 +613,13 @@ Laravel's service container implements the [PSR-11](https://github.com/php-fig/f
 
 라라벨의 서비스 컨테이너는 [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md) 인터페이스를 구현합니다. 따라서, PSR-11 인터페이스를 타입힌트 하여 라라벨의 컨테이너 인스턴스에 접근이 가능합니다. 
 
+    use App\Services\Transistor;
     use Psr\Container\ContainerInterface;
 
     Route::get('/', function (ContainerInterface $container) {
-        $service = $container->get('Service');
+        $service = $container->get(Transistor::class);
 
-        //
+        // ...
     });
 
 An exception is thrown if the given identifier can't be resolved. The exception will be an instance of `Psr\Container\NotFoundExceptionInterface` if the identifier was never bound. If the identifier was bound but was unable to be resolved, an instance of `Psr\Container\ContainerExceptionInterface` will be thrown.

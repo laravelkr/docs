@@ -1,10 +1,10 @@
 # Laravel Cashier (Paddle)
-# 라라벨 캐셔 패들
+# 라라벨 Cashier 패들
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
 - [Upgrading Cashier](#upgrading-cashier)
-- [캐셔 업그레이드](#upgrading-cashier)
+- [Cashier 업그레이드](#upgrading-cashier)
 - [Installation](#installation)
 - [설치하기](#installation)
     - [Paddle Sandbox](#paddle-sandbox)
@@ -94,7 +94,7 @@
 
 [Laravel Cashier Paddle](https://github.com/laravel/cashier-paddle) provides an expressive, fluent interface to [Paddle's](https://paddle.com) subscription billing services. It handles almost all of the boilerplate subscription billing code you are dreading. In addition to basic subscription management, Cashier can handle: coupons, swapping subscription, subscription "quantities", cancellation grace periods, and more.
 
-[Laravel Cashier Paddle](https://github.com/laravel/cashier-paddle)은 [Paddle](https://paddle.com) 구독 결제 서비스에 대한 쉽고 편리한 인터페이스를 제공합니다. 패들은 당신이 두려워하는 거의 모든 상용 구독 청구 코드를 처리합니다. 기본 구독 관리 외에도 캐셔는 쿠폰, 구독 교환, 구독 "수량", 취소 유예 기간 등을 처리할 수 있습니다.
+[라라벨 Cashier Paddle](https://github.com/laravel/cashier-paddle)은 [Paddle](https://paddle.com) 구독 결제 서비스에 대한 쉽고 편리한 인터페이스를 제공합니다. 패들은 당신이 두려워하는 거의 모든 상용 구독 청구 코드를 처리합니다. 기본 구독 관리 외에도 캐셔는 쿠폰, 구독 교환, 구독 "수량", 취소 유예 기간 등을 처리할 수 있습니다.
 
 While working with Cashier we recommend you also review Paddle's [user guides](https://developer.paddle.com/guides) and [API documentation](https://developer.paddle.com/api-reference).
 
@@ -142,9 +142,9 @@ Paddle Sandbox 환경을 사용할 때 애플리케이션의 `.env` 파일 내�
 PADDLE_SANDBOX=true
 ```
 
-After you have finished developing your application you may [apply for a Paddle vendor account](https://paddle.com).
+After you have finished developing your application you may [apply for a Paddle vendor account](https://paddle.com). Before your application is placed into production, Paddle will need to approve your application's domain.
 
-애플리케이션 개발을 완료한 후 [패들 벤더 계정 신청](https://paddle.com)을 할 수 있습니다.
+애플리케이션 개발을 완료한 후 [Paddle 계정 신청](https://paddle.com)을 해야합니다. 애플리케이션을 실서비스에서 운영하기 전에, 애플리케이션 도메인을 Paddle 에서 사용할 수 있도록 승인이 필요합니다. 
 
 <a name="database-migrations"></a>
 ### Database Migrations
@@ -174,10 +174,8 @@ If you would like to prevent Cashier's migrations from running entirely, you may
 
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         Cashier::ignoreMigrations();
     }
@@ -298,10 +296,8 @@ After defining your model, you may instruct Cashier to use your custom model via
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Cashier::useReceiptModel(Receipt::class);
         Cashier::useSubscriptionModel(Subscription::class);
@@ -335,17 +331,21 @@ Cashier includes a `paddle-button` [Blade component](/docs/{{version}}/blade#com
 캐셔에는 `paddle-button` [블레이드 컴포넌트](/docs/{{version}}/blade#components)가 포함되어 있습니다. 이 컴포넌트에 "prop"으로 결제 링크 URL을 전달할 수 있습니다. 이 버튼을 클릭하면 Paddle의 결제 위젯이 표시됩니다.
 
 
-    <x-paddle-button :url="$payLink" class="px-8 py-4">
-        Subscribe
-    </x-paddle-button>
+```html
+<x-paddle-button :url="$payLink" class="px-8 py-4">
+    Subscribe
+</x-paddle-button>
+```
 
 By default, this will display a button with the standard Paddle styling. You can remove all Paddle styling by adding the `data-theme="none"` attribute to the component:
 
 기본적으로 표준 패들 스타일이 적용된 버튼이 표시됩니다. 컴포넌트에 `data-theme="none"` 속성을 추가하여 모든 패들 스타일을 제거 할 수 있습니다.
 
-    <x-paddle-button :url="$payLink" class="px-8 py-4" data-theme="none">
-        Subscribe
-    </x-paddle-button>
+```html
+<x-paddle-button :url="$payLink" class="px-8 py-4" data-theme="none">
+    Subscribe
+</x-paddle-button>
+```
 
 The Paddle checkout widget is asynchronous. Once the user creates or updates a subscription within the widget, Paddle will send your application webhooks so that you may properly update the subscription state in our own database. Therefore, it's important that you properly [set up webhooks](#handling-paddle-webhooks) to accommodate for state changes from Paddle.
 
@@ -630,10 +630,8 @@ Cashier allows you to define some useful defaults for your customers when creati
 
     /**
      * Get the customer's email address to associate with Paddle.
-     *
-     * @return string|null
      */
-    public function paddleEmail()
+    public function paddleEmail(): string|null
     {
         return $this->email;
     }
@@ -643,12 +641,11 @@ Cashier allows you to define some useful defaults for your customers when creati
      *
      * This needs to be a 2 letter code. See the link below for supported countries.
      *
-     * @return string|null
      * @link https://developer.paddle.com/reference/platform-parameters/supported-countries
      */
-    public function paddleCountry()
+    public function paddleCountry(): string|null
     {
-        //
+        // ...
     }
 
     /**
@@ -656,12 +653,11 @@ Cashier allows you to define some useful defaults for your customers when creati
      *
      * See the link below for countries which require this.
      *
-     * @return string|null
      * @link https://developer.paddle.com/reference/platform-parameters/supported-countries#countries-requiring-postcode
      */
-    public function paddlePostcode()
+    public function paddlePostcode(): string|null
     {
-        //
+        // ...
     }
 
 These defaults will be used for every action in Cashier that generates a [pay link](#pay-links).
@@ -763,7 +759,7 @@ Once a user is subscribed to your application, you may check their subscription 
 사용자가 귀하의 애플리케이션을 구독하면 다양하고 편리한 메서드들을 사용하여 구독 상태를 확인할 수 있습니다. 먼저 구독이 현재 평가 기간 내에 있더라도 사용자에게 활성 구독이 있는 경우 `subscribed` 메소드는 `true`를 반환합니다.
 
     if ($user->subscribed('default')) {
-        //
+        // ...
     }
 
 The `subscribed` method also makes a great candidate for a [route middleware](/docs/{{version}}/middleware), allowing you to filter access to routes and controllers based on the user's subscription status:
@@ -775,17 +771,17 @@ The `subscribed` method also makes a great candidate for a [route middleware](/d
     namespace App\Http\Middleware;
 
     use Closure;
+    use Illuminate\Http\Request;
+    use Symfony\Component\HttpFoundation\Response;
 
     class EnsureUserIsSubscribed
     {
         /**
          * Handle an incoming request.
          *
-         * @param  \Illuminate\Http\Request  $request
-         * @param  \Closure  $next
-         * @return mixed
+         * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
          */
-        public function handle($request, Closure $next)
+        public function handle(Request $request, Closure $next): Response
         {
             if ($request->user() && ! $request->user()->subscribed('default')) {
                 // This user is not a paying customer...
@@ -801,7 +797,7 @@ If you would like to determine if a user is still within their trial period, you
 사용자가 아직 평가판 기간 내에 있는지 확인하려면 `onTrial` 방법을 사용할 수 있습니다. 이 방법은 사용자에게 아직 평가판 기간에 대한 경고를 표시해야 하는지 여부를 결정하는 데 유용할 수 있습니다.
 
     if ($user->subscription('default')->onTrial()) {
-        //
+        // ...
     }
 
 The `subscribedToPlan` method may be used to determine if the user is subscribed to a given plan based on a given Paddle plan ID. In this example, we will determine if the user's `default` subscription is actively subscribed to the monthly plan:
@@ -809,15 +805,7 @@ The `subscribedToPlan` method may be used to determine if the user is subscribed
 `subscribedToPlan` 메소드는 주어진 Paddle 계획 ID를 기반으로 사용자가 주어진 계획에 가입했는지 여부를 결정하는 데 사용될 수 있습니다. 이 예제에서는 사용자의 `default` 구독이 월간 요금제에 적극적으로 구독하고 있는지 확인합니다.
 
     if ($user->subscribedToPlan($monthly = 12345, 'default')) {
-        //
-    }
-
-By passing an array to the `subscribedToPlan` method, you may determine if the user's `default` subscription is actively subscribed to the monthly or the yearly plan:
-
-배열을 `subscribedToPlan` 메소드에 전달하면 사용자의 `default` 구독이 월간 또는 연간 요금제를 적극적으로 구독하고 있는지 확인할 수 있습니다.
-
-    if ($user->subscribedToPlan([$monthly = 12345, $yearly = 54321], 'default')) {
-        //
+        // ...
     }
 
 The `recurring` method may be used to determine if the user is currently subscribed and is no longer within their trial period:
@@ -825,7 +813,7 @@ The `recurring` method may be used to determine if the user is currently subscri
 `recurring`메서드를 사용하여 사용자가 현재 구독하고 있으며 더 이상 평가 기간 내에 있지 않은지 확인할 수 있습니다.
 
     if ($user->subscription('default')->recurring()) {
-        //
+        // ...
     }
 
 <a name="cancelled-subscription-status"></a>
@@ -837,7 +825,7 @@ To determine if the user was once an active subscriber but has cancelled their s
 사용자가 한때 활성 구독자 였지만 구독을 취소했는지 확인하려면 `cancelled` 메소드를 사용할 수 있습니다.
 
     if ($user->subscription('default')->cancelled()) {
-        //
+        // ...
     }
 
 You may also determine if a user has cancelled their subscription, but are still on their "grace period" until the subscription fully expires. For example, if a user cancels a subscription on March 5th that was originally scheduled to expire on March 10th, the user is on their "grace period" until March 10th. Note that the `subscribed` method still returns `true` during this time:
@@ -845,7 +833,7 @@ You may also determine if a user has cancelled their subscription, but are still
 또한 사용자가 구독을 취소했지만 구독이 완전히 만료 될 때까지의 "유예 기간"에 남아 있는지 확인할 수도 있습니다. 예를 들어 사용자가 원래 3 월 10 일에 만료 될 예정이었던 3 월 5 일에 구독을 취소하면 사용자는 3 월 10 일까지 "유예 기간"중에 있습니다. 이 기간 동안 `subscribed` 메소드는 여전히 `true`를 반환합니다.
 
     if ($user->subscription('default')->onGracePeriod()) {
-        //
+        // ...
     }
 
 To determine if the user has cancelled their subscription and is no longer within their "grace period", you may use the `ended` method:
@@ -853,7 +841,7 @@ To determine if the user has cancelled their subscription and is no longer withi
 사용자가 구독을 취소했고 더 이상 "유예 기간"에 있지 않은지 확인하려면 `ended`메소드를 사용할 수 있습니다.
 
     if ($user->subscription('default')->ended()) {
-        //
+        // ...
     }
 
 <a name="past-due-status"></a>
@@ -865,7 +853,7 @@ If a payment fails for a subscription, it will be marked as `past_due`. When you
 구독 결제에 실패하면 `past_due`로 표시됩니다. 구독이 이 상태이면 고객이 결제 정보를 업데이트할 때까지 활성화되지 않습니다. 구독 인스턴스에서 `pastDue` 메서드를 사용하여 구독이 기한이 지났는지 확인할 수 있습니다.
 
     if ($user->subscription('default')->pastDue()) {
-        //
+        // ...
     }
 
 When a subscription is past due, you should instruct the user to [update their payment information](#updating-payment-information). You may configure how past due subscriptions are handled in your [Paddle subscription settings](https://vendors.paddle.com/subscription-settings).
@@ -880,10 +868,8 @@ If you would like subscriptions to still be considered active when they are `pas
 
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         Cashier::keepPastDueSubscriptionsActive();
     }
@@ -959,7 +945,7 @@ Then, you may use the generated URL in combination with Cashier's provided `padd
 
 그런 다음 생성 된 URL을 캐셔가 제공하는 `paddle-button` 블레이드 컴포넌트와 함께 사용하여 사용자가 패들 위젯을 시작하고 결제 정보를 업데이트 할 수 있습니다.
 
-```blade
+```html
 <x-paddle-button :url="$updateUrl" class="px-8 py-4">
     Update Card
 </x-paddle-button>
@@ -1001,7 +987,7 @@ If you would like to swap plans and immediately invoice the user instead of wait
 #### Prorations
 #### 비례 배분하기
 
-By default, Paddle prorates charges when swapping between plans. The `noProrate` method may be used to update the subscription's without prorating the charges:
+By default, Paddle prorates charges when swapping between plans. The `noProrate` method may be used to update the subscriptions without prorating the charges:
 
 기본적으로 Paddle은 요금제간에 전환 할 때 요금을 비례 배분합니다. `noProrate`메서드를 사용하면 요금을 일할 계산하지 않고 구독을 업데이트 할 수 있습니다.
 
@@ -1152,7 +1138,7 @@ You may determine if a user has paused their subscription but are still on their
 `onPausedGracePeriod`메소드를 사용하여 사용자가 구독을 일시 중지했지만 여전히 "유예 기간"에 있는지 확인할 수 있습니다.
 
     if ($user->subscription('default')->onPausedGracePeriod()) {
-        //
+        // ...
     }
 
 To resume a paused a subscription, you may call the `unpause` method on the user's subscription:
@@ -1186,7 +1172,7 @@ You may determine if a user has cancelled their subscription but are still on th
 `onGracePeriod` 메소드를 사용하여 사용자가 구독을 취소했지만 여전히 '유예 기간'에 있는지 확인할 수 있습니다.
 
     if ($user->subscription('default')->onGracePeriod()) {
-        //
+        // ...
     }
 
 If you wish to cancel a subscription immediately, you may call the `cancelNow` method on the user's subscription:
@@ -1245,11 +1231,11 @@ You may determine if the user is within their trial period using either the `onT
 사용자 인스턴스의 `onTrial` 메서드 또는 구독 인스턴스의 `onTrial` 메서드를 사용하여 사용자가 평가판 기간 내에 있는지 확인할 수 있습니다. 아래 두 가지 예는 동일합니다.
 
     if ($user->onTrial('default')) {
-        //
+        // ...
     }
 
     if ($user->subscription('default')->onTrial()) {
-        //
+        // ...
     }
 
 To determine if an existing trial has expired, you may use the `hasExpiredTrial` methods:
@@ -1257,11 +1243,11 @@ To determine if an existing trial has expired, you may use the `hasExpiredTrial`
 평가판 기간이 만료되었는지 판단하기 위해 `hasExpiredTrial` 메서드를 사용할 수 있습니다.
 
     if ($user->hasExpiredTrial('default')) {
-        //
+        // ...
     }
 
     if ($user->subscription('default')->hasExpiredTrial()) {
-        //
+        // ...
     }
 
 <a name="defining-trial-days-in-paddle-cashier"></a>
@@ -1419,11 +1405,8 @@ Both events contain the full payload of the Paddle webhook. For example, if you 
     {
         /**
          * Handle received Paddle webhooks.
-         *
-         * @param  \Laravel\Paddle\Events\WebhookReceived  $event
-         * @return void
          */
-        public function handle(WebhookReceived $event)
+        public function handle(WebhookReceived $event): void
         {
             if ($event->payload['alert_name'] === 'payment_succeeded') {
                 // Handle the incoming event...
@@ -1621,7 +1604,7 @@ When listing the receipts for the customer, you may use the receipt instance's m
 
 고객에 대한 영수증을 나열할 때 영수증 인스턴스의 메서드를 사용하여 관련 영수증 정보를 표시할 수 있습니다. 예를 들어, 모든 영수증을 테이블에 나열하여 사용자가 영수증을 쉽게 다운로드할 수 있도록 할 수 있습니다.
 
-```blade
+```html
 <table>
     @foreach ($receipts as $receipt)
         <tr>
@@ -1680,11 +1663,8 @@ Alternatively, you can perform more precise customization by [listening](/docs/{
     {
         /**
          * Handle received Paddle webhooks.
-         *
-         * @param  \Laravel\Paddle\Events\WebhookReceived  $event
-         * @return void
          */
-        public function handle(WebhookReceived $event)
+        public function handle(WebhookReceived $event): void
         {
             if ($event->payload['alert_name'] === 'subscription_payment_failed') {
                 // Handle the failed subscription payment...

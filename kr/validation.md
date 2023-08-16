@@ -14,11 +14,11 @@
     - [Displaying The Validation Errors](#quick-displaying-the-validation-errors)
     - [유효성 검사 에러 표시하기](#quick-displaying-the-validation-errors)
     - [Repopulating Forms](#repopulating-forms)
-    - [양식-form 다시 채우기](#repopulating-forms)
+    - [form-폼 다시 채우기](#repopulating-forms)
     - [A Note On Optional Fields](#a-note-on-optional-fields)
     - [옵션 필드에 대한 주의사항](#a-note-on-optional-fields)
     - [Validation Error Response Format](#validation-error-response-format)
-    - [유효성 검증 에러 응답 형식](#validation-error-response-format)
+    - [유효성 검증 에러 리스폰스 형식](#validation-error-response-format)
 - [Form Request Validation](#form-request-validation)
 - [Form Request 유효성 검증](#form-request-validation)
     - [Creating Form Requests](#creating-form-requests)
@@ -70,7 +70,7 @@
     - [Using Closures](#using-closures)
     - [클로저 사용하기](#using-closures)
     - [Implicit Rules](#implicit-rules)
-    - [묵시적 규칙](#implicit-rules)
+    - [암묵적 규칙](#implicit-rules)
 
 <a name="introduction"></a>
 ## Introduction
@@ -78,11 +78,11 @@
 
 Laravel provides several different approaches to validate your application's incoming data. It is most common to use the `validate` method available on all incoming HTTP requests. However, we will discuss other approaches to validation as well.
 
-라라벨은 애플리케이션의 수신 데이터를 검증하기 위해 여러 가지 접근 방식을 제공합니다. 들어오는 모든 HTTP 요청에서 사용할 수 있는 `validate` 메서드를 사용하는 것이 가장 일반적입니다. 그러나 유효성 검사에 대한 다른 접근 방식도 논의할 것입니다.
+라라벨은 애플리케이션의 수신 데이터를 검증하기 위해 여러 가지 접근 방식을 제공합니다. 들어오는 모든 HTTP 리퀘스트에서 사용할 수 있는 `validate` 메서드를 사용하는 것이 가장 일반적입니다. 그러나 리퀘스트 인스턴스의 `validate` 메소드를 사용하는 것 이외의 유효성 검사에 방식도 다루겠습니다.
 
 Laravel includes a wide variety of convenient validation rules that you may apply to data, even providing the ability to validate if values are unique in a given database table. We'll cover each of these validation rules in detail so that you are familiar with all of Laravel's validation features.
 
-라라벨에는 데이터에 적용할 수 있는 다양한 편리한 유효성 검사 규칙이 포함되어 있으며, 주어진 데이터베이스 테이블에서 값이 고유한지 확인하는 기능도 제공합니다. 라라벨의 모든 유효성 검사 기능에 익숙해질 수 있도록 이러한 유효성 검사 규칙 각각을 자세히 다룰 것입니다.
+라라벨에는 데이터에 적용할 수 있는 다양한 편리한 유효성 검사 규칙이 포함되어 있으며, 주어진 데이터베이스 테이블에서 값이 고유한지 확인하는 기능도 제공합니다. 라라벨의 모든 유효성 검사 기능에 익숙해질 수 있도록 이러한 유효성 검사 규칙 각각을 자세히 다뤄봅시다.
 
 <a name="validation-quickstart"></a>
 ## Validation Quickstart
@@ -90,7 +90,7 @@ Laravel includes a wide variety of convenient validation rules that you may appl
 
 To learn about Laravel's powerful validation features, let's look at a complete example of validating a form and displaying the error messages back to the user. By reading this high-level overview, you'll be able to gain a good general understanding of how to validate incoming request data using Laravel:
 
-라라벨의 강력한 유효성 검사 기능에 대해 알아보기 위해 양식 유효성을 검사하고 사용자에게 에러 메시지를 다시 표시하는 전체 예제를 살펴보겠습니다. 이 높은 수준의 개요를 읽으면 라라벨을 사용하여 들어오는 요청 데이터의 유효성을 검사하는 방법에 대한 일반적인 이해를 얻을 수 있습니다.
+라라벨의 강력한 유효성 검사 기능에 대해 알아보기 위해 form-폼 유효성을 검사하고 사용자에게 에러 메시지를 다시 표시하는 전체 예제를 살펴보겠습니다. 이 높은 수준의 개요를 읽으면 라라벨을 사용하여 들어오는 리퀘스트 데이터의 유효성을 검사하는 방법에 대한 일반적인 이해를 얻을 수 있습니다.
 
 <a name="quick-defining-the-routes"></a>
 ### Defining The Routes
@@ -115,36 +115,37 @@ The `GET` route will display a form for the user to create a new blog post, whil
 
 Next, let's take a look at a simple controller that handles incoming requests to these routes. We'll leave the `store` method empty for now:
 
-다음으로 이러한 경로로 들어오는 요청을 처리하는 간단한 컨트롤러를 살펴보겠습니다. 지금은 `store` 메소드를 비워둘 것입니다.
+다음으로 이러한 라우트로 들어오는 리퀘스트을 처리하는 간단한 컨트롤러를 살펴보겠습니다. 지금은 `store` 메소드를 비워둘 것입니다.
 
     <?php
 
     namespace App\Http\Controllers;
 
     use App\Http\Controllers\Controller;
+    use Illuminate\Http\RedirectResponse;
     use Illuminate\Http\Request;
+    use Illuminate\View\View;
 
     class PostController extends Controller
     {
         /**
          * Show the form to create a new blog post.
-         *
-         * @return \Illuminate\View\View
          */
-        public function create()
+        public function create(): View
         {
             return view('post.create');
         }
 
         /**
          * Store a new blog post.
-         *
-         * @param  \Illuminate\Http\Request  $request
-         * @return \Illuminate\Http\Response
          */
-        public function store(Request $request)
+        public function store(Request $request): RedirectResponse
         {
             // Validate and store the blog post...
+
+            $post = /** ... */
+
+            return to_route('post.show', ['post' => $post->id]);
         }
     }
 
@@ -154,11 +155,11 @@ Next, let's take a look at a simple controller that handles incoming requests to
 
 Now we are ready to fill in our `store` method with the logic to validate the new blog post. To do this, we will use the `validate` method provided by the `Illuminate\Http\Request` object. If the validation rules pass, your code will keep executing normally; however, if validation fails, an `Illuminate\Validation\ValidationException` exception will be thrown and the proper error response will automatically be sent back to the user.
 
-이제 새 블로그 게시물의 유효성을 검사하는 논리로 `store` 메서드를 채울 준비가 되었습니다. 이를 위해 `Illuminate\Http\Request` 객체가 제공하는 `validate` 메소드를 사용할 것입니다. 유효성 검사 규칙을 통과하면 코드가 계속 정상적으로 실행됩니다. 그러나 유효성 검사가 실패하면 `Illuminate\Validation\ValidationException` 예외가 발생하고 적절한 오류 응답이 자동으로 사용자에게 다시 전송됩니다.
+이제 새 블로그 게시물의 유효성을 검사하는 논리로 `store` 메서드를 채울 준비가 되었습니다. 이를 위해 `Illuminate\Http\Request` 객체가 제공하는 `validate` 메소드를 사용할 것입니다. 유효성 검사 규칙을 통과하면 코드가 계속 정상적으로 실행됩니다. 그러나 유효성 검사가 실패하면 `Illuminate\Validation\ValidationException` 예외가 발생하고 적절한 에러 리스폰스가 자동으로 사용자에게 다시 전송됩니다.
 
 If validation fails during a traditional HTTP request, a redirect response to the previous URL will be generated. If the incoming request is an XHR request, a [JSON response containing the validation error messages](#validation-error-response-format) will be returned.
 
-기존 HTTP 요청 중에 유효성 검사가 실패하면 이전 URL에 대한 리디렉션 응답이 생성됩니다. 들어오는 요청이 XHR 요청인 경우 [유효성 검사 에러 메시지가 포함된 JSON 응답](#validation-error-response-format)이 반환됩니다.
+기존 HTTP 리퀘스트 중에 유효성 검사가 실패하면 이전 URL에 대한 리디렉션 응답이 생성됩니다. 들어오는 리퀘스트이 XHR 리퀘스트인 경우 [유효성 검사 에러 메시지가 포함된 JSON 리스폰스](#validation-error-response-format)가 반환됩니다.
 
 To get a better understanding of the `validate` method, let's jump back into the `store` method:
 
@@ -166,11 +167,8 @@ To get a better understanding of the `validate` method, let's jump back into the
 
     /**
      * Store a new blog post.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'title' => 'required|unique:posts|max:255',
@@ -178,15 +176,17 @@ To get a better understanding of the `validate` method, let's jump back into the
         ]);
 
         // The blog post is valid...
+
+        return redirect('/posts');
     }
 
 As you can see, the validation rules are passed into the `validate` method. Don't worry - all available validation rules are [documented](#available-validation-rules). Again, if the validation fails, the proper response will automatically be generated. If the validation passes, our controller will continue executing normally.
 
-보시다시피 유효성 검사 규칙은 `validate` 메서드로 전달됩니다. 걱정하지 마십시오. 사용 가능한 모든 유효성 검사 규칙은 [문서화되어 있습니다](#available-validation-rules). 다시 한 번, 유효성 검사가 실패하면 적절한 응답이 자동으로 생성됩니다. 유효성 검사가 통과하면 컨트롤러가 계속 정상적으로 실행됩니다.
+보시다시피 유효성 검사 규칙은 `validate` 메서드로 전달됩니다. 걱정하지 마십시오. 사용 가능한 모든 유효성 검사 규칙은 [문서화되어 있습니다](#available-validation-rules). 다시 말하지만, 유효성 검사가 실패하면 적절한 리스폰스가 자동으로 생성됩니다. 유효성 검사가 통과하면 컨트롤러가 계속 정상적으로 실행됩니다.
 
 Alternatively, validation rules may be specified as arrays of rules instead of a single `|` delimited string:
 
-또한, 유효성 검사 규칙은 구분자 `|` 대신 배열로 정의할 수 있습니다.
+또한, 유효성 검사 규칙은 구분자 `|`로 구성된 단일한 문자열을 사용하는 대신 배열로 정의할 수 있습니다.
 
     $validatedData = $request->validate([
         'title' => ['required', 'unique:posts', 'max:255'],
@@ -195,7 +195,7 @@ Alternatively, validation rules may be specified as arrays of rules instead of a
 
 In addition, you may use the `validateWithBag` method to validate a request and store any error messages within a [named error bag](#named-error-bags):
 
-또한 `validateWithBag` 메소드를 사용하여 요청을 확인하고 에러 메시지를 [named error bag](#named-error-bags) 내에 저장할 수 있습니다.
+또한 `validateWithBag` 메소드를 사용하여 리퀘스트을 유효성을 검사하고 에러 메시지를 [named error bag](#named-error-bags) 내에 저장할 수 있습니다.
 
     $validatedData = $request->validateWithBag('post', [
         'title' => ['required', 'unique:posts', 'max:255'],
@@ -208,7 +208,7 @@ In addition, you may use the `validateWithBag` method to validate a request and 
 
 Sometimes you may wish to stop running validation rules on an attribute after the first validation failure. To do so, assign the `bail` rule to the attribute:
 
-경우에 따라서 유효성 검사가 처음 실패하면 유효 속성값에 대한 검사를 중단하기를 원할수도 있습니다. 이러한 경우 `bail` 규칙을 지정하면 됩니다.
+경우에 따라서 유효성 검사가 처음 실패하면 속성값에 대한 유효성 검사를 중단하기를 원할수도 있습니다. 이러한 경우 `bail` 규칙을 지정하면 됩니다.
 
     $request->validate([
         'title' => 'bail|required|unique:posts|max:255',
@@ -225,7 +225,7 @@ In this example, if the `unique` rule on the `title` attribute fails, the `max` 
 
 If the incoming HTTP request contains "nested" field data, you may specify these fields in your validation rules using "dot" syntax:
 
-들어오는 HTTP 요청에 "중첩된" 필드 데이터가 포함된 경우 "점" 구문을 사용하여 유효성 검사 규칙에 다음 필드를 지정할 수 있습니다.
+들어오는 HTTP 리퀘스트에 "nested-중첩된" 필드 데이터가 포함된 경우 유효성 검사 규칙에서 "점" 구문을 사용하여 필드를 지정할 수 있습니다.
 
     $request->validate([
         'title' => 'required|unique:posts|max:255',
@@ -235,7 +235,7 @@ If the incoming HTTP request contains "nested" field data, you may specify these
 
 On the other hand, if your field name contains a literal period, you can explicitly prevent this from being interpreted as "dot" syntax by escaping the period with a backslash:
 
-반면에 필드 이름에 리터럴 마침표가 포함된 경우 마침표를 백슬래시로 이스케이프 하여 점 구문으로 해석되지 않도록 명시적으로 방지할 수 있습니다.
+반면에 필드 이름에 리터럴 마침표가 포함된 경우 마침표를 백슬래시로 이스케이프 하여 명시적으로 "점" 구문으로 해석되지 않도록 방지할 수 있습니다.
 
     $request->validate([
         'title' => 'required|unique:posts|max:255',
@@ -248,15 +248,15 @@ On the other hand, if your field name contains a literal period, you can explici
 
 So, what if the incoming request fields do not pass the given validation rules? As mentioned previously, Laravel will automatically redirect the user back to their previous location. In addition, all of the validation errors and [request input](/docs/{{version}}/requests#retrieving-old-input) will automatically be [flashed to the session](/docs/{{version}}/session#flash-data).
 
-그러면 들어오는 요청 필드가 주어진 유효성 검사 규칙을 통과하지 못하면 어떻게 될까요? 앞서 언급했듯이 라라벨은 자동으로 사용자를 이전 위치로 다시 리디렉션합니다. 또한 모든 유효성 검사 오류와 [입력 요청](/docs/{{version}}/requests#retriving-old-input)은 자동으로 [세션으로 플래시](/docs/{{version}}/session#flash-data)됩니다.
+그러면 들어오는 리퀘스트 필드가 주어진 유효성 검사 규칙을 통과하지 못하면 어떻게 될까요? 앞서 언급했듯이 라라벨은 자동으로 사용자를 이전 로케이션으로 다시 리디렉션합니다. 또한 모든 유효성 검사 오류와 [리퀘스트 input-입력](/docs/{{version}}/requests#retriving-old-input)은 유효성 검사 메시지를 전달하기 위해 한 번 사용 후 소멸되는 플레시 기능을 이용한 [세션에 플레시 데이터로 저장하기](/docs/{{version}}/session#flash-data)를 자동으로 수행 합니다.
 
 An `$errors` variable is shared with all of your application's views by the `Illuminate\View\Middleware\ShareErrorsFromSession` middleware, which is provided by the `web` middleware group. When this middleware is applied an `$errors` variable will always be available in your views, allowing you to conveniently assume the `$errors` variable is always defined and can be safely used. The `$errors` variable will be an instance of `Illuminate\Support\MessageBag`. For more information on working with this object, [check out its documentation](#working-with-error-messages).
 
-`$errors` 변수는 `web` 미들웨어 그룹에서 제공하는 `Illuminate\View\Middleware\ShareErrorsFromSession` 미들웨어에 의해 모든 애플리케이션의 뷰와 공유됩니다. 이 미들웨어가 적용되면 `$errors` 변수는 항상 뷰에서 사용할 수 있으므로 `$errors` 변수가 항상 정의되어있고, 안전하게 사용할 수 있습니다. `$errors` 변수는 `Illuminate\Support\MessageBag`의 인스턴스가 됩니다. 이 개체로 작업하는 방법에 대한 자세한 내용은 [해당 문서를 확인하세요](#working-with-error-messages).
+`$errors` 변수는 `web` 미들웨어 그룹에서 제공하는 `Illuminate\View\Middleware\ShareErrorsFromSession` 미들웨어에 의해 애플리케이션의 모든 view-뷰와 공유됩니다. 이 미들웨어가 적용되면 `$errors` 변수는 항상 뷰에서 사용할 수 있으므로 뷰를 다룰 때는 `$errors` 변수가 항상 정의되어있고, 안전하게 사용할 수 있다고 생각하고 사용하면 됩니다. `$errors` 변수는 `Illuminate\Support\MessageBag`의 인스턴스입니다. 이 객체로 작업하는 방법에 대한 자세한 내용은 [해당 문서](#working-with-error-messages)를 확인하세요.
 
 So, in our example, the user will be redirected to our controller's `create` method when validation fails, allowing us to display the error messages in the view:
 
-따라서, 이 예제에서, 유효성 검사를 통과하지 못할 경우 사용자는 컨트롤러의 `create` 메소드로 리다이렉트 될것이고, 뷰에서는 에러 메세지가 표시됩니다.
+따라서, 이 예제에서, 유효성 검사가 실패하면 사용자는 컨트롤러의 `create` 메소드로 리디렉션될 것이고, view-뷰에서는 에러 메세지가 표시됩니다.
 
 ```blade
 <!-- /resources/views/post/create.blade.php -->
@@ -264,13 +264,13 @@ So, in our example, the user will be redirected to our controller's `create` met
 <h1>Create Post</h1>
 
 @if ($errors->any())
-<div class="alert alert-danger">
-    <ul>
-        @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
 @endif
 
 <!-- Create Post Form -->
@@ -280,21 +280,26 @@ So, in our example, the user will be redirected to our controller's `create` met
 #### Customizing The Error Messages
 #### 에러 메시지 사용자 정의
 
-Laravel's built-in validation rules each has an error message that is located in your application's `lang/en/validation.php` file. Within this file, you will find a translation entry for each validation rule. You are free to change or modify these messages based on the needs of your application.
+Laravel's built-in validation rules each have an error message that is located in your application's `lang/en/validation.php` file. Within this file, you will find a translation entry for each validation rule. You are free to change or modify these messages based on the needs of your application.
 
-라라벨의 내장 유효성 검사 규칙에는 각각 애플리케이션의 `lang/en/validation.php` 파일에 에러 메시지가 존재합니다. 이 파일 내에서 각 유효성 검사 규칙에 대한 번역 항목을 찾을 수 있습니다. 애플리케이션의 필요에 따라 이러한 메시지를 자유롭게 변경하거나 수정할 수 있습니다.
+라라벨의 내장 유효성 검사 규칙 각각에는 에러 메시지가 존재합니다. 이 에러 메시지는 애플리케이션의 `lang/en/validation.php` 파일에 정의되어 있으므로 이 파일 내에서 각 유효성 검사 규칙에 대한 번역 항목을 찾을 수 있습니다. 또한 애플리케이션의 필요에 따라 이러한 메시지를 자유롭게 변경하거나 수정할 수 있습니다.
 
-In addition, you may copy this file to another translation language directory to translate the messages for your application's language. To learn more about Laravel localization, check out the complete [localization documentation](/docs/{{version}}/localization).
+In addition, you may copy this file to another language directory to translate the messages for your application's language. To learn more about Laravel localization, check out the complete [localization documentation](/docs/{{version}}/localization).
 
-또한 이 파일을 다른 번역 언어 디렉토리에 복사하여 애플리케이션 언어로 메시지를 번역할 수 있습니다. 라라벨 현지화에 대해 자세히 알아보려면 전체 [현지화 문서](/docs/{{version}}/localization)를 확인하세요.
+또한 이 파일을 다른 언어 디렉토리에 복사하여 애플리케이션에서 지정한 언어로 메시지를 번역할 수 있습니다. 라라벨 현지화에 대해 자세히 알아보려면 전체 [현지화 문서](/docs/{{version}}/localization)를 확인하세요.
+
+> **Warning**
+> By default, the Laravel application skeleton does not include the `lang` directory. If you would like to customize Laravel's language files, you may publish them via the `lang:publish` Artisan command.
+
+기본적으로 라라벨 애플리케이션을 처음 설치할 때 생성되는 파일 및 폴더 구조인 스켈레톤에는 `lang` 디렉터리가 포함되어 있지 않습니다. 라라벨의 언어 파일을 사용자 정의하려면 `lang:publish` 아티즌 명령를 통해 publish-게시할 수 있습니다.
 
 <a name="quick-xhr-requests-and-validation"></a>
 #### XHR Requests & Validation
-#### XHR 요청 및 검증
+#### XHR 리퀘스트 및 검증
 
-In this example, we used a traditional form to send data to the application. However, many applications receive XHR requests from a JavaScript powered frontend. When using the `validate` method during an XHR request, Laravel will not generate a redirect response. Instead, Laravel generates a JSON response containing all of the validation errors. This JSON response will be sent with a 422 HTTP status code.
+In this example, we used a traditional form to send data to the application. However, many applications receive XHR requests from a JavaScript powered frontend. When using the `validate` method during an XHR request, Laravel will not generate a redirect response. Instead, Laravel generates a [JSON response containing all of the validation errors](#validation-error-response-format). This JSON response will be sent with a 422 HTTP status code.
 
-이 예제에서는 기존의 form을 사용하여 애플리케이션에 데이터를 전송했습니다. 그러나 많은 애플리케이션이 JavaScript 기반 프론트엔드에서 XHR 요청을 수신합니다. XHR 요청 중에 `validate` 메소드를 사용할 때 라라벨은 리디렉션 응답을 생성하지 않습니다. 대신 라라벨은 모든 유효성 검사 오류가 포함된 JSON 응답을 생성합니다. 이 JSON 응답은 422 HTTP 상태 코드와 함께 전송됩니다.
+이 예제에서는 기존의 form-폼을 사용하여 애플리케이션에 데이터를 전송했습니다. 그러나 많은 애플리케이션이 자바스크립트 기반 프론트엔드에서 XHR 리퀘스트을 수신합니다. XHR 리퀘스트 내의 `validate` 메소드를 사용할 때 라라벨은 리디렉션 리스폰스를 생성하지 않습니다. 대신 라라벨은 [모든 유효성 검사 오류가 포함된 JSON 리스폰스](#validation-error-response-format)을 생성합니다. 이 JSON 리스폰스는 422 HTTP 상태 코드와 함께 전송됩니다.
 
 <a name="the-at-error-directive"></a>
 #### The `@error` Directive
@@ -302,7 +307,7 @@ In this example, we used a traditional form to send data to the application. How
 
 You may use the `@error` [Blade](/docs/{{version}}/blade) directive to quickly determine if validation error messages exist for a given attribute. Within an `@error` directive, you may echo the `$message` variable to display the error message:
 
-`@error` [Blade](/docs/{{version}}/blade) 지시문을 사용하여 주어진 속성에 대한 유효성 검사 에러 메시지가 있는지 빠르게 확인할 수 있습니다. `@error` 지시문 내에서 `$message` 변수를 출력하여 에러 메시지를 표시할 수 있습니다.
+`@error` [Blade](/docs/{{version}}/blade) 지시어을 사용하여 주어진 속성에 대한 유효성 검사 에러 메시지가 있는지 빠르게 확인할 수 있습니다. `@error` 지시문 내에서 `$message` 변수를 출력하여 에러 메시지를 표시할 수 있습니다.
 
 ```blade
 <!-- /resources/views/post/create.blade.php -->
@@ -321,7 +326,7 @@ You may use the `@error` [Blade](/docs/{{version}}/blade) directive to quickly d
 
 If you are using [named error bags](#named-error-bags), you may pass the name of the error bag as the second argument to the `@error` directive:
 
-[named error bags](#named-error-bags)를 사용하는 경우 오류 백의 이름을 `@error` 지시문에 대한 두 번째 인수로 전달할 수 있습니다.
+[named error bags](#named-error-bags)를 사용하는 경우 `@error` 지시어의 두 번째 인자에 error bag의 이름을 전달할 수 있습니다.
 
 ```blade
 <input ... class="@error('title', 'post') is-invalid @enderror">
@@ -333,17 +338,17 @@ If you are using [named error bags](#named-error-bags), you may pass the name of
 
 When Laravel generates a redirect response due to a validation error, the framework will automatically [flash all of the request's input to the session](/docs/{{version}}/session#flash-data). This is done so that you may conveniently access the input during the next request and repopulate the form that the user attempted to submit.
 
-라라벨이 유효성 검사 오류로 인해 리디렉션 응답을 생성하면 프레임워크는 자동으로 [세션에 대한 모든 요청 입력을 플래시](/docs/{{version}}/session#flash-data)합니다. 이는 다음 요청 중에 입력에 편리하게 액세스하고 사용자가 제출하려고 시도한 양식을 다시 채울 수 있도록 수행됩니다.
+라라벨이 유효성 검사 오류로 인해 리디렉션 응답을 생성하면 프레임워크는 자동으로 [세션에 저장해 둔 모든 리퀘스트 input-입력을 플래시](/docs/{{version}}/session#flash-data)하여 저장된 값을 사용자에게 전달하고 저장된 캐시를 날립니다. 이는 유효성 검사를 통과하지 못한 리디렉션된 페이지에서 사용자가 제출하려고 시도한 form-폼을 다시 채울 수 있도록 편리한 액세스를 제공하기 위함입니다.
 
 To retrieve flashed input from the previous request, invoke the `old` method on an instance of `Illuminate\Http\Request`. The `old` method will pull the previously flashed input data from the [session](/docs/{{version}}/session):
 
-이전 요청에서 플래시 입력을 검색하려면 `Illuminate\Http\Request` 인스턴스에서 `old` 메서드를 호출하세요. `old` 메소드는 [세션](/docs/{{version}}/session)에서 이전에 플래시된 입력 데이터를 가져옵니다.
+이전 리퀘스트에서 플래시 입력을 가져오려면 `Illuminate\Http\Request` 인스턴스에서 `old` 메서드를 호출하세요. `old` 메소드는 [세션](/docs/{{version}}/session)에서 이전에 플래시된 입력 데이터를 가져옵니다.
 
     $title = $request->old('title');
 
 Laravel also provides a global `old` helper. If you are displaying old input within a [Blade template](/docs/{{version}}/blade), it is more convenient to use the `old` helper to repopulate the form. If no old input exists for the given field, `null` will be returned:
 
-라라벨은 또한 전역 `old` 헬퍼를 제공합니다. [Blade 템플릿](/docs/{{version}}/blade) 내에서 이전 입력을 표시하는 경우 `old` 헬퍼를 사용하여 양식을 다시 채우는 것이 더 편리합니다. 주어진 필드에 대한 이전 입력이 없으면 `null`이 반환됩니다.
+라라벨은 또한 전역 `old` 헬퍼를 제공합니다. [블레이드 템플릿](/docs/{{version}}/blade) 내에서 이전 입력을 표시하는 경우 `old` 헬퍼를 사용하여 form-폼을 다시 채울 수 있는 편리한 기능을 제공합니다. 주어진 필드에 대한 이전 input-입력이 없으면 `null`을 반환합니다.
 
 ```blade
 <input type="text" name="title" value="{{ old('title') }}">
@@ -355,7 +360,7 @@ Laravel also provides a global `old` helper. If you are displaying old input wit
 
 By default, Laravel includes the `TrimStrings` and `ConvertEmptyStringsToNull` middleware in your application's global middleware stack. These middleware are listed in the stack by the `App\Http\Kernel` class. Because of this, you will often need to mark your "optional" request fields as `nullable` if you do not want the validator to consider `null` values as invalid. For example:
 
-기본적으로 라라벨은 애플리케이션의 글로벌 미들웨어 스택에 `TrimStrings` 그리고 `ConvertEmptyStringsToNull` 미들웨어를 포함하고 있습니다. 이 미들웨어는 `App\Http\Kernel` 클래스의 미들웨어 스택에 나열되어 있습니다. 이때문에, 유효성 검사에서 `null`이 유효하지 않은것으로 간주하지 않으려면 "선택적-optional" request-요청 필드를 `nullable`로 표시할 필요도 있습니다. 예를들면
+기본적으로 라라벨은 `TrimStrings` 미들웨어와 `ConvertEmptyStringsToNull` 미들웨어를 애플리케이션의 글로벌 미들웨어 스택에 포함하고 있습니다. 이들 미들웨어는 `App\Http\Kernel` 클래스의 미들웨어를 스택에 나열되어 있습니다. `ConvertEmptyStringsToNull` 미들웨어에 의해 전달 받은 속성 값이 빈 문자열이면 `null`으로 변환되므로, 빈 문자열을 전달받고 싶다면 유효성 검사에서 `null` 값도 허락해야 할 필요가 있습니다. `null`을 유효하지 않은것이 아닌 유효한 것으로 간주하기 위해서는 리퀘스트 필드를 "optional-선택적"인 필드로 만들기 위해 `nullable`규칙을 지정해야할 필요가 있습니다. 예를들면
 
     $request->validate([
         'title' => 'required|unique:posts|max:255',
@@ -365,19 +370,19 @@ By default, Laravel includes the `TrimStrings` and `ConvertEmptyStringsToNull` m
 
 In this example, we are specifying that the `publish_at` field may be either `null` or a valid date representation. If the `nullable` modifier is not added to the rule definition, the validator would consider `null` an invalid date.
 
-이 예제에서는 `publish_at` 필드가 `null`이거나 유효한 날짜 형식이라고 지정했습니다. 만약 `nullable` 규칙이 추가되지 않은 경우 `null`값은 유효하지 않다고 결정됩니다.
+이 예제에서는 `publish_at` 필드가 `null`이거나 유효한 날짜 형식이라고 지정했습니다. 만약 `nullable` 규칙이 추가되지 않은 경우 `null`값은 유효하지 않은 날짜로 간주합니다.
 
 <a name="validation-error-response-format"></a>
 ### Validation Error Response Format
-### 유효성 검증 에러 응답 형식
+### 유효성 검증 에러 리스폰스 형식
 
 When your application throws a `Illuminate\Validation\ValidationException` exception and the incoming HTTP request is expecting a JSON response, Laravel will automatically format the error messages for you and return a `422 Unprocessable Entity` HTTP response.
 
-라라벨이 `Illuminate\Validation\ValidationException` 예외를 던지고 들어온 HTTP 요청이 JSON 응답을 기대하는 경우 라라벨은 자동으로 에러메시지 포맷을 맞춰주고 `422 Unprocessable Entity` HTTP 응답을 반환합니다.
+애플리케이션이 `Illuminate\Validation\ValidationException` 예외를 던지고 들어오고 HTTP 리퀘스트가 JSON 리스폰스를 기대하는 경우 라라벨은 자동으로 에러메시지 포맷을 맞춰주고 `422 Unprocessable Entity` HTTP 리스폰스를 반환합니다.
 
 Below, you can review an example of the JSON response format for validation errors. Note that nested error keys are flattened into "dot" notation format:
 
-아래에서 유효성 검증 에러에 대한 JSON 응답 포맷 예시를 볼 수 있습니다. 중첨된 에러 키는 "점" 표기법 형식으로 병합된 것을 눈여겨보세요.
+아래에서 유효성 검증 에러에 대한 JSON 리스폰스 포맷의 예시를 볼 수 있습니다. nested-중첨된 에러 키는 "점" 표기법 형식으로 병합된 것을 눈여겨보세요.
 
 ```json
 {
@@ -410,7 +415,7 @@ Below, you can review an example of the JSON response format for validation erro
 
 For more complex validation scenarios, you may wish to create a "form request". Form requests are custom request classes that encapsulate their own validation and authorization logic. To create a form request class, you may use the `make:request` Artisan CLI command:
 
-더 복잡한 유효성 검사 시나리오의 경우 "form request"를 생성할 수 있습니다. form request는 자체 유효성 검사 및 권한 부여 논리를 캡슐화하는 사용자 지정 요청 클래스입니다. form request 클래스를 생성하려면 `make:request` Artisan CLI 명령을 사용할 수 있습니다.
+더 복잡한 유효성 검사 시나리오의 경우 "form request"를 만들어 정의할 수 있습니다. form request는 자체 유효성 검사 및 권한 부여 논리를 캡슐화하는 사용자 지정 리퀘스트 클래스입니다. form request 클래스를 생성하려면 `make:request` 아티즌 CLI 명령을 사용하면 됩니다.
 
 ```shell
 php artisan make:request StorePostRequest
@@ -418,18 +423,18 @@ php artisan make:request StorePostRequest
 
 The generated form request class will be placed in the `app/Http/Requests` directory. If this directory does not exist, it will be created when you run the `make:request` command. Each form request generated by Laravel has two methods: `authorize` and `rules`.
 
-생성한 form request 클래스는 `app/Http/Requests` 디렉토리에 만들어집니다. 이 디렉토리가 존재하지 않으면 `make:request` 명령을 실행할 때 생성됩니다. 라라벨이 생성한 각 form request에는 `authorize`와 `rules`의 두 가지 메서드가 있습니다.
+form request 클래스는 `app/Http/Requests` 디렉토리에 만들어집니다. 이 디렉토리가 존재하지 않으면 `make:request` 명령을 실행할 때 디렉토리도 생성됩니다. 각각의 form request 클래스에는 `authorize`와 `rules`의 두 가지 메서드를 포함하고 있습니다.
 
 As you might have guessed, the `authorize` method is responsible for determining if the currently authenticated user can perform the action represented by the request, while the `rules` method returns the validation rules that should apply to the request's data:
 
-짐작하셨겠지만 `authorize` 메소드는 현재 인증된 사용자가 요청이 실행할 권한이 존재하는지 검사하는 역할을 하는 반면, `rules` 메소드는 요청한 데이터에 적용해야 하는 유효성 검사 규칙을 반환합니다.
+짐작할 수 있듯이 `authorize` 메소드는 현재 인증된 사용자가 리퀘스트에 따라 애플리케이션의 내부 로직을 실행할 권한이 있는지 검사하는 역할을 하는 반면, `rules` 메소드는 리퀘스트로 전달된 데이터에 적용해야 하는 유효성 검사 규칙을 반환합니다.
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'title' => 'required|unique:posts|max:255',
@@ -441,19 +446,18 @@ As you might have guessed, the `authorize` method is responsible for determining
 > You may type-hint any dependencies you require within the `rules` method's signature. They will automatically be resolved via the Laravel [service container](/docs/{{version}}/container).
 
 > **Note**  
-> `rules` 메서드의 서명 내에서 필요한 모든 종속성을 입력할 수 있습니다. 라라벨 [서비스 컨테이너](/docs/{{version}}/container)를 통해 자동으로 해결됩니다.
+> `rules` 메서드의 signature-선언부를 통해 메소드에 필요한 모든 의존성을 타입힌트로 주입할 수 있습니다. 의존성 주입의 설정은 라라벨 [서비스 컨테이너](/docs/{{version}}/container)를 통해 자동으로 해결됩니다.
+
+(역자주: 메소드의 선언부는 `public function rules(): array`부분을 의미합니다.)
 
 So, how are the validation rules evaluated? All you need to do is type-hint the request on your controller method. The incoming form request is validated before the controller method is called, meaning you do not need to clutter your controller with any validation logic:
 
-그렇다면 유효성 검사 규칙은 어떻게 실행할까요? 여러분이 해야할일은 컨트롤러 메소드에 request 를 타입-힌트 하는 것입니다. 유입된 form request 는 컨트롤러 메소드가 호출되기 전에 유효성 검사를 수행합니다. 즉 컨트롤러에 유효성 검사 로직을 포함시키지 않아도 됩니다.
+그렇다면 유효성 검사 규칙은 어떻게 실행될까요? 여러분이 할 일은 그저 컨트롤러 메소드에 request 클래스 타입을 타입힌트 하는 것입니다. 유입된 form request는 컨트롤러 메소드가 호출되기 전에 유효성 검사를 수행합니다. 이러면 컨트롤러에 유효성 검사 로직을 포함시키지 않아도 되므로 컨트롤러가 좀 더 깔끔해 질 수 있습니다.
 
     /**
      * Store a new blog post.
-     *
-     * @param  \App\Http\Requests\StorePostRequest  $request
-     * @return Illuminate\Http\Response
      */
-    public function store(StorePostRequest $request)
+    public function store(StorePostRequest $request): RedirectResponse
     {
         // The incoming request is valid...
 
@@ -463,29 +467,32 @@ So, how are the validation rules evaluated? All you need to do is type-hint the 
         // Retrieve a portion of the validated input data...
         $validated = $request->safe()->only(['name', 'email']);
         $validated = $request->safe()->except(['name', 'email']);
+
+        // Store the blog post...
+
+        return redirect('/posts');
     }
 
 If validation fails, a redirect response will be generated to send the user back to their previous location. The errors will also be flashed to the session so they are available for display. If the request was an XHR request, an HTTP response with a 422 status code will be returned to the user including a [JSON representation of the validation errors](#validation-error-response-format).
 
-유효성 검사가 실패하면 리디렉션 응답이 생성되어 사용자를 이전 위치로 다시 보냅니다. 오류도 표시할 수 있도록 세션에 플래시됩니다. 요청이 XHR 요청인 경우 [유효성 검사 오류의 JSON 표현](#validation-error-response-format)을 포함하여 422 상태 코드가 포함된 HTTP 응답이 사용자에게 반환됩니다.
+유효성 검사가 실패하면 리디렉션 리스폰스가 생성되어 사용자를 이전 위치로 되돌려 보냅니다. 이 때, 유효성 검사 오류는 세션에 저장되어 있다가 리스폰스와 함께 전송되며 동시에 저장되어 있던 세션은 초기화되는 플래시 작업이 일어납니다. 리퀘스트가 XHR 리퀘스트인 경우에는 422 스테이터스 코드가 포함된 HTTP 리스폰스를 사용자에게 반환하며 [유효성 검사 오류의 JSON 표현](#validation-error-response-format)을 포함하여 전달합니다.
 
 <a name="adding-after-hooks-to-form-requests"></a>
 #### Adding After Hooks To Form Requests
-#### Form Request 에 After 후킹 추가하기
+#### Form Request에 After Hooks 추가하기
 
 If you would like to add an "after" validation hook to a form request, you may use the `withValidator` method. This method receives the fully constructed validator, allowing you to call any of its methods before the validation rules are actually evaluated:
 
-"이후" 유효성 검사 후크를 form request에 추가하려면 `withValidator` 메서드를 사용할 수 있습니다. 이 메서드는 완전히 구성이 완료된 유효성 검사기를 입력받으므로, 유효성 검사 규칙이 실제로 실행되기 전에 해당 메서드를 호출할 수 있습니다.
+"after" 유효성 검사 후크를 form request에 추가하려면 `withValidator` 메서드를 사용할 수 있습니다. 이 메서드는 벨리데이션 작업을 수행할 수 있는 구성이 완료된 validator를 입력받습니다. 유효성 검사 규칙이 실제로 실행되기 전에 "after" 후크 메서드를 호출할 수 있습니다.
+
+    use Illuminate\Validation\Validator;
 
     /**
      * Configure the validator instance.
-     *
-     * @param  \Illuminate\Validation\Validator  $validator
-     * @return void
      */
-    public function withValidator($validator)
+    public function withValidator(Validator $validator): void
     {
-        $validator->after(function ($validator) {
+        $validator->after(function (Validator $validator) {
             if ($this->somethingElseIsInvalid()) {
                 $validator->errors()->add('field', 'Something is wrong with this field!');
             }
@@ -499,7 +506,7 @@ If you would like to add an "after" validation hook to a form request, you may u
 
 By adding a `stopOnFirstFailure` property to your request class, you may inform the validator that it should stop validating all attributes once a single validation failure has occurred:
 
-요청 클래스에 `stopOnFirstFailure` 속성을 추가하면, 단일 유효성 검사 실패가 발생하면 유효성 검사기에 모든 속성 유효성 검사를 중지해야 한다고 알릴 수 있습니다.
+리퀘스트 클래스에 `stopOnFirstFailure` 속성을 추가하면, 단일 유효성 검사를 실패할 때, validator에 모든 속성의 유효성 검사를 중지해야 한다고 알릴 수 있습니다.
 
     /**
      * Indicates if the validator should stop on the first rule failure.
@@ -514,7 +521,7 @@ By adding a `stopOnFirstFailure` property to your request class, you may inform 
 
 As previously discussed, a redirect response will be generated to send the user back to their previous location when form request validation fails. However, you are free to customize this behavior. To do so, define a `$redirect` property on your form request:
 
-이전에 논의한 바와 같이, form request 유효성 검사가 실패할 때 사용자를 이전 위치로 다시 보내기 위해 리디렉션 응답이 생성됩니다. 그러나 이 동작을 자유롭게 사용자 지정할 수 있습니다. 이렇게 하려면 form request에 `redirect` 속성을 정의하십시오.
+이전에 논의한 바와 같이, form request 유효성 검사가 실패할 때 사용자를 이전 위치로 다시 보내기 위해 리디렉션 리스폰스가 생성됩니다. 사용자를 되돌려 보낼 위치는 커스터마이징 할 수 있습니다. 이렇게 하려면 form request에 `$redirect` 속성을 정의하십시오.
 
     /**
      * The URI that users should be redirected to if validation fails.
@@ -525,7 +532,7 @@ As previously discussed, a redirect response will be generated to send the user 
 
 Or, if you would like to redirect users to a named route, you may define a `$redirectRoute` property instead:
 
-또는 사용자를 이름이 지정된 경로로 리디렉션하려면 `redirectRoute` 속성을 대신 정의할 수 있습니다.
+또는 사용자를 이름이 지정된 라우트로 리디렉션하려면 `$redirectRoute` 속성을 `$redirect` 속성 대신 정의할 수 있습니다.
 
     /**
      * The route that users should be redirected to if validation fails.
@@ -540,16 +547,14 @@ Or, if you would like to redirect users to a named route, you may define a `$red
 
 The form request class also contains an `authorize` method. Within this method, you may determine if the authenticated user actually has the authority to update a given resource. For example, you may determine if a user actually owns a blog comment they are attempting to update. Most likely, you will interact with your [authorization gates and policies](/docs/{{version}}/authorization) within this method:
 
-form request 클래스에는 `authorize` 메서드도 포함되어 있습니다. 이 메서드 내에서 인증된 사용자에게 실제로 주어진 리소스를 업데이트할 권한이 있는지 확인할 수 있습니다. 예를 들어 사용자가 업데이트하려는 블로그 댓글을 실제로 소유하고 있는지 확인할 수 있습니다. 대부분 다음 메서드 내에서 [인증 게이트 및 정책](/docs/{{version}}/authorization)과 상호 작용합니다.
+form request 클래스에는 `authorize` 메서드도 포함되어 있습니다. 이 메서드 내에서 인증된 사용자에게 실제로 리퀘스트에 포함된 값에 따라 애플리케이션의 리소스를 업데이트할 때 업데이트할 권한이 있는지 확인할 수 있습니다. 예를 들어 사용자가 업데이트하려는 블로그 댓글을 실제로 소유하고 있는지 확인할 수 있습니다. 대부분 다음 메서드 내에서 [인증 게이트 및 정책](/docs/{{version}}/authorization)과 상호 작용합니다.
 
     use App\Models\Comment;
 
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         $comment = Comment::find($this->route('comment'));
 
@@ -558,30 +563,28 @@ form request 클래스에는 `authorize` 메서드도 포함되어 있습니다.
 
 Since all form requests extend the base Laravel request class, we may use the `user` method to access the currently authenticated user. Also, note the call to the `route` method in the example above. This method grants you access to the URI parameters defined on the route being called, such as the `{comment}` parameter in the example below:
 
-모든 form request는 기본 라라벨 요청 클래스를 확장하므로 `user` 메소드를 사용하여 현재 인증된 사용자에 액세스할 수 있습니다. 또한 위의 예에서 `route` 메서드에 대한 호출을 확인하세요. 이 메소드는 아래 예의 `{comment}` 매개변수와 같이 호출되는 경로에 정의된 URI 매개변수에 대한 액세스 권한을 부여합니다.
+모든 form request는 라라벨의 기본 리퀘스트 클래스를 확장하므로 `user` 메소드를 사용하여 현재 인증된 사용자에 액세스할 수 있습니다. 그리고 위의 예에서 `route` 메서드에 대한 호출을 보면, 이 메소드는 아래 예의 `{comment}` 매개변수와 같이 호출되는 라우트에 정의된 URI 매개변수에 대한 액세스 권한을 부여합니다.
 
     Route::post('/comment/{comment}');
 
 Therefore, if your application is taking advantage of [route model binding](/docs/{{version}}/routing#route-model-binding), your code may be made even more succinct by accessing the resolved model as a property of the request:
 
-따라서 애플리케이션이 [경로 모델 바인딩](/docs/{{version}}/routing#route-model-binding)을 활용하는 경우, 확인된 모델을 요청의 속성으로 액세스하여 코드를 훨씬 더 간결하게 만들 수 있습니다.
+따라서 애플리케이션이 [라우트 모델 바인딩](/docs/{{version}}/routing#route-model-binding)을 활용하는 경우, 리퀘스트의 속성으로 확인된 모델에 액세스하여 코드를 더욱 간결하게 만들 수 있습니다.
 
     return $this->user()->can('update', $this->comment);
 
 If the `authorize` method returns `false`, an HTTP response with a 403 status code will automatically be returned and your controller method will not execute.
 
-`authorize` 메서드가 `false`를 반환하면 403 상태 코드가 포함된 HTTP 응답이 자동으로 반환되고 컨트롤러 메서드가 실행되지 않습니다.
+`authorize` 메서드가 `false`를 반환하면 403 스테이터스 코드가 포함된 HTTP 리스폰스가 자동으로 반환되고 컨트롤러 메서드가 실행되지 않습니다.
 
 If you plan to handle authorization logic for the request in another part of your application, you may simply return `true` from the `authorize` method:
 
-애플리케이션의 다른 부분에서 요청에 대한 권한 부여 논리를 처리하려는 경우 `authorize` 메서드에서 `true`를 반환하기만 하면 됩니다.
+애플리케이션의 다른 부분에서 리퀘스트에 대한 권한 부여 로직을 처리하려는 경우 `authorize` 메서드에서 `true`를 반환하면 됩니다.
 
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -590,22 +593,24 @@ If you plan to handle authorization logic for the request in another part of you
 > You may type-hint any dependencies you need within the `authorize` method's signature. They will automatically be resolved via the Laravel [service container](/docs/{{version}}/container).
 
 > **Note**  
-> `run` 메소드에 필요한 모든 의존성의 타입힌트를 지정할 수 있습니다. 이 의존성은 라라벨 [서비스 컨테이너](/docs/{{version}}/container)를 통해 자동으로 처리됩니다.
+> `rules` 메서드의 signature-선언부를 통해 메소드에 필요한 모든 의존성을 타입힌트로 주입할 수 있습니다. 의존성 주입의 설정은 라라벨 [서비스 컨테이너](/docs/{{version}}/container)를 통해 자동으로 해결됩니다.
+
+(역자주: 메소드의 선언부는 `public function rules(): array)`부분을 의미합니다.)
 
 <a name="customizing-the-error-messages"></a>
 ### Customizing The Error Messages
-### 에러 메세지를 사용자 정의하기(커스터마이징하기)
+### 에러 메세지를 사용자 정의하기
 
 You may customize the error messages used by the form request by overriding the `messages` method. This method should return an array of attribute / rule pairs and their corresponding error messages:
 
-`messages` 메소드를 대체하면 form request-요청이 사용하는 에러 메세지를 커스터마이즈할 수 있습니다. 이 메소드는 속성 / 규칙의 쌍으로된 배열과 그에 상응하는 에러 메세지를 반환합니다.
+`messages` 메서드를 재정의하여 form request에 사용되는 에러 메세지를 커스터마이즈할 수 있습니다. 이 메소드는 속성/규칙의 쌍으로된 배열과 그에 상응하는 에러 메세지를 반환합니다.
 
     /**
      * Get the error messages for the defined validation rules.
      *
-     * @return array
+     * @return array<string, string>
      */
-    public function messages()
+    public function messages(): array
     {
         return [
             'title.required' => 'A title is required',
@@ -619,14 +624,14 @@ You may customize the error messages used by the form request by overriding the 
 
 Many of Laravel's built-in validation rule error messages contain an `:attribute` placeholder. If you would like the `:attribute` placeholder of your validation message to be replaced with a custom attribute name, you may specify the custom names by overriding the `attributes` method. This method should return an array of attribute / name pairs:
 
-라라벨의 내장 유효성 검사 규칙 에러 메시지 중 많은 부분이 `:attribute` 자리 표시자를 포함합니다. 유효성 검사 메시지의 `:attribute` 자리 표시자를 사용자 지정 속성 이름으로 바꾸려면 `attributes` 메서드를 재정의하여 사용자 지정 이름을 지정할 수 있습니다. 이 메서드는 속성 이름 쌍의 배열을 반환해야 합니다.
+라라벨의 내장 유효성 검사 규칙의 에러 메시지 중 상당수가 `:attribute` 플레이스홀더를 포함합니다. 이 플레이스홀더는 에러메시지를 표시할 때 플레이스홀더 부분을 유효성 검사 대상 속성 이름으로 표시합니다. 어떤 속성이 유효성 검사를 통과하지 못하여 에러 메시지의 `:attribute` 플레이스홀더에 해당 속성 이름이 아닌 해당 속성 대신에 사용하기 위한 지정한 이름으로 바꾸어 표기하려면 `attributes` 메서드를 재정의하여 기존 속성이 아닌 사용자 지정 속성의 이름을 표기하면 됩니다. `attributes` 메서드는 속성/이름 쌍의 배열을 반환해야 합니다. 아래의 예제는 `email` 속성의 유효성 검사가 실패한 경우 에러 메시지의 플레이스 홀더에 `email`이 아닌 `email address`를 표기하도록 지정합니다.
 
     /**
      * Get custom attributes for validator errors.
      *
-     * @return array
+     * @return array<string, string>
      */
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'email' => 'email address',
@@ -639,16 +644,14 @@ Many of Laravel's built-in validation rule error messages contain an `:attribute
 
 If you need to prepare or sanitize any data from the request before you apply your validation rules, you may use the `prepareForValidation` method:
 
-유효성 검사 규칙을 적용하기 전에 요청의 데이터를 준비하거나 삭제해야 하는 경우 `prepareForValidation` 메서드를 사용할 수 있습니다.
+유효성 검사 규칙을 적용하기 전에 리퀘스트의 데이터를 원하는 형태로 가공하고자 할 때 `prepareForValidation` 메서드를 사용할 수 있습니다. 아래 예제는 리퀘스트 속성으로 전달된 `$this->slug`의 값을 유효성 검사할 때는 `Str::slug($this->slug)`값에 대해 유효성을 판단하도록 합니다.
 
     use Illuminate\Support\Str;
 
     /**
      * Prepare the data for validation.
-     *
-     * @return void
      */
-    protected function prepareForValidation()
+    protected function prepareForValidation(): void
     {
         $this->merge([
             'slug' => Str::slug($this->slug),
@@ -657,16 +660,14 @@ If you need to prepare or sanitize any data from the request before you apply yo
 
 Likewise, if you need to normalize any request data after validation is complete, you may use the `passedValidation` method:
 
-또한 유효성 검사가 완료된 후에 요청 데이터를 정규화해야 하는 경우 `passedValidation` 메서드를 사용할 수 있습니다.
+또한 유효성 검사가 완료된 후에 리퀘스트 데이터를 어떤 특정한 형태로 변환하는 정규화 작업을 할 필요가 있는 경우 `passedValidation` 메서드를 사용할 수 있습니다. 아래의 예시는 리퀘스트의 `name` 속성의 값을 `Taylor`으로 변환하도록 합니다.
 
     use Illuminate\Support\Str;
 
     /**
      * Handle a passed validation attempt.
-     *
-     * @return void
      */
-    protected function passedValidation()
+    protected function passedValidation(): void
     {
         $this->replace(['name' => 'Taylor']);
     }
@@ -677,13 +678,14 @@ Likewise, if you need to normalize any request data after validation is complete
 
 If you do not want to use the `validate` method on the request, you may create a validator instance manually using the `Validator` [facade](/docs/{{version}}/facades). The `make` method on the facade generates a new validator instance:
 
-request 의 `validate` 메소드를 사용하고 싶지 않다면, `Validator` [파사드](/docs/{{version}}/facades)를 사용하여 validator 인스턴스를 수동으로 생성할 수 있습니다. 파사드에 `make` 메소드를 사용하면 새로운 validator 인스턴스가 생성됩니다.
+리퀘스트의 `validate` 메소드를 사용하고 싶지 않다면, `Validator` [파사드](/docs/{{version}}/facades)를 사용하여 validator 인스턴스를 수동으로 생성할 수 있습니다. 파사드에 `make` 메소드를 사용하면 새로운 validator 인스턴스가 생성됩니다.
 
     <?php
 
     namespace App\Http\Controllers;
 
     use App\Http\Controllers\Controller;
+    use Illuminate\Http\RedirectResponse;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Validator;
 
@@ -691,11 +693,8 @@ request 의 `validate` 메소드를 사용하고 싶지 않다면, `Validator` [
     {
         /**
          * Store a new blog post.
-         *
-         * @param  Request  $request
-         * @return Response
          */
-        public function store(Request $request)
+        public function store(Request $request): RedirectResponse
         {
             $validator = Validator::make($request->all(), [
                 'title' => 'required|unique:posts|max:255',
@@ -716,23 +715,25 @@ request 의 `validate` 메소드를 사용하고 싶지 않다면, `Validator` [
             $validated = $validator->safe()->except(['name', 'email']);
 
             // Store the blog post...
+
+            return redirect('/posts');
         }
     }
 
 The first argument passed to the `make` method is the data under validation. The second argument is an array of the validation rules that should be applied to the data.
 
-`make` 메서드에 전달된 첫 번째 인수는 유효성 검사 중인 데이터입니다. 두 번째 인수는 데이터에 적용해야 하는 유효성 검사 규칙의 배열입니다.
+`make` 메서드의 첫 번째 인자는 유효성 검사 대상 데이터입니다. 두 번째 인자는 대상 데이터에 적용해야 하는 유효성 검사 규칙을 정의하고 있는 배열입니다.
 
 After determining whether the request validation failed, you may use the `withErrors` method to flash the error messages to the session. When using this method, the `$errors` variable will automatically be shared with your views after redirection, allowing you to easily display them back to the user. The `withErrors` method accepts a validator, a `MessageBag`, or a PHP `array`.
 
-요청 유효성 검사가 실패했는지 확인한 후 `withErrors` 메서드를 사용하여 세션에 에러 메시지를 플래시할 수 있습니다. 이 방법을 사용할 때 `errors` 변수는 리디렉션 후 뷰와 자동으로 공유되어 사용자에게 쉽게 다시 표시할 수 있습니다. `withErrors` 메소드는 유효성 검사기, `MessageBag` 또는 PHP `array`를 허용합니다.
+리퀘스트 유효성 검사가 실패했는지 확인한 후 `withErrors` 메서드를 사용하여 세션을 플래시하여 에러 메시지를 가져올 수 있습니다. 이 메소드를 사용하면 리디렉션 후 `errors` 변수는 자동으로 view-뷰에 공유되므로 사용자에게 에러 메시지를 쉽게 표시할 수 있습니다. `withErrors` 메소드는 validator 객체, `MessageBag` 객체 또는 PHP `array`를 인자로 받을 수 있습니다.
 
 #### Stopping On First Validation Failure
 #### 유효성 검사가 처음 실패하면 검사 중단하기
 
 The `stopOnFirstFailure` method will inform the validator that it should stop validating all attributes once a single validation failure has occurred:
 
-`stopOnFirstFailure` 메서드는 단일 유효성 검사 실패가 발생하면 모든 속성 유효성 검사를 중지해야 한다고 유효성 검사기에 알립니다.
+`stopOnFirstFailure` 메서드는 validator의 유효성 검사 수행 중 어느 하나의 속성이라도 실패가 발생하면 나머지 속성의 유효성 검사를 중지하게 합니다.
 
     if ($validator->stopOnFirstFailure()->fails()) {
         // ...
@@ -744,7 +745,7 @@ The `stopOnFirstFailure` method will inform the validator that it should stop va
 
 If you would like to create a validator instance manually but still take advantage of the automatic redirection offered by the HTTP request's `validate` method, you may call the `validate` method on an existing validator instance. If validation fails, the user will automatically be redirected or, in the case of an XHR request, a [JSON response will be returned](#validation-error-response-format):
 
-유효성 검사기 인스턴스를 수동으로 만들고 싶지만 HTTP 요청의 `validate` 메서드가 제공하는 자동 리디렉션을 계속 활용하려면, 기존 유효성 검사기 인스턴스에서 `validate` 메서드를 호출할 수 있습니다. 유효성 검사가 실패하면 사용자가 자동으로 리디렉션되거나 XHR 요청의 경우 [JSON 응답이 반환됩니다](#validation-error-response-format).
+Validator 파사드의 make 메소드를 사용하면 수동으로 validator 인스턴스를 생성할 수 있습니다. 이 때, HTTP 요청의 `validate` 메서드가 제공하는 자동 리디렉션을 활용하려면 기존 validator 인스턴스에서 `validate` 메서드를 호출하면 됩니다. 유효성 검사에 실패하면 사용자가 자동으로 리디렉션되거나, XHR 요청의 경우 [JSON 리스폰스](#validation-error-response-format)가 반환됩니다.
 
     Validator::make($request->all(), [
         'title' => 'required|unique:posts|max:255',
@@ -753,7 +754,7 @@ If you would like to create a validator instance manually but still take advanta
 
 You may use the `validateWithBag` method to store the error messages in a [named error bag](#named-error-bags) if validation fails:
 
-유효성 검사에에 실패하면 `validateWithBag` 메소드를 사용하여 [named error bag](#named-error-bags)안에 에러 메시지를 저장할 수 있습니다.
+유효성 검사가 실패하면 `validateWithBag` 메소드를 사용하여 [이름 붙여진 error bag](#named-error-bags)안에 에러 메시지를 저장할 수 있습니다.
 
     Validator::make($request->all(), [
         'title' => 'required|unique:posts|max:255',
@@ -762,11 +763,11 @@ You may use the `validateWithBag` method to store the error messages in a [named
 
 <a name="named-error-bags"></a>
 ### Named Error Bags
-### 이름이 지정된 Error Bags
+### 이름 붙여진 Error Bags
 
 If you have multiple forms on a single page, you may wish to name the `MessageBag` containing the validation errors, allowing you to retrieve the error messages for a specific form. To achieve this, pass a name as the second argument to `withErrors`:
 
-한 페이지에 여러 양식이 있는 경우 유효성 검사 오류가 포함된 `MessageBag`의 이름을 지정하여 특정 양식에 대한 에러 메시지를 검색할 수 있습니다. 이를 달성하려면 `withErrors`에 두 번째 인수로 이름을 전달하세요.
+한 페이지에 여러 form-폼이 있는 경우 유효성 검사 오류가 포함된 `MessageBag`의 이름을 지정하여 특정 form-폼에 대한 에러 메시지를 검색할 수 있습니다. 이렇게 하려면 `withErrors`에 두 번째 인자로 이름을 전달하세요.
 
     return redirect('register')->withErrors($validator, 'login');
 
@@ -784,7 +785,7 @@ You may then access the named `MessageBag` instance from the `$errors` variable:
 
 If needed, you may provide custom error messages that a validator instance should use instead of the default error messages provided by Laravel. There are several ways to specify custom messages. First, you may pass the custom messages as the third argument to the `Validator::make` method:
 
-필요한 경우, 라라벨에서 제공하는 기본 에러 메시지 대신 유효성 검사기 인스턴스가 사용해야 하는 사용자 정의 에러 메시지를 제공할 수 있습니다. 사용자 지정 메시지를 지정하는 방법에는 여러 가지가 있습니다. 먼저 사용자 정의 메시지를 `Validator::make` 메소드에 세 번째 인수로 전달할 수 있습니다.
+필요한 경우, 라라벨에서 제공하는 기본 에러 메시지 대신 validator 인스턴스가 사용해야 하는 사용자 정의 에러 메시지를 제공할 수 있습니다. 사용자 지정 메시지를 지정하는 방법에는 여러 가지가 있습니다. 먼저 사용자 정의 메시지를 `Validator::make` 메소드에 세 번째 인자로 전달할 수 있습니다.
 
     $validator = Validator::make($input, $rules, $messages = [
         'required' => 'The :attribute field is required.',
@@ -792,7 +793,7 @@ If needed, you may provide custom error messages that a validator instance shoul
 
 In this example, the `:attribute` placeholder will be replaced by the actual name of the field under validation. You may also utilize other placeholders in validation messages. For example:
 
-이 예제에서 `:attribute` 자리 표시자는 유효성 검사 중인 필드의 실제 이름으로 대체됩니다. 유효성 검사 메시지에서 다른 자리 표시자를 활용할 수도 있습니다. 예를 들어
+이 예제에서 `:attribute` 플레이스홀더는 유효성 검사 중인 필드의 실제 필드 이름으로 대체됩니다. 유효성 검사 메시지에서 다른 플레이스홀더를 활용할 수도 있습니다. 아래의 예제에서 `:other`, `:size`, `:min`, `:max`, `:values`를 눈여겨 보세요. 예를 들어
 
     $messages = [
         'same' => 'The :attribute and :other must match.',
@@ -807,7 +808,7 @@ In this example, the `:attribute` placeholder will be replaced by the actual nam
 
 Sometimes you may wish to specify a custom error message only for a specific attribute. You may do so using "dot" notation. Specify the attribute's name first, followed by the rule:
 
-때로는 특정 속성에 대해서만 사용자 정의 에러 메시지를 지정하고자 할 수 있습니다. "점" 표기법을 사용하여 그렇게 할 수 있습니다. 속성의 이름을 먼저 지정하고 그 다음에 규칙을 지정합니다.
+때로는 특정 속성에 대해서만 사용자 정의 에러 메시지를 지정하고자 할 수 있습니다. 이 때는 "점" 표기법을 사용하면 됩니다. 속성의 이름을 먼저 지정하고 그 다음에 규칙을 지정합니다.
 
     $messages = [
         'email.required' => 'We need to know your email address!',
@@ -819,7 +820,7 @@ Sometimes you may wish to specify a custom error message only for a specific att
 
 Many of Laravel's built-in error messages include an `:attribute` placeholder that is replaced with the name of the field or attribute under validation. To customize the values used to replace these placeholders for specific fields, you may pass an array of custom attributes as the fourth argument to the `Validator::make` method:
 
-라라벨에 내장된 많은 에러 메시지에는 검증 중인 필드 또는 속성의 이름으로 대체되는 `:attribute` 자리 표시자가 포함되어 있습니다. 특정 필드에 대한 이러한 자리 표시자를 대체하는 데 사용되는 값을 사용자 지정하려면 `Validator::make` 메서드에 대한 네 번째 인수로 사용자 지정 속성 배열을 전달할 수 있습니다.
+라라벨에 내장된 많은 에러 메시지에는 검증 중인 필드 또는 속성의 이름으로 대체되는 `:attribute` 플레이스홀더가 포함되어 있습니다. 특정 필드에 대한 에러 메시지의 정의하는 부분에서 플레이스홀더를 대체하는 데 사용되는 값을 사용자 정의된 값으로 바꾸려면 `Validator::make` 메서드에 대한 네 번째 인자로 사용자 지정한 속성 배열을 전달하면 됩니다. 아래의 예제는 'email' 속성의 유효성 검사가 실패한 경우 에러 메시지의 플레이스 홀더에 'email'이 아닌 'email address'를 표기하도록 지정합니다.
 
     $validator = Validator::make($input, $rules, $messages, [
         'email' => 'email address',
@@ -831,11 +832,14 @@ Many of Laravel's built-in error messages include an `:attribute` placeholder th
 
 You may also attach callbacks to be run after validation is completed. This allows you to easily perform further validation and even add more error messages to the message collection. To get started, call the `after` method on a validator instance:
 
-유효성 검사가 완료된 후 실행할 콜백을 첨부할 수도 있습니다. 이를 통해 추가 유효성 검사를 쉽게 수행하고 메시지 컬렉션에 더 많은 에러 메시지를 추가할 수 있습니다. 시작하려면 유효성 검사기 인스턴스에서 `after` 메서드를 호출하세요.
+유효성 검사가 완료된 후 실행할 콜백을 첨부할 수도 있습니다. 이를 통해 추가 유효성 검사를 쉽게 수행하고 메시지 컬렉션에 더 많은 에러 메시지를 추가할 수 있습니다. 시작하려면 validator 인스턴스에서 `after` 메서드를 호출하세요.
 
-    $validator = Validator::make(/* ... */);
+    use Illuminate\Support\Facades;
+    use Illuminate\Validation\Validator;
 
-    $validator->after(function ($validator) {
+    $validator = Facades\Validator::make(/* ... */);
+
+    $validator->after(function (Validator $validator) {
         if ($this->somethingElseIsInvalid()) {
             $validator->errors()->add(
                 'field', 'Something is wrong with this field!'
@@ -844,7 +848,7 @@ You may also attach callbacks to be run after validation is completed. This allo
     });
 
     if ($validator->fails()) {
-        //
+        // ...
     }
 
 <a name="working-with-validated-input"></a>
@@ -853,7 +857,7 @@ You may also attach callbacks to be run after validation is completed. This allo
 
 After validating incoming request data using a form request or a manually created validator instance, you may wish to retrieve the incoming request data that actually underwent validation. This can be accomplished in several ways. First, you may call the `validated` method on a form request or validator instance. This method returns an array of the data that was validated:
 
-form request 또는 수동으로 생성된 유효성 검사기 인스턴스를 사용하여 들어오는 요청 데이터의 유효성을 검사한 후 실제로 유효성 검사를 거친 들어오는 요청 데이터를 검색할 수 있습니다. 이것은 여러 가지 방법으로 수행할 수 있습니다. 먼저 form request 또는 유효성 검사기 인스턴스에서 `validated` 메서드를 호출할 수 있습니다. 이 메서드는 검증된 데이터의 배열을 반환합니다.
+form request 또는 수동으로 생성된 validator 인스턴스를 사용하여 들어오는 리퀘스트 데이터의 유효성을 검사한 후 실제로 유효성 검사를 거친 들어오는 리퀘스트 데이터를 검색할 수 있습니다. 이것은 여러 가지 방법으로 수행할 수 있습니다. 먼저 form request 또는 validator 인스턴스에서 `validated` 메서드를 호출할 수 있습니다. 이 메서드는 검증된 데이터의 배열을 반환합니다.
 
     $validated = $request->validated();
 
@@ -861,7 +865,7 @@ form request 또는 수동으로 생성된 유효성 검사기 인스턴스를 �
 
 Alternatively, you may call the `safe` method on a form request or validator instance. This method returns an instance of `Illuminate\Support\ValidatedInput`. This object exposes `only`, `except`, and `all` methods to retrieve a subset of the validated data or the entire array of validated data:
 
-또는 form request 또는 유효성 검사기 인스턴스에서 `safe` 메서드를 호출할 수 있습니다. 이 메소드는 `Illuminate\Support\ValidatedInput`의 인스턴스를 반환합니다. 이 객체는 검증된 데이터의 하위 집합 또는 검증된 데이터의 전체 배열을 검색하기 위해 `only`, `except` 및 `all` 메서드를 노출합니다.
+또는 form request 또는 validator 인스턴스에서 `safe` 메서드를 호출할 수 있습니다. 이 메소드는 `Illuminate\Support\ValidatedInput`의 인스턴스를 반환합니다. 이 객체는 검증된 데이터의 하위 집합 또는 검증된 데이터의 전체 배열을 취득하기 위해 `only`, `except` 및 `all` 메서드에 exposes-공개할 대상을 지정합니다.
 
     $validated = $request->safe()->only(['name', 'email']);
 
@@ -875,7 +879,7 @@ In addition, the `Illuminate\Support\ValidatedInput` instance may be iterated ov
 
     // Validated data may be iterated...
     foreach ($request->safe() as $key => $value) {
-        //
+        // ...
     }
 
     // Validated data may be accessed as an array...
@@ -901,7 +905,7 @@ If you would like to retrieve the validated data as a [collection](/docs/{{versi
 
 After calling the `errors` method on a `Validator` instance, you will receive an `Illuminate\Support\MessageBag` instance, which has a variety of convenient methods for working with error messages. The `$errors` variable that is automatically made available to all views is also an instance of the `MessageBag` class.
 
-`Validator` 인스턴스의 `errors` 메소드를 호출하면, 에러 메시지를 편하게 사용할 수 있는 다양한 메소드를 가진 `MessageBag` 인스턴스를 받을 수 있습니다, 이것은 에러 메세지를 처리하기 위한 다양하고 편리한 메소드들을 가집니다. `$errors` 변수는 자동으로 모든 뷰에서 `MessageBag` 클래스 인스턴스로써 사용가능합니다.
+`Validator` 인스턴스에서 `errors` 메서드를 호출하면 오류 메시지 작업을 위한 편하게 사용할 수 있는 다양한 메소드를 가진 `Illuminate\Support\MessageBag` 인스턴스를 받게 됩니다. 모든 view-뷰에서 특별한 설정 없이 자동으로 전달되어 사용되는 `$errors` 변수 역시 `MessageBag` 클래스의 인스턴스입니다.
 
 <a name="retrieving-the-first-error-message-for-a-field"></a>
 #### Retrieving The First Error Message For A Field
@@ -924,15 +928,15 @@ If you need to retrieve an array of all the messages for a given field, use the 
 특정 필드에 대한 모든 메세지에 대한 배열을 조회하고자 한다면, `get` 메소드를 사용하면 됩니다.
 
     foreach ($errors->get('email') as $message) {
-        //
+        // ...
     }
 
 If you are validating an array form field, you may retrieve all of the messages for each of the array elements using the `*` character:
 
-배열형태의 form 필드에 대해서 유효성 검사를 하려면, 배열의 각각의 요소는 `*` 문자열을 사용하여 모든 메세지를 조회할 수 있습니다.
+배열 형태의 form 필드에 대해서 유효성 검사를 하는 경우, `*` 문자열을 사용하여 배열의 각각의 요소에 대한 모든 메세지를 취득할 수 있습니다.
 
     foreach ($errors->get('attachments.*') as $message) {
-        //
+        // ...
     }
 
 <a name="retrieving-all-error-messages-for-all-fields"></a>
@@ -941,10 +945,10 @@ If you are validating an array form field, you may retrieve all of the messages 
 
 To retrieve an array of all messages for all fields, use the `all` method:
 
-모든 필드에 대한 모든 에러 메세지를 조회하기 위해서는 `all` 메소들 사용하면 됩니다.
+모든 필드에 대한 모든 에러 메세지를 취득하기 위해서는 `all` 메소들 사용하면 됩니다.
 
     foreach ($errors->all() as $message) {
-        //
+        // ...
     }
 
 <a name="determining-if-messages-exist-for-a-field"></a>
@@ -956,7 +960,7 @@ The `has` method may be used to determine if any error messages exist for a give
 `has` 메소드는 특정 필드에 대한 에러 메세지가 존재하는지 확인하는데 사용합니다.
 
     if ($errors->has('email')) {
-        //
+        // ...
     }
 
 <a name="specifying-custom-messages-in-language-files"></a>
@@ -965,11 +969,16 @@ The `has` method may be used to determine if any error messages exist for a give
 
 Laravel's built-in validation rules each have an error message that is located in your application's `lang/en/validation.php` file. Within this file, you will find a translation entry for each validation rule. You are free to change or modify these messages based on the needs of your application.
 
-라라벨의 내장 유효성 검사 규칙은 각각 애플리케이션의 `lang/en/validation.php` 파일에 에러 메시지가 있습니다. 이 파일 내에서 각 유효성 검사 규칙에 대한 번역 항목을 찾을 수 있습니다. 애플리케이션의 필요에 따라 이러한 메시지를 자유롭게 변경하거나 수정할 수 있습니다.
+라라벨의 내장 유효성 검사 규칙 각각에 대한 에러메시지는 애플리케이션의 `lang/en/validation.php` 파일에 정의되어 있습니다. 이 파일 내에서 각 유효성 검사 규칙에 대한 번역 항목을 찾을 수 있습니다. 애플리케이션의 필요에 따라 이러한 메시지를 자유롭게 변경하거나 수정할 수 있습니다.
 
-In addition, you may copy this file to another translation language directory to translate the messages for your application's language. To learn more about Laravel localization, check out the complete [localization documentation](/docs/{{version}}/localization).
+In addition, you may copy this file to another language directory to translate the messages for your application's language. To learn more about Laravel localization, check out the complete [localization documentation](/docs/{{version}}/localization).
 
-또한 이 파일을 다른 번역 언어 디렉토리에 복사하여 애플리케이션 언어로 메시지를 번역할 수 있습니다. 라라벨 현지화에 대해 자세히 알아보려면 전체 [현지화 문서](/docs/{{version}}/localization)를 확인하세요.
+또한 이 파일을 다른 언어 디렉토리에 복사하여 애플리케이션에서 지정한 언어로 메시지를 번역할 수 있습니다. 라라벨 현지화에 대해 자세히 알아보려면 전체 [현지화 문서](/docs/{{version}}/localization)를 확인하세요.
+
+> **Warning**
+> By default, the Laravel application skeleton does not include the `lang` directory. If you would like to customize Laravel's language files, you may publish them via the `lang:publish` Artisan command.
+
+기본적으로 라라벨 애플리케이션을 처음 설치할 때 생성되는 파일 및 폴더 구조인 스켈레톤에는 `lang` 디렉터리가 포함되어 있지 않습니다. 라라벨의 언어 파일을 사용자 정의하려면 `lang:publish` 아티즌 명령을 통해 publish-게시할 수 있습니다.
 
 <a name="custom-messages-for-specific-attributes"></a>
 #### Custom Messages For Specific Attributes
@@ -977,7 +986,7 @@ In addition, you may copy this file to another translation language directory to
 
 You may customize the error messages used for specified attribute and rule combinations within your application's validation language files. To do so, add your message customizations to the `custom` array of your application's `lang/xx/validation.php` language file:
 
-애플리케이션의 검증 언어 파일 내에서 지정된 속성 및 규칙 조합에 사용되는 에러 메시지를 사용자 정의할 수 있습니다. 그렇게 하려면 애플리케이션의 `lang/xx/validation.php` 언어 파일의 `custom` 배열에 메시지 사용자 정의를 추가하십시오.
+애플리케이션의 유효성 검사 언어 파일 내에서 지정된 속성 및 규칙 조합에 사용되는 에러 메시지를 사용자 정의할 수 있습니다. 그렇게 하려면 애플리케이션의 `lang/xx/validation.php` 언어 파일의 `custom` 배열에 메시지 사용자 정의를 추가하십시오.
 
     'custom' => [
         'email' => [
@@ -992,11 +1001,16 @@ You may customize the error messages used for specified attribute and rule combi
 
 Many of Laravel's built-in error messages include an `:attribute` placeholder that is replaced with the name of the field or attribute under validation. If you would like the `:attribute` portion of your validation message to be replaced with a custom value, you may specify the custom attribute name in the `attributes` array of your `lang/xx/validation.php` language file:
 
-라라벨에 내장된 많은 에러 메시지에는 검증 중인 필드 또는 속성의 이름으로 대체되는 `:attribute` 자리 표시자가 포함되어 있습니다. 유효성 검사 메시지의 `:attribute` 부분을 사용자 정의 값으로 바꾸려면 `lang/xx/validation.php` 언어 파일의 `attributes` 배열에 사용자 정의 속성 이름을 지정할 수 있습니다.
+라라벨에 내장된 많은 에러 메시지에는 검증 중인 필드 또는 속성의 이름으로 대체되는 `:attribute` 플레이스홀더가 포함되어 있습니다. 유효성 검사 메시지의 `:attribute` 부분을 사용자 정의 값으로 바꾸려면 `lang/xx/validation.php` 언어 파일의 `attributes` 배열에 사용자 정의 속성 이름을 지정할 수 있습니다. 아래의 예제는 'email' 속성의 유효성 검사가 실패한 경우 에러 메시지의 플레이스 홀더에 'email'이 아닌 'email address'를 표기하도록 지정합니다.
 
     'attributes' => [
         'email' => 'email address',
     ],
+
+> **Warning**
+> By default, the Laravel application skeleton does not include the `lang` directory. If you would like to customize Laravel's language files, you may publish them via the `lang:publish` Artisan command.
+
+기본적으로 라라벨 애플리케이션을 처음 설치할 때 생성되는 파일 및 폴더 구조인 스켈레톤에는 `lang` 디렉터리가 포함되어 있지 않습니다. 라라벨의 언어 파일을 사용자 정의하려면 `lang:publish` 아티즌 명령을 통해 publish-게시할 수 있습니다.
 
 <a name="specifying-values-in-language-files"></a>
 ### Specifying Values In Language Files
@@ -1004,7 +1018,7 @@ Many of Laravel's built-in error messages include an `:attribute` placeholder th
 
 Some of Laravel's built-in validation rule error messages contain a `:value` placeholder that is replaced with the current value of the request attribute. However, you may occasionally need the `:value` portion of your validation message to be replaced with a custom representation of the value. For example, consider the following rule that specifies that a credit card number is required if the `payment_type` has a value of `cc`:
 
-라라벨의 내장 유효성 검사 규칙 에러 메시지 중 일부는 요청 속성의 현재 값으로 대체되는 `:value` 자리 표시자를 포함합니다. 그러나 때때로 유효성 검사 메시지의 `:value` 부분을 값의 사용자 지정 표현으로 대체해야 할 수도 있습니다. 예를 들어 `payment_type`의 값이 `cc`인 경우 신용 카드 번호가 필요하다고 지정하는 다음 규칙을 고려하십시오.
+라라벨의 내장 유효성 검사 규칙의 에러 메시지 중 일부는 리퀘스트 객체의 현재 검증 중인 속성이 가진 값으로 대체되는 `:value` 플레이스홀더를 포함합니다. 그러나 때때로 유효성 검사 메시지의 `:value` 부분을 값의 사용자 지정 표현으로 대체해야 할 수도 있습니다. 예를 들어 `payment_type`의 값이 credit card를 의미하는 `cc`인 경우 신용카드 번호가 필요하다고 지정하는 다음 규칙을 생각해 보겠습니다.
 
     Validator::make($request->all(), [
         'credit_card_number' => 'required_if:payment_type,cc'
@@ -1020,13 +1034,18 @@ The credit card number field is required when payment type is cc.
 
 Instead of displaying `cc` as the payment type value, you may specify a more user-friendly value representation in your `lang/xx/validation.php` language file by defining a `values` array:
 
-결제 유형 값으로 `cc`를 표시하는 대신 `values` 배열을 정의하여 `lang/xx/validation.php` 언어 파일에 보다 사용자 친화적인 값 표현을 지정할 수 있습니다.
+결제 유형 값으로 `cc`를 표시하는 대신 `values` 배열을 정의하여 `lang/xx/validation.php` 언어 파일에 보다 사용자 친화적인 값 표현을 지정할 수 있습니다. 이렇게 하면 에러 메시지에 'cc'가 아닌 'credit card'가 표시됩니다.
 
     'values' => [
         'payment_type' => [
             'cc' => 'credit card'
         ],
     ],
+
+> **Warning**
+> By default, the Laravel application skeleton does not include the `lang` directory. If you would like to customize Laravel's language files, you may publish them via the `lang:publish` Artisan command.
+
+기본적으로 라라벨 애플리케이션을 처음 설치할 때 생성되는 파일 및 폴더 구조인 스켈레톤에는 `lang` 디렉터리가 포함되어 있지 않습니다. 라라벨의 언어 파일을 사용자 정의하려면 `lang:publish` 아티즌 명령을 통해 publish-게시할 수 있습니다.
 
 After defining this value, the validation rule will produce the following error message:
 
@@ -1044,96 +1063,118 @@ Below is a list of all available validation rules and their function:
 
 다음은 사용 가능한 모든 유효성 검사 규칙과 그 기능의 목록입니다.
 
-- [Accepted](#rule-accepted)
-- [Accepted If](#rule-accepted-if)
-- [Active URL](#rule-active-url)
-- [After (Date)](#rule-after)
-- [After Or Equal (Date)](#rule-after-or-equal)
-- [Alpha](#rule-alpha)
-- [Alpha Dash](#rule-alpha-dash)
-- [Alpha Numeric](#rule-alpha-num)
-- [Array](#rule-array)
-- [Ascii](#rule-ascii)
-- [Bail](#rule-bail)
-- [Before (Date)](#rule-before)
-- [Before Or Equal (Date)](#rule-before-or-equal)
-- [Between](#rule-between)
-- [Boolean](#rule-boolean)
-- [Confirmed](#rule-confirmed)
-- [Current Password](#rule-current-password)
-- [Date](#rule-date)
-- [Date Equals](#rule-date-equals)
-- [Date Format](#rule-date-format)
-- [Decimal](#rule-decimal)
-- [Declined](#rule-declined)
-- [Declined If](#rule-declined-if)
-- [Different](#rule-different)
-- [Digits](#rule-digits)
-- [Digits Between](#rule-digits-between)
-- [Dimensions (Image Files)](#rule-dimensions)
-- [Distinct](#rule-distinct)
-- [Doesnt Start With](#rule-doesnt-start-with)
-- [Doesnt End With](#rule-doesnt-end-with)
-- [Email](#rule-email)
-- [Ends With](#rule-ends-with)
-- [Enum](#rule-enum)
-- [Exclude](#rule-exclude)
-- [Exclude If](#rule-exclude-if)
-- [Exclude Unless](#rule-exclude-unless)
-- [Exclude With](#rule-exclude-with)
-- [Exclude Without](#rule-exclude-without)
-- [Exists (Database)](#rule-exists)
-- [File](#rule-file)
-- [Filled](#rule-filled)
-- [Greater Than](#rule-gt)
-- [Greater Than Or Equal](#rule-gte)
-- [Image (File)](#rule-image)
-- [In](#rule-in)
-- [In Array](#rule-in-array)
-- [Integer](#rule-integer)
-- [IP Address](#rule-ip)
-- [JSON](#rule-json)
-- [Less Than](#rule-lt)
-- [Less Than Or Equal](#rule-lte)
-- [Lowercase](#rule-lowercase)
-- [MAC Address](#rule-mac)
-- [Max](#rule-max)
-- [Max Digits](#rule-max-digits)
-- [MIME Types](#rule-mimetypes)
-- [MIME Type By File Extension](#rule-mimes)
-- [Min](#rule-min)
-- [Min Digits](#rule-min-digits)
-- [Multiple Of](#multiple-of)
-- [Not In](#rule-not-in)
-- [Not Regex](#rule-not-regex)
-- [Nullable](#rule-nullable)
-- [Numeric](#rule-numeric)
-- [Password](#rule-password)
-- [Present](#rule-present)
-- [Prohibited](#rule-prohibited)
-- [Prohibited If](#rule-prohibited-if)
-- [Prohibited Unless](#rule-prohibited-unless)
-- [Prohibits](#rule-prohibits)
-- [Regular Expression](#rule-regex)
-- [Required](#rule-required)
-- [Required If](#rule-required-if)
-- [Required Unless](#rule-required-unless)
-- [Required With](#rule-required-with)
-- [Required With All](#rule-required-with-all)
-- [Required Without](#rule-required-without)
-- [Required Without All](#rule-required-without-all)
-- [Required Array Keys](#rule-required-array-keys)
-- [Same](#rule-same)
-- [Size](#rule-size)
-- [Sometimes](#validating-when-present)
-- [Starts With](#rule-starts-with)
-- [String](#rule-string)
-- [Timezone](#rule-timezone)
-- [Unique (Database)](#rule-unique)
-- [Uppercase](#rule-uppercase)  
-- [URL](#rule-url)
-- [ULID](#rule-ulid)
-- [UUID](#rule-uuid)
+<style>
+    .collection-method-list > p {
+        columns: 10.8em 3; -moz-columns: 10.8em 3; -webkit-columns: 10.8em 3;
+    }
+
+    .collection-method-list a {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+</style>
+
+<div class="collection-method-list" markdown="1">
+
+[Accepted](#rule-accepted)
+[Accepted If](#rule-accepted-if)
+[Active URL](#rule-active-url)
+[After (Date)](#rule-after)
+[After Or Equal (Date)](#rule-after-or-equal)
+[Alpha](#rule-alpha)
+[Alpha Dash](#rule-alpha-dash)
+[Alpha Numeric](#rule-alpha-num)
+[Array](#rule-array)
+[Ascii](#rule-ascii)
+[Bail](#rule-bail)
+[Before (Date)](#rule-before)
+[Before Or Equal (Date)](#rule-before-or-equal)
+[Between](#rule-between)
+[Boolean](#rule-boolean)
+[Confirmed](#rule-confirmed)
+[Current Password](#rule-current-password)
+[Date](#rule-date)
+[Date Equals](#rule-date-equals)
+[Date Format](#rule-date-format)
+[Decimal](#rule-decimal)
+[Declined](#rule-declined)
+[Declined If](#rule-declined-if)
+[Different](#rule-different)
+[Digits](#rule-digits)
+[Digits Between](#rule-digits-between)
+[Dimensions (Image Files)](#rule-dimensions)
+[Distinct](#rule-distinct)
+[Doesnt Start With](#rule-doesnt-start-with)
+[Doesnt End With](#rule-doesnt-end-with)
+[Email](#rule-email)
+[Ends With](#rule-ends-with)
+[Enum](#rule-enum)
+[Exclude](#rule-exclude)
+[Exclude If](#rule-exclude-if)
+[Exclude Unless](#rule-exclude-unless)
+[Exclude With](#rule-exclude-with)
+[Exclude Without](#rule-exclude-without)
+[Exists (Database)](#rule-exists)
+[File](#rule-file)
+[Filled](#rule-filled)
+[Greater Than](#rule-gt)
+[Greater Than Or Equal](#rule-gte)
+[Image (File)](#rule-image)
+[In](#rule-in)
+[In Array](#rule-in-array)
+[Integer](#rule-integer)
+[IP Address](#rule-ip)
+[JSON](#rule-json)
+[Less Than](#rule-lt)
+[Less Than Or Equal](#rule-lte)
+[Lowercase](#rule-lowercase)
+[MAC Address](#rule-mac)
+[Max](#rule-max)
+[Max Digits](#rule-max-digits)
+[MIME Types](#rule-mimetypes)
+[MIME Type By File Extension](#rule-mimes)
+[Min](#rule-min)
+[Min Digits](#rule-min-digits)
+[Missing](#rule-missing)
+[Missing If](#rule-missing-if)
+[Missing Unless](#rule-missing-unless)
+[Missing With](#rule-missing-with)
+[Missing With All](#rule-missing-with-all)
+[Multiple Of](#rule-multiple-of)
+[Not In](#rule-not-in)
+[Not Regex](#rule-not-regex)
+[Nullable](#rule-nullable)
+[Numeric](#rule-numeric)
+[Password](#rule-password)
+[Present](#rule-present)
+[Prohibited](#rule-prohibited)
+[Prohibited If](#rule-prohibited-if)
+[Prohibited Unless](#rule-prohibited-unless)
+[Prohibits](#rule-prohibits)
+[Regular Expression](#rule-regex)
+[Required](#rule-required)
+[Required If](#rule-required-if)
+[Required Unless](#rule-required-unless)
+[Required With](#rule-required-with)
+[Required With All](#rule-required-with-all)
+[Required Without](#rule-required-without)
+[Required Without All](#rule-required-without-all)
+[Required Array Keys](#rule-required-array-keys)
+[Same](#rule-same)
+[Size](#rule-size)
+[Sometimes](#validating-when-present)
+[Starts With](#rule-starts-with)
+[String](#rule-string)
+[Timezone](#rule-timezone)
+[Unique (Database)](#rule-unique)
+[Uppercase](#rule-uppercase)
+[URL](#rule-url)
+[ULID](#rule-ulid)
+[UUID](#rule-uuid)
+
+</div>
 
 <a name="rule-accepted"></a>
 #### accepted
@@ -1149,7 +1190,7 @@ The field under validation must be `"yes"`, `"on"`, `1`, or `true`. This is usef
 
 The field under validation must be `"yes"`, `"on"`, `1`, or `true` if another field under validation is equal to a specified value. This is useful for validating "Terms of Service" acceptance or similar fields.
 
-검증 중인 다른 필드가 지정된 값과 같은 경우 검증 중인 필드는 `"yes"`, `"on"`, `1` 또는 `true`여야 합니다. 이는 "서비스 약관" 수락 또는 유사한 필드의 유효성을 검사하는 데 유용합니다.
+검증 중인 다른 필드가 지정된 값과 같은 경우 검증 중인 필드는 `"yes"`, `"on"`, `1` 또는 `true`여야 합니다. 이는 "이용약관" 동의 또는 유사한 필드의 유효성을 검사하는 데 유용합니다.
 
 <a name="rule-active-url"></a>
 #### active_url
@@ -1189,25 +1230,63 @@ The field under validation must be a value after or equal to the given date. For
 
 The field under validation must be entirely alphabetic characters.
 
-필드의 값이 완벽하게 (숫자나 기호가 아닌) 알파벳[자음과 모음] 문자로 이루어져야 합니다.
+유효성 검사 중인 필드는 완벽하게 alphabetic-알파벳에 상당하는 문자로만 구성되어야 합니다.
 
-(역자주: 영문 알파벳만을 의미하지 않고, 숫자나 기호가 아닌경우에 해당하여, 한글도 허용합니다.)
+The field under validation must be entirely Unicode alphabetic characters contained in [`\p{L}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AL%3A%5D&g=&i=) and [`\p{M}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AM%3A%5D&g=&i=).
+
+검증 중인 필드는 다음에 포함된 완전한 유니코드 alphabetic-알파벳에 상당하는 문자여야 합니다. [`\p{L}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AL%3A%5D&g=&i=) 및 [`\p{M}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AM%3A%5D&g=&i=)에 포함되어 있는 유니코드 알파벳 문자로만 구성되어야합니다.
+
+(역자주: alphabetic 문자는 영어 알파벳 뿐만 아니라 다른 문자의 알파벳도 허용합니다.)
+
+To restrict this validation rule to characters in the ASCII range (`a-z` and `A-Z`), you may provide the `ascii` option to the validation rule:
+
+이 유효성 검사 규칙을 ASCII 범위의 문자(`a-z` 및 `A-Z`)로 제한하려면 유효성 검사 규칙에 `ascii` 옵션을 제공하면 됩니다.
+
+```php
+'username' => 'alpha:ascii',
+```
 
 <a name="rule-alpha-dash"></a>
 #### alpha_dash
 #### alpha_dash
 
-The field under validation may have alpha-numeric characters, as well as dashes and underscores.
+The field under validation must be entirely Unicode alpha-numeric characters contained in [`\p{L}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AL%3A%5D&g=&i=), [`\p{M}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AM%3A%5D&g=&i=), [`\p{N}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AN%3A%5D&g=&i=), as well as ASCII dashes (`-`) and ASCII underscores (`_`).
 
-필드의 값이 (숫자나 기호가 아닌) 알파벳[자음과 모음] 문자 및 숫자와 dash(-), underscore(_)로 이루어져야 합니다.
+검증 중인 필드는 다음에 포함된 완전한 유니코드 alpha-numeric 문자여야 합니다. [`\p{L}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AL%3A%5D&g=&i=)
+, [`\p{M}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AM%3A%5D&g=&i=)
+, [`\p{N}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AN%3A%5D&g=&i=)
+에 포함된 유니코드 및 숫자와 ASCII 대시(`-`) 및 ASCII 밑줄(`_`)로만 구성되어야 합니다.
+
+(역자주: alpha-numeric 문자는 영어 알파벳 뿐만 아니라 다른 문자의 알파벳도 허용하며 수 뿐만 아니라 수로 표현되는 문자열도 허용합니다.)
+
+To restrict this validation rule to characters in the ASCII range (`a-z` and `A-Z`), you may provide the `ascii` option to the validation rule:
+
+이 유효성 검사 규칙을 ASCII 범위의 문자(`a-z` 및 `A-Z`)로 제한하려면 유효성 검사 규칙에 `ascii` 옵션을 제공하면 됩니다.
+
+```php
+'username' => 'alpha_dash:ascii',
+```
 
 <a name="rule-alpha-num"></a>
 #### alpha_num
 #### alpha_num
 
-The field under validation must be entirely alpha-numeric characters.
+The field under validation must be entirely Unicode alpha-numeric characters contained in [`\p{L}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AL%3A%5D&g=&i=), [`\p{M}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AM%3A%5D&g=&i=), and [`\p{N}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AN%3A%5D&g=&i=).
 
-필드의 값이 완벽하게 (숫자나 기호가 아닌) 알파벳[자음과 모음] 문자 및 숫자로 이루어져야 합니다.
+검증 중인 필드는 다음에 포함된 완전한 유니코드 alpha-numeric 문자여야 합니다. [`\p{L}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AL%3A%5D&g=&i=)
+, [`\p{M}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AM%3A%5D&g=&i=)
+, [`\p{N}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AN%3A%5D&g=&i=)
+에 포함된 유니코드 및 숫자로만 구성되어야 합니다.
+
+(역자주: alpha-numeric 문자는 영어 알파벳 뿐만 아니라 다른 문자의 알파벳도 허용하며 수 뿐만 아니라 수로 표현되는 문자열도 허용합니다.)
+
+To restrict this validation rule to characters in the ASCII range (`a-z` and `A-Z`), you may provide the `ascii` option to the validation rule:
+
+이 유효성 검사 규칙을 ASCII 범위의 문자(`a-z` 및 `A-Z`)로 제한하려면 유효성 검사 규칙에 `ascii` 옵션을 제공하면 됩니다.
+
+```php
+'username' => 'alpha_num:ascii',
+```
 
 <a name="rule-array"></a>
 #### array
@@ -1219,7 +1298,7 @@ The field under validation must be a PHP `array`.
 
 When additional values are provided to the `array` rule, each key in the input array must be present within the list of values provided to the rule. In the following example, the `admin` key in the input array is invalid since it is not contained in the list of values provided to the `array` rule:
 
-`array` 규칙에 추가 값이 제공되면 입력 배열의 각 키는 규칙에 제공된 값 목록 내에 있어야 합니다. 다음 예에서 입력 배열의 `admin` 키는 `array` 규칙에 제공된 값 목록에 포함되어 있지 않기 때문에 유효하지 않습니다.
+`array` 규칙에 추가 값이 제공되면 input-입력 배열의 각 키는 규칙에 제공된 값 목록 내에 있어야 합니다. 다음 예에서 input-입력 배열의 `admin` 키는 `array` 규칙에 제공된 값인 `array:name,username`의 목록에 포함되어 있지 않기 때문에 유효하지 않습니다.
 
     use Illuminate\Support\Facades\Validator;
 
@@ -1235,9 +1314,9 @@ When additional values are provided to the `array` rule, each key in the input a
         'user' => 'array:name,username',
     ]);
 
-In general, you should always specify the array keys that are allowed to be present within your array. 
+In general, you should always specify the array keys that are allowed to be present within your array.
 
-일반적으로 배열 내에 존재하도록 허용된 배열 키를 항상 지정해야 합니다.
+일반적으로 입력 배열에 존재되도록 허용할 키들을 array 규칙에 항상 지정하여 허가하지 않은 값이 통과되지 않도록 합니다.
 
 <a name="rule-ascii"></a>
 #### ascii
@@ -1245,7 +1324,7 @@ In general, you should always specify the array keys that are allowed to be pres
 
 The field under validation must be entirely 7-bit ASCII characters.
 
-필드의 값이 완벽하게 7비트 ASCII 문자로 이루어져야 합니다.
+필드의 값이 완벽하게 7비트의 ASCII 문자로 이루어져야 합니다.
 
 <a name="rule-bail"></a>
 #### bail
@@ -1257,7 +1336,7 @@ Stop running validation rules for the field after the first validation failure.
 
 While the `bail` rule will only stop validating a specific field when it encounters a validation failure, the `stopOnFirstFailure` method will inform the validator that it should stop validating all attributes once a single validation failure has occurred:
 
-`bail` 규칙은 유효성 검사 실패가 발생한 경우에만 특정 필드의 유효성 검사를 중지하지만, `stopOnFirstFailure` 메서드는 단일 유효성 검사 실패가 발생하면 모든 속성 유효성 검사를 중지해야 한다고 유효성 검사기에 알립니다.
+`bail` 규칙은 유효성 검사 실패가 발생한 경우에만 특정 필드의 유효성 검사를 중지하지만, `stopOnFirstFailure` 메서드는 단일 유효성 검사 실패가 발생하면 모든 속성의 유효성 검사를 중지해야 한다고 validator에 지시합니다.
 
     if ($validator->stopOnFirstFailure()->fails()) {
         // ...
@@ -1269,7 +1348,7 @@ While the `bail` rule will only stop validating a specific field when it encount
 
 The field under validation must be a value preceding the given date. The dates will be passed into the PHP `strtotime` function in order to be converted into a valid `DateTime` instance. In addition, like the [`after`](#rule-after) rule, the name of another field under validation may be supplied as the value of `date`.
 
-검증 중인 필드는 지정된 날짜 이전의 값이어야 합니다. 날짜는 유효한 `DateTime` 인스턴스로 변환하기 위해 PHP `strtotime` 함수를 사용합니다. 또한, [`after`](#rule-after) 규칙과 마찬가지로 유효성 검사 중인 다른 필드의 이름이 `date` 값으로 제공될 수 있습니다.
+검증 중인 필드는 지정된 날짜 이전의 날짜이어야 합니다. 날짜는 유효한 `DateTime` 인스턴스로 변환하기 위해 PHP `strtotime` 함수를 사용합니다. 또한, [`after`](#rule-after) 규칙과 마찬가지로 유효성 검사 중인 다른 필드의 이름이 `date` 값으로 제공될 수 있습니다.
 
 <a name="rule-before-or-equal"></a>
 #### before\_or\_equal:_date_
@@ -1277,7 +1356,7 @@ The field under validation must be a value preceding the given date. The dates w
 
 The field under validation must be a value preceding or equal to the given date. The dates will be passed into the PHP `strtotime` function in order to be converted into a valid `DateTime` instance. In addition, like the [`after`](#rule-after) rule, the name of another field under validation may be supplied as the value of `date`.
 
-유효성 검사 중인 필드는 지정된 날짜 이전 또는 같은 값이어야 합니다. 날짜는 유효한 `DateTime` 인스턴스로 변환하기 위해 PHP `strtotime` 함수를 사용합니다. 또한, [`after`](#rule-after) 규칙과 마찬가지로 유효성 검사 중인 다른 필드의 이름이 `date` 값으로 제공될 수 있습니다.
+검증 중인 필드는 지정된 날짜 이전 또는 같은 값이어야 합니다. 날짜는 유효한 `DateTime` 인스턴스로 변환하기 위해 PHP `strtotime` 함수를 사용합니다. 또한, [`after`](#rule-after) 규칙과 마찬가지로 유효성 검사 중인 다른 필드의 이름이 `date` 값으로 제공될 수 있습니다.
 
 <a name="rule-between"></a>
 #### between:_min_,_max_
@@ -1285,7 +1364,7 @@ The field under validation must be a value preceding or equal to the given date.
 
 The field under validation must have a size between the given _min_ and _max_ (inclusive). Strings, numerics, arrays, and files are evaluated in the same fashion as the [`size`](#rule-size) rule.
 
-필드의 값이, 주어진 _min_ 과 _max_ 의 사이(포함)의 값이어야 합니다. 문자열, 숫자, 그리고 파일이 [`size`](#rule-size) 규칙에 의해 같은 방식으로 계산될 수 있습니다.
+검증 중인 필드의 값이, 주어진 _min_ 과 _max_ 의 사이(포함)의 값이어야 합니다. 문자열, 숫자, 그리고 파일이 [`size`](#rule-size) 규칙에 의해 같은 방식으로 평가될 수 있습니다.
 
 <a name="rule-boolean"></a>
 #### boolean
@@ -1293,7 +1372,7 @@ The field under validation must have a size between the given _min_ and _max_ (i
 
 The field under validation must be able to be cast as a boolean. Accepted input are `true`, `false`, `1`, `0`, `"1"`, and `"0"`.
 
-필드의 값이 반드시 boolean으로 캐스팅될 수 있어야 합니다. 허용되는 값은 `true`, `false`, `1`, `0`, `"1"`, `"0"` 입니다.
+검사 중인 필드의 값이 반드시 불리언으로 형변환이 될 수 있어야 합니다. 허용되는 값은 `true`, `false`, `1`, `0`, `"1"`, `"0"` 입니다.
 
 <a name="rule-confirmed"></a>
 #### confirmed
@@ -1333,9 +1412,9 @@ The field under validation must be equal to the given date. The dates will be pa
 #### date_format:_format_,...
 #### date_format:_format_,...
 
-The field under validation must match one of the given _format_. You should use **either** `date` or `date_format` when validating a field, not both. This validation rule supports all formats supported by PHP's [DateTime](https://www.php.net/manual/en/class.datetime.php) class.
+The field under validation must match one of the given _formats_. You should use **either** `date` or `date_format` when validating a field, not both. This validation rule supports all formats supported by PHP's [DateTime](https://www.php.net/manual/en/class.datetime.php) class.
 
-검증 중인 필드는 지정된 _format_ 중 하나와 일치해야 합니다. 필드의 유효성을 검사할 때 `date` 또는 `date_format` 중 **하나만** 사용해야 합니다. 이 유효성 검사 규칙은 PHP의 [DateTime](https://www.php.net/manual/en/class.datetime.php) 클래스에서 지원하는 모든 형식을 지원합니다.
+검증 중인 필드는 지정된 _formats_ 중 하나와 일치해야 합니다. 필드의 유효성을 검사할 때 `date` 또는 `date_format` 중 **하나만** 사용해야 합니다. 이 유효성 검사 규칙은 PHP의 [DateTime](https://www.php.net/manual/en/class.datetime.php) 클래스에서 지원하는 모든 형식을 지원합니다.
 
 <a name="rule-decimal"></a>
 #### decimal:_min_,_max_
@@ -1343,7 +1422,7 @@ The field under validation must match one of the given _format_. You should use 
 
 The field under validation must be numeric and must contain the specified number of decimal places:
 
-검증 중인 필드는 숫자이고 지정된 소수점 자릿수를 포함해야 합니다.
+검증 중인 필드는 numeric이고 지정된 소수점 자릿수를 포함해야 합니다.
 
     // Must have exactly two decimal places (9.99)...
     'price' => 'decimal:2'
@@ -1389,7 +1468,7 @@ The integer under validation must have an exact length of _value_.
 
 The integer validation must have a length between the given _min_ and _max_.
 
-integer 유효성 검증은 주어진 _min_ 과 _max_ 사이의 길이를 가져야 합니다.
+정수 유효성 검증은 주어진 _min_ 과 _max_ 사이의 길이를 가져야 합니다.
 
 <a name="rule-dimensions"></a>
 #### dimensions
@@ -1397,7 +1476,7 @@ integer 유효성 검증은 주어진 _min_ 과 _max_ 사이의 길이를 가져
 
 The file under validation must be an image meeting the dimension constraints as specified by the rule's parameters:
 
-필드의 값이 규칙에 지정된 파라미터들을 만족하는 이미지이어야 합니다.
+검중 중인 파일은 필드의 값이 규칙에 지정된 파라미터들을 만족하는 이미지여야 합니다.
 
     'avatar' => 'dimensions:min_width=100,min_height=200'
 
@@ -1413,7 +1492,7 @@ _ratio_ 제약 조건은 너비를 높이로 나눈 값으로 표시해야 합�
 
 Since this rule requires several arguments, you may use the `Rule::dimensions` method to fluently construct the rule:
 
-이 규칙은 여러개의 인자를 필요로 하는데, 다음처럼 `Rule:dimensions` 메소드를 사용하여 유연하게 규칙을 생성할 수 있습니다.
+이 규칙은 여러개의 인자를 필요로 하는데, 다음처럼 `Rule:dimensions` 메소드를 사용하여 우아하게 규칙을 생성할 수 있습니다.
 
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Validation\Rule;
@@ -1437,13 +1516,13 @@ When validating arrays, the field under validation must not have any duplicate v
 
 Distinct uses loose variable comparisons by default. To use strict comparisons, you may add the `strict` parameter to your validation rule definition:
 
-Distinct는 기본적으로 느슨한 변수 비교를 사용합니다. 엄격한 비교를 사용하려면 유효성 검사 규칙 정의에 `strict` 매개변수를 추가할 수 있습니다.
+`Distinct`는 기본적으로 느슨한 변수 비교를 사용합니다. 엄격한 비교를 사용하려면 유효성 검사 규칙 정의에 `strict` 매개변수를 추가하면 됩니다.
 
     'foo.*.id' => 'distinct:strict'
 
 You may add `ignore_case` to the validation rule's arguments to make the rule ignore capitalization differences:
 
-유효성 검사 규칙의 인수에 `ignore_case`를 추가하여 규칙이 대소문자 차이를 무시하도록 할 수 있습니다.
+유효성 검사 규칙의 인자에 `ignore_case`를 추가하여 규칙이 대소문자 차이를 무시하도록 할 수 있습니다.
 
     'foo.*.id' => 'distinct:ignore_case'
 
@@ -1460,6 +1539,7 @@ The field under validation must not start with one of the given values.
 #### doesnt_end_with:_foo_,_bar_,...
 
 The field under validation must not end with one of the given values.
+
 유효성 검사 중인 필드는 지정된 값 중 하나로 끝나지 않아야 합니다.
 
 <a name="rule-email"></a>
@@ -1468,13 +1548,15 @@ The field under validation must not end with one of the given values.
 
 The field under validation must be formatted as an email address. This validation rule utilizes the [`egulias/email-validator`](https://github.com/egulias/EmailValidator) package for validating the email address. By default, the `RFCValidation` validator is applied, but you can apply other validation styles as well:
 
-검증 중인 필드는 이메일 주소 형식이어야 합니다. 이 검증 규칙은 이메일 주소 검증을 위해 [`egulias/email-validator`](https://github.com/egulias/EmailValidator) 패키지를 사용합니다. 기본적으로 `RFCValidation` 유효성 검사기가 적용되지만 다른 유효성 검사 스타일도 적용할 수 있습니다.
+검증 중인 필드는 이메일 주소 형식이어야 합니다. 이 검증 규칙은 이메일 주소 검증을 위해 [`egulias/email-validator`](https://github.com/egulias/EmailValidator) 패키지를 사용합니다. 기본적으로 `RFCValidation` validator가 적용되지만 다른 유효성 검사 스타일도 적용할 수 있습니다.
 
     'email' => 'email:rfc,dns'
 
 The example above will apply the `RFCValidation` and `DNSCheckValidation` validations. Here's a full list of validation styles you can apply:
 
 위의 예시는 `RFCValidation`와 `DNSCheckValidation` 유효성 검사를 적용합니다. 가능한 모든 유효성 검사 방법은 아래를 참조하십시오.
+
+<div class="content-list" markdown="1">
 
 - `rfc`: `RFCValidation`
 - `strict`: `NoRFCWarningsValidation`
@@ -1483,15 +1565,17 @@ The example above will apply the `RFCValidation` and `DNSCheckValidation` valida
 - `filter`: `FilterEmailValidation`
 - `filter_unicode`: `FilterEmailValidation::unicode()`
 
+</div>
+
 The `filter` validator, which uses PHP's `filter_var` function, ships with Laravel and was Laravel's default email validation behavior prior to Laravel version 5.8.
 
-PHP의 `filter_var` 기능을 사용하는 `filter` 유효성 검사기는 라라벨과 함께 제공되며 라라벨 버전 5.8 이전에 라라벨의 기본 이메일 유효성 검사 동작이었습니다.
+PHP의 `filter_var` 기능을 사용하는 `filter` validator는 라라벨과 함께 제공되며 라라벨 버전 5.8 이전에 라라벨의 기본 이메일 유효성 검사 동작이었습니다.
 
 > **Warning**  
 > The `dns` and `spoof` validators require the PHP `intl` extension.
 
 > **Warning**  
-> `dns` 및 `spoof` 유효성 검사기는 PHP `intl` 확장이 필요합니다.
+> `dns` 및 `spoof` validator는 PHP `intl` 확장이 필요합니다.
 
 <a name="rule-ends-with"></a>
 #### ends_with:_foo_,_bar_,...
@@ -1499,7 +1583,7 @@ PHP의 `filter_var` 기능을 사용하는 `filter` 유효성 검사기는 라�
 
 The field under validation must end with one of the given values.
 
-필드의 값이 주어진 값 중 하나로 끝나야합니다.
+검증 중인 필드의 값이 주어진 값 중 하나로 끝나야합니다.
 
 <a name="rule-enum"></a>
 #### enum
@@ -1507,7 +1591,7 @@ The field under validation must end with one of the given values.
 
 The `Enum` rule is a class based rule that validates whether the field under validation contains a valid enum value. The `Enum` rule accepts the name of the enum as its only constructor argument:
 
-`Enum` 규칙은 유효성 검사 중인 필드에 유효한 열거형 값이 포함되어 있는지 확인하는 클래스 기반 규칙입니다. `Enum` 규칙은 enum의 이름을 유일한 생성자 인수로 허용합니다.
+`Enum` 규칙은 클래스 기반 규칙입니다. `Enum` 규칙은 유효성 검사 중인 필드가 enum 값에 포함되어 있는 유효한 값인지 검증합니다. `Enum` 규칙은 생성자 인자로 enum의 이름만을 받습니다. 아래 예시에서 ServerStatus라는 enum의 이름을 받아 enum 형식의 클래스를 인스턴스화한 값을 `status` 필드를 검증하는데 할당하였습니다. 그러면 input-입력 데이터의 `status` 필드의 값이 ServerStatus라는 enum 클래스에 열거된 값과 일치하는지 확인합니다.
 
     use App\Enums\ServerStatus;
     use Illuminate\Validation\Rules\Enum;
@@ -1528,7 +1612,7 @@ The `Enum` rule is a class based rule that validates whether the field under val
 
 The field under validation will be excluded from the request data returned by the `validate` and `validated` methods.
 
-유효성 검사 중인 필드는 `validate` 및 `validated` 메서드에서 반환된 요청 데이터에서 제외됩니다.
+검증 중인 필드는 유효성 검사를 수행하지 않고 `validate` 및 `validated` 메서드에서 리퀘스트 데이터를 반환할 때 해당 필드를 제외합니다.
 
 <a name="rule-exclude-if"></a>
 #### exclude_if:_anotherfield_,_value_
@@ -1536,11 +1620,11 @@ The field under validation will be excluded from the request data returned by th
 
 The field under validation will be excluded from the request data returned by the `validate` and `validated` methods if the _anotherfield_ field is equal to _value_.
 
-_anotherfield_ 필드가 _value_ 와 같은 경우 유효성 검증 대상 필드는 `validate` 및 `validated` 메소드가 리턴 한 request 데이터에서 제외됩니다.
+다른 필드 _anotherfield_ 의 필드값이 _value_ 와 같은 경우 검증 중인 필드는 유효성 검사를 수행하지 않고 `validate` 및 `validated` 메서드에서 리퀘스트 데이터를 반환할 때 해당 필드를 제외합니다.
 
 If complex conditional exclusion logic is required, you may utilize the `Rule::excludeIf` method. This method accepts a boolean or a closure. When given a closure, the closure should return `true` or `false` to indicate if the field under validation should be excluded:
 
-복잡한 조건부 제외 로직이 필요하다면 `Rule:excludeIf` 메서드를 활용할 수 있습니다. 이 메서드는 부울 또는 클로저를 받습니다. 클로저가 주어지는 경우 클로저는 검증하려는 필드가 제외되어야 하는지 나타내기 위해 `true` 나 `false` 를 반환해야 합니다.
+복잡한 조건부 제외 로직이 필요하다면 `Rule:excludeIf` 메서드를 활용할 수 있습니다. 이 메서드는 불리언 또는 클로저를 받습니다. 클로저가 주어지는 경우 클로저는 검증하려는 필드가 제외되어야 하는지 나타내기 위해 `true` 나 `false` 를 반환해야 합니다.
 
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Validation\Rule;
@@ -1559,7 +1643,7 @@ If complex conditional exclusion logic is required, you may utilize the `Rule::e
 
 The field under validation will be excluded from the request data returned by the `validate` and `validated` methods unless _anotherfield_'s field is equal to _value_. If _value_ is `null` (`exclude_unless:name,null`), the field under validation will be excluded unless the comparison field is `null` or the comparison field is missing from the request data.
 
-유효성 검사 중인 필드는 _anotherfield_ 의 필드가 _value_ 와 같지 않은 한 `validate` 및 `validated` 메서드가 반환하는 요청 데이터에서 제외됩니다. _value_ 가 `null`(`exclude_unless:name,null`)이면 비교 필드가 `null`이 아니거나 요청 데이터에서 비교 필드가 누락되지 않는 한 유효성 검사 중인 필드가 제외됩니다.
+유효성 검사 중인 필드는 다른 필드 _anotherfield_ 의 필드값이 _value_ 와 같지 않은 한 `validate` 및 `validated` 메서드가 반환하는 리퀘스트 데이터에서 해당 필드는 제외됩니다. _value_ 가 `null`(`exclude_unless:name,null`)이면 비교 필드가 `null`이 아니거나 리퀘스트 데이터에서 비교 필드가 누락되지 않는 한 유효성 검사 중인 필드가 제외됩니다.
 
 <a name="rule-exclude-with"></a>
 #### exclude_with:_anotherfield_
@@ -1567,7 +1651,7 @@ The field under validation will be excluded from the request data returned by th
 
 The field under validation will be excluded from the request data returned by the `validate` and `validated` methods if the _anotherfield_ field is present.
 
-_anotherfield_ 필드가 존재하면 유효성 검증 중인 필드는 `validate` 와 `validated` 메서드에 의해 반환되는 요청 데이터에서 제외될 것입니다.
+_anotherfield_ 필드가 존재하면 검증 중인 필드는 `validate` 와 `validated` 메서드에 의해 반환되는 리퀘스트 데이터에서 제외될 것입니다.
 
 <a name="rule-exclude-without"></a>
 #### exclude_without:_anotherfield_
@@ -1575,7 +1659,7 @@ _anotherfield_ 필드가 존재하면 유효성 검증 중인 필드는 `validat
 
 The field under validation will be excluded from the request data returned by the `validate` and `validated` methods if the _anotherfield_ field is not present.
 
-유효성 검사 중인 필드는 _anotherfield_ 필드가 없으면 `validate` 및 `validated` 메서드가 반환하는 요청 데이터에서 제외됩니다.
+유효성 검사 중인 필드는 _anotherfield_ 필드가 존재하지 않으면 `validate` 및 `validated` 메서드가 반환하는 리퀘스트 데이터에서 제외됩니다.
 
 <a name="rule-exists"></a>
 #### exists:_table_,_column_
@@ -1593,7 +1677,7 @@ The field under validation must exist in a given database table.
 
 If the `column` option is not specified, the field name will be used. So, in this case, the rule will validate that the `states` database table contains a record with a `state` column value matching the request's `state` attribute value.
 
-`column` 옵션을 지정하지 않으면 필드 이름이 사용됩니다. 따라서 이 경우 규칙은 `states` 데이터베이스 테이블에 요청의 `state` 속성 값과 일치하는 `state` 열 값이 있는 레코드가 포함되어 있는지 확인합니다.
+`column` 옵션을 지정하지 않으면 필드 이름이 사용됩니다. 따라서 이 경우 규칙은 `states` 데이터베이스 테이블의 `state` 컬럼에서 리퀘스트의 `state` 속성 값과 일치하는 값의 레코드가 포함되어 있는지 확인합니다.
 
 <a name="specifying-a-custom-column-name"></a>
 #### Specifying A Custom Column Name
@@ -1601,33 +1685,34 @@ If the `column` option is not specified, the field name will be used. So, in thi
 
 You may explicitly specify the database column name that should be used by the validation rule by placing it after the database table name:
 
-데이터베이스 테이블 이름 뒤에 배치하여 유효성 검사 규칙에서 사용해야 하는 데이터베이스 열 이름을 명시적으로 지정할 수 있습니다.
+레코드에 값이 있는지 확인하기 위해 대상 컬럼을 지정할 때, 데이터베이스 테이블 이름을 바로 뒤에 나열하여, 지정한 컬럼 이름이 어느 테이블에 속해 있는지 명시적으로 지정할 수 있습니다.
 
     'state' => 'exists:states,abbreviation'
 
 Occasionally, you may need to specify a specific database connection to be used for the `exists` query. You can accomplish this by prepending the connection name to the table name:
 
-경우에 따라 `exists` 쿼리에 사용할 특정 데이터베이스 연결을 지정해야 할 수도 있습니다. 테이블 이름 앞에 연결 이름을 추가하여 이를 수행할 수 있습니다.
+경우에 따라 `exists` 쿼리에 사용할 특정 데이터베이스 커넥션을 지정해야 할 수도 있습니다. 테이블 이름 앞에 커넥션 이름을 추가하여 이를 수행할 수 있습니다.
 
     'email' => 'exists:connection.staff,email'
 
 Instead of specifying the table name directly, you may specify the Eloquent model which should be used to determine the table name:
 
-테이블 이름을 직접 지정하는 대신 테이블 이름을 결정하는 데 사용해야하는 Eloquent 모델을 지정할 수 있습니다.
+테이블 이름을 직접 지정하는 대신 테이블 이름을 결정하는 데 사용해야하는 엘로퀀트 모델을 지정할 수 있습니다.
 
     'user_id' => 'exists:App\Models\User,id'
 
 If you would like to customize the query executed by the validation rule, you may use the `Rule` class to fluently define the rule. In this example, we'll also specify the validation rules as an array instead of using the `|` character to delimit them:
 
-유효성 검사 규칙에 의해서 실행되는 쿼리를 커스터마이징 하고자 한다면, 규칙에 `Rule` 클래스를 정의해서 사용할 수 있습니다. 다음 예제에서 `|` 문자를 구분자로 사용하는 대신에 유효성 검사 규칙을 배열로 지정하고 있습니다.
+유효성 검사 규칙에 의해서 실행되는 쿼리를 커스터마이징 하고자 한다면, 규칙에 `Rule` 클래스를 정의해서 사용할 수 있습니다. 다음 예제에서는 `|` 문자를 구분자로 사용하는 대신에 유효성 검사 규칙을 배열로 지정하고 있습니다.
 
+    use Illuminate\Database\Query\Builder;
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Validation\Rule;
 
     Validator::make($data, [
         'email' => [
             'required',
-            Rule::exists('staff')->where(function ($query) {
+            Rule::exists('staff')->where(function (Builder $query) {
                 return $query->where('account_id', 1);
             }),
         ],
@@ -1635,7 +1720,7 @@ If you would like to customize the query executed by the validation rule, you ma
 
 You may explicitly specify the database column name that should be used by the `exists` rule generated by the `Rule::exists` method by providing the column name as the second argument to the `exists` method:
 
-`exists` 메서드의 두번째 인수로 컬럼명을 제공함으로써 `Rule::exists` 메서드에 의해 생성된 `exists` 규칙에 의해 사용될 데이터베이스 컬럼 이름을 명시적으로 지정할 수 있습니다. 
+`exists` 메서드의 두 번째 인자로 컬럼명을 제공함으로써 `Rule::exists` 메서드에 의해 생성된 `exists` 규칙에서 사용되는 데이터베이스 컬럼 이름이 어느 테이블에 속해 있는지 명시적으로 지정할 수 있습니다. 아래의 예시는 `states` 컬럼이 `abbreviation` 테이블에 속해 있음을 나타냅니다.
 
     'state' => Rule::exists('states', 'abbreviation'),
 
@@ -1645,7 +1730,7 @@ You may explicitly specify the database column name that should be used by the `
 
 The field under validation must be a successfully uploaded file.
 
-필드의 값이 완전히 업로드된 파일이어야 합니다.
+검증 중인 필드는 성공적으로 업로드된 파일이어야 합니다.
 
 <a name="rule-filled"></a>
 #### filled
@@ -1661,7 +1746,7 @@ The field under validation must not be empty when it is present.
 
 The field under validation must be greater than the given _field_. The two fields must be of the same type. Strings, numerics, arrays, and files are evaluated using the same conventions as the [`size`](#rule-size) rule.
 
-필드의 값이 주어진 다른 필드의 값보다 커야합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 [`size`](#rule-size) 규칙에 따라서 계산됩니다.
+필드의 값이 지정한 _field_ 의 값보다 커야합니다. 검증 중인 필드와 지정된 두 필드는 동일한 타입이어야 하며, 문자열, numerics, 배열 그리고 파일 타입은 [`size`](#rule-size) 규칙에 따라서 계산됩니다.
 
 <a name="rule-gte"></a>
 #### gte:_field_
@@ -1669,7 +1754,7 @@ The field under validation must be greater than the given _field_. The two field
 
 The field under validation must be greater than or equal to the given _field_. The two fields must be of the same type. Strings, numerics, arrays, and files are evaluated using the same conventions as the [`size`](#rule-size) rule.
 
-필드의 값이 주어진 다른 필드의 값보다 크거나 같아야합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 [`size`](#rule-size) 규칙에 따라서 계산됩니다.
+필드의 값이 지정한 _field_ 의 값보다 크거나 같아야합니다. 검증 중인 필드와 지정된 두 필드는 동일한 타입이어야 하며, 문자열, numeric, 배열 그리고 파일 타입은 [`size`](#rule-size) 규칙에 따라서 계산됩니다.
 
 <a name="rule-image"></a>
 #### image
@@ -1685,7 +1770,7 @@ The file under validation must be an image (jpg, jpeg, png, bmp, gif, svg, or we
 
 The field under validation must be included in the given list of values. Since this rule often requires you to `implode` an array, the `Rule::in` method may be used to fluently construct the rule:
 
-필드의 값이 주어진 목록에 포함돼 있어야 합니다. 이 규칙은 자주 배열을 `implode` 하는 것을 필요로 하며, 다음처럼 `Rule:in` 메소드를 사용하여 편리하게 생성할 수 있습니다.
+검증 중인 필드는 주어진 목록에 포함돼 있어야 합니다. 이 규칙은 `in:_foo_,_bar_,...`으로 단일한 문자열으로 적는 방법도 있지만 경우에 따라 `Rule::in` 메소드로 배열을 `implode`하는 방식으로 우아하게 구성할 수도 있습니다.
 
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Validation\Rule;
@@ -1699,7 +1784,7 @@ The field under validation must be included in the given list of values. Since t
 
 When the `in` rule is combined with the `array` rule, each value in the input array must be present within the list of values provided to the `in` rule. In the following example, the `LAS` airport code in the input array is invalid since it is not contained in the list of airports provided to the `in` rule:
 
-`in` 규칙이 `array` 규칙과 결합되면 입력 배열의 각 값이 `in` 규칙에 제공된 값 목록 내에 있어야 합니다. 다음 예에서 입력 배열의 `LAS` 공항 코드는 `in` 규칙에 제공된 공항 목록에 포함되어 있지 않기 때문에 유효하지 않습니다.
+`in` 규칙이 `array` 규칙과 결합되면 input-입력 배열의 각 값이 `in` 규칙에 제공된 값 목록 내에 있어야 합니다. 다음 예에서 input-입력 배열의 `LAS` 공항 코드는 `in` 규칙에 제공된 공항 목록에 포함되어 있지 않기 때문에 유효하지 않습니다.
 
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Validation\Rule;
@@ -1723,7 +1808,7 @@ When the `in` rule is combined with the `array` rule, each value in the input ar
 
 The field under validation must exist in _anotherfield_'s values.
 
-필드의 값이 주어진 _다른 필드_ 의 값안에 존재해야만 합니다.
+검중 중인 필드의 값은 다른 필드 _anotherfield_ 에 있는 값의 목록에 존재해야 합니다. `_anotherfield_.*`에서 뒤에 `*`가 있는 것은 _anotherfield_ 필드에 속한 값의 목록을 지정하기 위해서입니다.
 
 <a name="rule-integer"></a>
 #### integer
@@ -1731,13 +1816,13 @@ The field under validation must exist in _anotherfield_'s values.
 
 The field under validation must be an integer.
 
-필드의 값이 정수여야 합니다.
+검증 중인 필드의 값은 정수여야 합니다.
 
 > **Warning**  
 > This validation rule does not verify that the input is of the "integer" variable type, only that the input is of a type accepted by PHP's `FILTER_VALIDATE_INT` rule. If you need to validate the input as being a number please use this rule in combination with [the `numeric` validation rule](#rule-numeric).
 
-> **Warning**  
-> 이 유효성 검사 규칙은 입력이 "정수" 변수 유형인지 확인하지 않고 입력이 PHP의 `FILTER_VALIDATE_INT` 규칙에 의해 허용되는 유형인지만 확인합니다. 입력이 숫자인지 확인해야 하는 경우 ['숫자' 유효성 검사 규칙](#rule-numeric)과 함께 이 규칙을 사용하세요.
+> **Warning**
+> 이 유효성 검사 규칙은 입력이 "정수" 변수 유형인지 확인하지 않고 입력이 PHP의 `FILTER_VALIDATE_INT` 규칙에 의해 허용되는 유형인지만 확인합니다. 입력이 숫자인지 확인해야 하는 경우 ['numeric' 유효성 검사 규칙](#rule-numeric)과 함께 이 규칙을 사용하세요.
 
 <a name="rule-ip"></a>
 #### ip
@@ -1745,7 +1830,7 @@ The field under validation must be an integer.
 
 The field under validation must be an IP address.
 
-필드의 값이 IP 주소여야 합니다.
+검증 중인 필드의 값이 IP 주소여야 합니다.
 
 <a name="ipv4"></a>
 #### ipv4
@@ -1753,7 +1838,7 @@ The field under validation must be an IP address.
 
 The field under validation must be an IPv4 address.
 
-필드의 값이 IPv4 주소여야 합니다.
+검증 중인 필드의 값이 IPv4 주소여야 합니다.
 
 <a name="ipv6"></a>
 #### ipv6
@@ -1761,7 +1846,7 @@ The field under validation must be an IPv4 address.
 
 The field under validation must be an IPv6 address.
 
-필드의 값이 IPv6 주소여야 합니다.
+검증 중인 필드의 값이 IPv6 주소여야 합니다.
 
 <a name="rule-json"></a>
 #### json
@@ -1769,7 +1854,7 @@ The field under validation must be an IPv6 address.
 
 The field under validation must be a valid JSON string.
 
-필드의 값이 유효한 JSON 문자열이어야 합니다.
+검증 중인 필드의 값이 유효한 JSON 문자열이어야 합니다.
 
 <a name="rule-lt"></a>
 #### lt:_field_
@@ -1777,7 +1862,7 @@ The field under validation must be a valid JSON string.
 
 The field under validation must be less than the given _field_. The two fields must be of the same type. Strings, numerics, arrays, and files are evaluated using the same conventions as the [`size`](#rule-size) rule.
 
-필드의 값이 주어진 다른 필드의 값보다 작아야 합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 [`size`](#rule-size) 규칙에 따라서 계산됩니다.
+검증 중인 필드는 지정된 _field_의 값보다 작아야 합니다. 검증 중인 필드와 지정한 필드는 동일한 타입이어야 하며, 문자열, numerics, 배열 및 파일은 [`size`](#rule-size) 규칙과 동일한 규칙을 사용하여 평가됩니다.
 
 <a name="rule-lte"></a>
 #### lte:_field_
@@ -1785,7 +1870,7 @@ The field under validation must be less than the given _field_. The two fields m
 
 The field under validation must be less than or equal to the given _field_. The two fields must be of the same type. Strings, numerics, arrays, and files are evaluated using the same conventions as the [`size`](#rule-size) rule.
 
-필드의 값이 주어진 다른 필드의 값보다 적거나 같아야 합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 [`size`](#rule-size) 규칙에 따라서 계산됩니다.
+검증 중인 필드의 값이 주어진 다른 필드 _field_ 의 값과 같거나 보다 작아야 합니다. 검증 중인 필드와 지정된 다른 두 필드는 동일한 타입이어야 하며, 문자열, numerics, 배열 그리고 파일 타입은 [`size`](#rule-size) 규칙에 따라서 평가됩니다.
 
 <a name="rule-lowercase"></a>
 #### lowercase
@@ -1809,7 +1894,7 @@ The field under validation must be a MAC address.
 
 The field under validation must be less than or equal to a maximum _value_. Strings, numerics, arrays, and files are evaluated in the same fashion as the [`size`](#rule-size) rule.
 
-필드의 값이 반드시 _value_ 보다 작거나 같아야 합니다. 문자열, 숫자, 그리고 파일이 [`size`](#rule-size) 규칙에 의해 같은 방식으로 평가될 수 있습니다.
+필드의 값이 반드시 최대값인 _value_ 보다 작거나 같아야 합니다. 문자열, numerics, 그리고 파일이 [`size`](#rule-size) 규칙에 의해 같은 방식으로 평가될 수 있습니다.
 
 <a name="rule-max-digits"></a>
 #### max_digits:_value_
@@ -1817,7 +1902,7 @@ The field under validation must be less than or equal to a maximum _value_. Stri
 
 The integer under validation must have a maximum length of _value_.
 
-유효성 검증 중인 정수츼 최대 길이는 _value_ 여야 합니다.
+검증 중인 정수의 최대 길이는 _value_ 여야 합니다.
 
 <a name="rule-mimetypes"></a>
 #### mimetypes:_text/plain_,...
@@ -1825,13 +1910,14 @@ The integer under validation must have a maximum length of _value_.
 
 The file under validation must match one of the given MIME types:
 
-파일이 주어진 MIME 타입들 중 하나와 일치해야만 합니다.
+검증 중인 파일은 주어진 MIME 타입들 중 하나와 일치해야만 합니다.
 
     'video' => 'mimetypes:video/avi,video/mpeg,video/quicktime'
 
 To determine the MIME type of the uploaded file, the file's contents will be read and the framework will attempt to guess the MIME type, which may be different from the client's provided MIME type.
 
-업로드된 파일의 MIME 유형을 결정하기 위해, 파일의 내용을 읽고 프레임워크는 클라이언트가 제공한 MIME 유형과 다를 수 있는 MIME 유형을 추측하려고 시도합니다.
+업로드된 파일의 MIME 유형을 확인하기 위해, 프레임워크는 클라이언트가 업로드한 파일의 내용을 읽고 파일의 MIME 유형을 추측하려고 시도합니다.
+클라이언트가 제공한 파일의 MIME 유형과 프레임워크가 추측한 MIME 유형이 다르다면 라라벨이 판단한 MIME 유형을 따르도록 합니다.
 
 <a name="rule-mimes"></a>
 #### mimes:_foo_,_bar_,...
@@ -1839,7 +1925,7 @@ To determine the MIME type of the uploaded file, the file's contents will be rea
 
 The file under validation must have a MIME type corresponding to one of the listed extensions.
 
-파일의 MIME 타입이 주어진 확장자 리스트 중에 하나와 일치해야 합니다.
+검증 중인 파일의 MIME 타입이 주어진 확장자 리스트 중에 하나와 일치해야 합니다.
 
 <a name="basic-usage-of-mime-rule"></a>
 #### Basic Usage Of MIME Rule
@@ -1849,7 +1935,7 @@ The file under validation must have a MIME type corresponding to one of the list
 
 Even though you only need to specify the extensions, this rule actually validates the MIME type of the file by reading the file's contents and guessing its MIME type. A full listing of MIME types and their corresponding extensions may be found at the following location:
 
-확장자만 지정하면 되지만, 이 규칙은 실제로 파일 내용을 읽고 MIME 유형을 추측하여 파일의 MIME 유형을 확인합니다. MIME 유형 및 해당 확장의 전체 목록은 다음 위치에서 찾을 수 있습니다.
+확장자만 지정하면 되지만, 이 규칙은 실제로 파일 내용을 읽고 MIME 유형을 추측하여 파일의 MIME 유형을 검증합니다. MIME 유형 및 해당 확장의 전체 목록은 다음 위치에서 확인할 수 있습니다.
 
 [https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types](https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)
 
@@ -1861,16 +1947,16 @@ Even though you only need to specify the extensions, this rule actually validate
 
 The field under validation must have a minimum _value_. Strings, numerics, arrays, and files are evaluated in the same fashion as the [`size`](#rule-size) rule.
 
-필드의 값이 반드시 _value_ 보다 크거나 같아야 합니다. 문자열, 숫자, 그리고 파일이 [`size`](#rule-size) 규칙에 의해 같은 방식으로 평가될 수 있습니다.
+필드의 값이 반드시 최소 _value_ 보다 크거나 같아야 합니다. 문자열, numerics, 그리고 파일이 [`size`](#rule-size) 규칙에 의해 같은 방식으로 평가될 수 있습니다.
 
 <a name="rule-min-digits"></a>
 #### min_digits:_value_
 #### min_digits:_value_
 
 The integer under validation must have a minimum length of _value_.
-유효성 검사 중인 정수의 최소 길이는 _value_ 여야 합니다.
+검증 중인 정수의 최소 길이는 _value_ 여야 합니다.
 
-<a name="multiple-of"></a>
+<a name="rule-multiple-of"></a>
 #### multiple_of:_value_
 #### multiple_of:_value_
 
@@ -1884,13 +1970,49 @@ The field under validation must be a multiple of _value_.
 > **Warning**  
 > `multiple_of` 규칙을 사용하려면 [`bcmath` PHP 확장 프로그램](https://www.php.net/manual/en/book.bc.php) 이 필요합니다.
 
+<a name="rule-missing"></a>
+#### missing
+
+The field under validation must not be present in the input data.
+
+검증 중인 필드는 input-입력 데이터에 존재하지 않아야 합니다.
+
+<a name="rule-missing-if"></a>
+#### missing_if:_anotherfield_,_value_,...
+
+The field under validation must not be present if the _anotherfield_ field is equal to any _value_.
+
+검증 중인 필드가 다른 필드 _anotherfield_ 의 값인 _value_ 와 같으면 검증 중인 필드는 존재하지 않아야 합니다.
+
+<a name="rule-missing-unless"></a>
+#### missing_unless:_anotherfield_,_value_
+
+The field under validation must not be present unless the _anotherfield_ field is equal to any _value_.
+
+검증 중인 필드가 다른 필드 _anotherfield_ 의 값인 _value_ 와 같지 않으면 검증 중인 필드는 존재하지 않아야 합니다.
+
+<a name="rule-missing-with"></a>
+#### missing_with:_foo_,_bar_,...
+
+The field under validation must not be present _only if_ any of the other specified fields are present.
+
+지정된 다른 필드 중 어느 하나라도 존재하면 검증 중인 필드는 존재하지 않아야 합니다. _foo_ _bar_ 는 _only if_ 으로 표현되며 _only if_ 는 '~인 경우에만'이란 뜻을 가지고 있습니다.
+
+<a name="rule-missing-with-all"></a>
+#### missing_with_all:_foo_,_bar_,...
+
+The field under validation must not be present _only if_ all of the other specified fields are present.
+
+지정된 다른 필드 모두가 존재하면 검증 중인 필드는 존재하지 않아야 합니다. _foo_ _bar_ 는 _only if_ 으로 표현되며 _only if_ 는 '~인 경우에만'이란 뜻을 가지고 있습니다.
+
+
 <a name="rule-not-in"></a>
 #### not_in:_foo_,_bar_,...
 #### not_in:_foo_,_bar_,...
 
 The field under validation must not be included in the given list of values. The `Rule::notIn` method may be used to fluently construct the rule:
 
-필드의 값이 주어진 목록에 존재하지 않아야 합니다. `Rule::notIn` 메소드는 검사 규칙을 보다 유연하게 구성하는데 사용할 수 있습니다.
+검증 중인 필드는 주어진 목록에 포함되지 않아야 합니다. 이 규칙은 `'not_in:_foo_,_bar_,...'`으로 단일한 문자열으로 적는 방법도 있지만 `Rule::notIn` 메소드를 사용하여 우아하게 구성할 수도 있습니다.
 
     use Illuminate\Validation\Rule;
 
@@ -1907,11 +2029,11 @@ The field under validation must not be included in the given list of values. The
 
 The field under validation must not match the given regular expression.
 
-필드의 값이 주어진 정규표현식과 매칭되지 않는 것을 확인합니다.
+검증 중인 필드의 값이 주어진 정규표현식과 매칭되지 않아야 합니다.
 
 Internally, this rule uses the PHP `preg_match` function. The pattern specified should obey the same formatting required by `preg_match` and thus also include valid delimiters. For example: `'email' => 'not_regex:/^.+$/i'`.
 
-이 규칙은 내부적으로 PHP의 `preg_match` 함수를 사용합니다. 지정된 패턴은 `preg_match` 에 필요한 것과 동일한 양식을 따라야하며 유효한 구분 기호를 포함해야합니다. 예를 들면 다음과 같습니다. `'email' => 'not_regex:/^.+@.+$/i'`.
+이 규칙은 내부적으로 PHP의 `preg_match` 함수를 사용합니다. 지정된 패턴은 `preg_match` 에서 요구하는 것과 동일한 formatting-형식을 따라야하며 유효한 구분 기호(`/`)를 포함해야합니다. 예를 들면 다음과 같습니다. `'email' => 'not_regex:/^.+@.+$/i'`.
 
 > **Warning**  
 > When using the `regex` / `not_regex` patterns, it may be necessary to specify your validation rules using an array instead of using `|` delimiters, especially if the regular expression contains a `|` character.
@@ -1933,7 +2055,7 @@ The field under validation may be `null`.
 
 The field under validation must be [numeric](https://www.php.net/manual/en/function.is-numeric.php).
 
-유효성 검사 필드는 [숫자](https://www.php.net/manual/en/function.is-numeric.php) 여야 합니다.
+유효성 검사 필드는 [numeric](https://www.php.net/manual/en/function.is-numeric.php) 여야 합니다.
 
 <a name="rule-password"></a>
 #### password
@@ -1941,13 +2063,13 @@ The field under validation must be [numeric](https://www.php.net/manual/en/funct
 
 The field under validation must match the authenticated user's password.
 
-유효성 검사 필드는 인증된 사용자의 비밀번호와 일치해야 합니다.
+검증 중인 필드는 인증된 사용자의 비밀번호와 일치해야 합니다.
 
 > **Warning**  
 > This rule was renamed to `current_password` with the intention of removing it in Laravel 9. Please use the [Current Password](#rule-current-password) rule instead.
 
-> **Warning**  
-> 이 규칙은 라라벨 9에서 제거하기 위해 `current_password`로 이름이 변경되었습니다. 대신 [Current Password](#rule-current-password) 규칙을 사용하세요.
+> **Warning**
+> 라라벨 9에서 `password` 규칙은 `current_password`로 이름이 변경되었습니다. 이름이 변경되었으므로 기존의 `password` 규칙은 나중에 삭제될 예정입니다. [Current Password](#rule-current-password) 규칙을 대신 사용하세요.
 
 <a name="rule-present"></a>
 #### present
@@ -1955,7 +2077,11 @@ The field under validation must match the authenticated user's password.
 
 The field under validation must be present in the input data but can be empty.
 
-필드가 존재하고 있는지 확인하지만, 값이 비어있을 수 있습니다.
+검증 중인 필드는 input-입력 데이터에 존재해야 하지만 비어 있을 수도 있습니다.
+
+The field under validation must exist in the input data.
+
+검증 중인 필드는 input-입력 데이터에 반드시 존재해야 합니다.
 
 <a name="rule-prohibited"></a>
 #### prohibited
@@ -1963,17 +2089,18 @@ The field under validation must be present in the input data but can be empty.
 
 The field under validation must be missing or empty. A field is "empty" if it meets one of the following criteria:
 
-검증 중인 필드가 누락되거나 비어있는 것을 확인합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
+검증 중인 필드가 누락되거나 비어있어야 합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
 
 <div class="content-list" markdown="1">
 
-- The field's value is `null`.
+- The value is `null`.
+- The value is an empty string.
+- The value is an empty array or empty `Countable` object.
+- The value is an uploaded file with an empty path.
+
 - 필드의 값이 `null`입니다.
-- The field's value is an empty string.
 - 필드의 값이 빈 문자열입니다.
-- The field's value is an empty array or empty `Countable` object.
 - 필드의 값이 빈 배열이거나 빈 `Countable` 객체입니다.
-- The field's value is an uploaded file with no path.
 - 필드의 값이 경로가 없는 업로드된 파일입니다.
 
 </div>
@@ -1984,24 +2111,25 @@ The field under validation must be missing or empty. A field is "empty" if it me
 
 The field under validation must be missing or empty if the _anotherfield_ field is equal to any _value_. A field is "empty" if it meets one of the following criteria:
 
-검증 중인 필드가 _anotherfield_ 필드가 _value_와 같은 경우 누락되거나 비어있는 것을 확인합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
+검증 중인 필드가 지정된 다른 필드 _anotherfield_ 의 _value_ 와 같은 경우 검증 중인 필드는 누락되거나 비어있어야 합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
 
 <div class="content-list" markdown="1">
 
-- The field's value is `null`.
+- The value is `null`.
+- The value is an empty string.
+- The value is an empty array or empty `Countable` object.
+- The value is an uploaded file with an empty path.
+
 - 필드의 값이 `null`입니다.
-- The field's value is an empty string.
 - 필드의 값이 빈 문자열입니다.
-- The field's value is an empty array or empty `Countable` object.
 - 필드의 값이 빈 배열이거나 빈 `Countable` 객체입니다.
-- The field's value is an uploaded file with no path.
 - 필드의 값이 경로가 없는 업로드된 파일입니다.
 
 </div>
 
 If complex conditional prohibition logic is required, you may utilize the `Rule::prohibitedIf` method. This method accepts a boolean or a closure. When given a closure, the closure should return `true` or `false` to indicate if the field under validation should be prohibited:
 
-복잡한 조건부 금지 로직이 필요한 경우 `Rule::prohibitedIf` 메서드를 활용할 수 있습니다. 이 메서드는 부울이나 클로저를 받습니다. 클로저가 주어지는 경우 클로저는 유효성 검증 중인 필드가 금지되어야 하는지 나타내기 위해 `true`나 `false`를 반환해야 합니다.
+복잡한 조건부 금지 로직이 필요한 경우 `Rule::prohibitedIf` 메서드를 활용할 수 있습니다. 이 메서드는 불리언 타입의 값이나 조건에 따른 금지를 설정할 수 있는 클로저를 받습니다. 클로저가 주어지는 경우 클로저는 유효성 검증 중인 필드가 금지되어야 하는지 나타내기 위해 `true`나 `false`를 반환해야 합니다.
 
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Validation\Rule;
@@ -2020,17 +2148,18 @@ If complex conditional prohibition logic is required, you may utilize the `Rule:
 
 The field under validation must be missing or empty unless the _anotherfield_ field is equal to any _value_. A field is "empty" if it meets one of the following criteria:
 
-검증 중인 필드가 _anotherfield_ 필드가 _value_와 같지 않은 경우 누락되거나 비어있는 것을 확인합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
+검증 중인 필드가 나열한 다른 필드 _anotherfield_ 의 _value_ 와 같지 않은 경우가 하나라도 있다면, 검증 중인 필드는 누락되거나 비어있어야 합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
 
 <div class="content-list" markdown="1">
 
-- The field's value is `null`.
+- The value is `null`.
+- The value is an empty string.
+- The value is an empty array or empty `Countable` object.
+- The value is an uploaded file with an empty path.
+
 - 필드의 값이 `null`입니다.
-- The field's value is an empty string.
 - 필드의 값이 빈 문자열입니다.
-- The field's value is an empty array or empty `Countable` object.
 - 필드의 값이 빈 배열이거나 빈 `Countable` 객체입니다.
-- The field's value is an uploaded file with no path.
 - 필드의 값이 경로가 없는 업로드된 파일입니다.
 
 </div>
@@ -2039,19 +2168,20 @@ The field under validation must be missing or empty unless the _anotherfield_ fi
 #### prohibits:_anotherfield_,...
 #### prohibits:_anotherfield_,...
 
-If the field under validation is not missing or empty, all fields in _anotherfield_ must be missing or "empty". A field is "empty" if it meets one of the following criteria:
+If the field under validation is not missing or empty, all fields in _anotherfield_ must be missing or empty. A field is "empty" if it meets one of the following criteria:
 
-검증 중인 필드가 누락되거나 비어있지 않은 경우 _anotherfield_의 모든 필드는 누락되거나 "비어있어야" 합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
+지정된 다른 필드 _anotherfield_ 모두가 존재하지 않거나 비어있는 경우, 검증 중인 필드는 존재해야하며 비어있지 않아야 합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
 
 <div class="content-list" markdown="1">
 
-- The field's value is `null`.
+- The value is `null`.
+- The value is an empty string.
+- The value is an empty array or empty `Countable` object.
+- The value is an uploaded file with an empty path.
+
 - 필드의 값이 `null`입니다.
-- The field's value is an empty string.
 - 필드의 값이 빈 문자열입니다.
-- The field's value is an empty array or empty `Countable` object.
 - 필드의 값이 빈 배열이거나 빈 `Countable` 객체입니다.
-- The field's value is an uploaded file with no path.
 - 필드의 값이 경로가 없는 업로드된 파일입니다.
 
 </div>
@@ -2062,17 +2192,17 @@ If the field under validation is not missing or empty, all fields in _anotherfie
 
 The field under validation must match the given regular expression.
 
-필드의 값이 주어진 정규식 표현과 일치해야 합니다.
+검증 중인 필드의 값이 주어진 정규식 표현과 일치해야 합니다.
 
 Internally, this rule uses the PHP `preg_match` function. The pattern specified should obey the same formatting required by `preg_match` and thus also include valid delimiters. For example: `'email' => 'regex:/^.+@.+$/i'`.
 
-이 규칙은 내부적으로 PHP의 `preg_match` 함수를 사용합니다. 지정된 패턴은 `preg_match` 에 필요한 것과 동일한 양식을 따라야하며 유효한 구분 기호를 포함해야합니다. 예를 들면 다음과 같습니다. `'email' => 'regex:/^.+@.+$/i'`.
+이 규칙은 내부적으로 PHP의 `preg_match` 함수를 사용합니다. 지정된 패턴은 `preg_match` 에서 요구하는 것과 동일한 formatting-형식을 따라야하며 유효한 구분 기호(`/`)를 포함해야합니다. 예를 들면 다음과 같습니다. `'email' => 'regex:/^.+@.+$/i'`.
 
 > **Warning**  
 > When using the `regex` / `not_regex` patterns, it may be necessary to specify rules in an array instead of using `|` delimiters, especially if the regular expression contains a `|` character.
 
-> **Warning**  
-> `regex` / `not_regex` 패턴을 사용할 때, 특히 정규 표현식에 `|` 문자가 포함된 경우 `|` 구분 기호를 사용하는 대신 배열에 규칙을 지정해야 할 수도 있습니다.
+> **Warning**
+> `regex` / `not_regex` 패턴을 사용할 때, 특히 정규 표현식에 `|` 문자가 포함된 경우 `|` 구분 기호를 사용하는 대신 배열을 사용하여 유효성 검사 규칙을 지정해야 할 수도 있습니다.
 
 <a name="rule-required"></a>
 #### required
@@ -2080,12 +2210,16 @@ Internally, this rule uses the PHP `preg_match` function. The pattern specified 
 
 The field under validation must be present in the input data and not empty. A field is "empty" if it meets one of the following criteria:
 
-입력 값 중에 해당 필드가 존재해야 하며 비어 있어서는 안됩니다. 필드는 다음의 조건 중 하나를 충족하면 "빈(empty)" 것으로 간주됩니다.
+검증 중인 필드는 input-입력 데이터에 존재해야 하며 비어 있어서는 안됩니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
+
+<div class="content-list" markdown="1">
 
 - The value is `null`.
 - The value is an empty string.
 - The value is an empty array or empty `Countable` object.
 - The value is an uploaded file with no path.
+
+</div>
 
 - 값이 `null`인 경우.
 - 값이 비어있는 문자열인 경우.
@@ -2098,7 +2232,7 @@ The field under validation must be present in the input data and not empty. A fi
 
 The field under validation must be present and not empty if the _anotherfield_ field is equal to any _value_.
 
-만약 _anotherfield_ 의 값이 _value_ 중의 하나와 일치한다면, 해당 필드는 존재하고 비어있지 않아야 합니다.
+지정한 다른 필드 _anotherfield_ 의 값이 _value_ 와 같은 것이 하나라도 있다면, 검증 중인 필드는 존재하고 비어있지 않아야 합니다.
 
 If you would like to construct a more complex condition for the `required_if` rule, you may use the `Rule::requiredIf` method. This method accepts a boolean or a closure. When passed a closure, the closure should return `true` or `false` to indicate if the field under validation is required:
 
@@ -2121,7 +2255,7 @@ If you would like to construct a more complex condition for the `required_if` ru
 
 The field under validation must be present and not empty unless the _anotherfield_ field is equal to any _value_. This also means _anotherfield_ must be present in the request data unless _value_ is `null`. If _value_ is `null` (`required_unless:name,null`), the field under validation will be required unless the comparison field is `null` or the comparison field is missing from the request data.
 
-검증 중인 필드는 _anotherfield_ 필드가 _value_ 와 동일하지 않은 경우 존재해야 하며 비어 있지 않아야 합니다. 이것은 또한 _value_ 가 `null`이 아닌 한 _anotherfield_ 가 요청 데이터에 있어야 함을 의미합니다. _value_ 가 `null`(`required_unless:name,null`)인 경우 비교 필드가 `null`이거나 요청 데이터에서 비교 필드가 누락되지 않는 한 유효성 검사 중인 필드가 필요합니다.
+다른 필드 _anotherfield_ 의 값이 _value_ 와 같지 않은 것이 하나라도 있다면, 검증 중인 필드는 존재해야 하며 비어 있지 않아야 합니다. 이는 _value_ 가 `null`이 아닌 한 지정한 필드 _anotherfield_ 가 리퀘스트 데이터에 존재해야 한다는 의미이기도 합니다. _value_ 가 `null` (`required_unless:name,null`)인 경우 검증 중인 필드의 값은 같지 않아야 하므로 `null`이 아니며, 리퀘스트 데이터의 비교 필드가 누락되지 않고 `null`이면 비교 필드의 값과 검증 중인 필드의 값이 달라야하므로 `null`이 되면 안되므로 검증 중인 필드는 요구되어야 합니다.
 
 <a name="rule-required-with"></a>
 #### required_with:_foo_,_bar_,...
@@ -2129,7 +2263,7 @@ The field under validation must be present and not empty unless the _anotherfiel
 
 The field under validation must be present and not empty _only if_ any of the other specified fields are present and not empty.
 
-지정된 다른 필드중 하나라도 선언이 되어있고 값이 비어있지 _않다면_, 해당 필드가 반드시 존재하고 비어있지 않아야 합니다.
+지정된 다른 필드 중 하나라도 존재하고 비어 있지 않은 경우에만 검증 중인 필드는 존재하고 비어 있지 않아야 합니다. _foo_ _bar_ 는 _only if_ 으로 표현되며 _only if_ 는 '~인 경우에만'이란 뜻을 가지고 있습니다.
 
 <a name="rule-required-with-all"></a>
 #### required_with_all:_foo_,_bar_,...
@@ -2137,7 +2271,7 @@ The field under validation must be present and not empty _only if_ any of the ot
 
 The field under validation must be present and not empty _only if_ all of the other specified fields are present and not empty.
 
-지정된 다른 필드가 모두 선언이 되어있고 값이 비어있지 _않다면_, 해당 필드가 반드시 존재하고 비어있지 않아야 합니다.
+지정된 다른 필드가 모두 존재하고 비어 있지 않은 경우에만 검증 중인 필드는 존재하고 비어있지 않아야 합니다. _foo_ _bar_ 는 _only if_ 으로 표현되며 _only if_ 는 '~인 경우에만'이란 뜻을 가지고 있습니다.
 
 <a name="rule-required-without"></a>
 #### required_without:_foo_,_bar_,...
@@ -2145,7 +2279,7 @@ The field under validation must be present and not empty _only if_ all of the ot
 
 The field under validation must be present and not empty _only when_ any of the other specified fields are empty or not present.
 
-지정된 다른 필드중 하나라도 선언이 되어있지않거나 값이 비어 _있다면_, 해당 필드가 반드시 존재하고 비어있지 않아야 합니다.
+지정된 다른 필드가 비어 있거나 존재하지 않은 것이 하나라도 있다면, 검증 중인 필드는 존재하고 비어 있지 않아야 합니다. _foo_ _bar_ 는 _only when_ 으로 표현되며 _only when_ 는 '~인 때에만'이란 뜻을 가지고 있습니다.
 
 <a name="rule-required-without-all"></a>
 #### required_without_all:_foo_,_bar_,...
@@ -2153,7 +2287,7 @@ The field under validation must be present and not empty _only when_ any of the 
 
 The field under validation must be present and not empty _only when_ all of the other specified fields are empty or not present.
 
-지정된 다른 필드가 모두 선언이 되어있지않거나 값이 비어 _있다면_, 해당 필드가 반드시 존재하고 비어있지 않아야 합니다.
+지정된 다른 필드가 모두 비어 있거나 존재하지 않을 때에만 검증 중인 필드는 비어 존재하고 비어 있지 않아야 합니다. _foo_ _bar_ 는 _only when_ 으로 표현되며 _only when_ 는 '~인 때에만'이란 뜻을 가지고 있습니다.
 
 <a name="rule-required-array-keys"></a>
 #### required_array_keys:_foo_,_bar_,...
@@ -2161,7 +2295,7 @@ The field under validation must be present and not empty _only when_ all of the 
 
 The field under validation must be an array and must contain at least the specified keys.
 
-지정된 필드는 배열이어야 하며, 지정된 키를 포함해야합니다.
+검증 중인 필드는 배열이어야 하며, 지정된 키를 적어도 하나이상 포함해야합니다.
 
 <a name="rule-same"></a>
 #### same:_field_
@@ -2169,7 +2303,7 @@ The field under validation must be an array and must contain at least the specif
 
 The given _field_ must match the field under validation.
 
-필드의 값이 주어진 _field_ 의 값과 일치해야 합니다.
+검증 중인 필드의 값이 주어진 _field_ 의 값과 일치해야 합니다.
 
 <a name="rule-size"></a>
 #### size:_value_
@@ -2177,7 +2311,7 @@ The given _field_ must match the field under validation.
 
 The field under validation must have a size matching the given _value_. For string data, _value_ corresponds to the number of characters. For numeric data, _value_ corresponds to a given integer value (the attribute must also have the `numeric` or `integer` rule). For an array, _size_ corresponds to the `count` of the array. For files, _size_ corresponds to the file size in kilobytes. Let's look at some examples:
 
-필드의 값이 주어진 _value_ 와 일치하는 크기를 가져야 합니다. 문자열 데이터에서는 문자의 개수가 _value_ 와 일치해야 합니다. 숫자형식의 데이터에서는 주어진 정수값이 _value_ 와 일치해야 합니다(속성에는 `numeric` 또는 `integer` 규칙도 있어야 함). 배열에서는 배열의 `count` 와 일치해야 합니다. 파일에서는 킬로바이트 형식의 파일 사이즈가 _size_ 와 일치해야 합니다. 몇 가지 예를 살펴 보겠습니다.
+검증 중인 필드의 값이 주어진 _value_ 와 일치하는 크기를 가져야 합니다. 문자열 데이터에서는 _value_ 는 문자 수와 일치해야 합니다.  수 데이터 데이터에서는 _value_ 는 지정된 정수 값과 일치해야 합니다 (속성에는 `numeric` 또는 `integer` 규칙도 있어야 함). 배열에서는 배열의 `count`와 일치해야 합니다. 파일의 경우 _size_ 는 파일 크기(킬로바이트)와 일치해야 합니다. 몇 가지 예를 살펴 보겠습니다.
 
     // Validate that a string is exactly 12 characters long...
     'title' => 'size:12';
@@ -2205,7 +2339,7 @@ The field under validation must start with one of the given values.
 
 The field under validation must be a string. If you would like to allow the field to also be `null`, you should assign the `nullable` rule to the field.
 
-필드의 값이 반드시 문자열이어야 합니다. 필드가 `null` 인것을 허용하려면 규칙에 `nullable` 을 할당해야만 합니다.
+검증 중인 필드의 값이 반드시 문자열이어야 합니다. 필드가 `null` 인것을 허용하려면 `nullable` 규칙을 할당해야 합니다.
 
 <a name="rule-timezone"></a>
 #### timezone
@@ -2213,7 +2347,7 @@ The field under validation must be a string. If you would like to allow the fiel
 
 The field under validation must be a valid timezone identifier according to the `timezone_identifiers_list` PHP function.
 
-필드의 값이 `timezone_identifiers_list` PHP 함수에서 인식 가능한 유효한 timezone 식별자여야 합니다.
+검증 중인 필드의 값이 `timezone_identifiers_list` PHP 함수에서 인식 가능한 유효한 timezone 식별자여야 합니다.
 
 <a name="rule-unique"></a>
 #### unique:_table_,_column_
@@ -2221,14 +2355,14 @@ The field under validation must be a valid timezone identifier according to the 
 
 The field under validation must not exist within the given database table.
 
-필드의 값이 주어진 데이터베이스 테이블에서 고유한 값이어야 합니다. 만약 `column`이 지정돼 있지 않다면 필드의 이름이 사용됩니다.
+검증 중인 필드는 지정된 데이터베이스 테이블 내에 존재하지 않아야 합니다. 만약 `column`이 지정돼 있지 않다면 필드의 이름이 사용됩니다.
 
 **Specifying A Custom Table / Column Name:**
-**특정 컬럼명 지정하기:**
+**특정 테이블/컬럼명 지정하기:**
 
 Instead of specifying the table name directly, you may specify the Eloquent model which should be used to determine the table name:
 
-테이블 이름을 직접 지정하는 대신 테이블 이름을 결정하는 데 사용해야하는 Eloquent 모델을 지정할 수 있습니다.
+테이블 이름을 직접 지정하는 대신 테이블 이름을 결정하는 데 사용되는 Eloquent 모델을 지정할 수 있습니다.
 
     'email' => 'unique:App\Models\User,email_address'
 
@@ -2243,7 +2377,7 @@ The `column` option may be used to specify the field's corresponding database co
 
 Occasionally, you may need to set a custom connection for database queries made by the Validator. To accomplish this, you may prepend the connection name to the table name:
 
-경우에 따라 Validator에서 만든 데이터베이스 쿼리에 대한 사용자 지정 연결을 설정해야 할 수도 있습니다. 이를 위해 테이블 이름 앞에 연결 이름을 추가할 수 있습니다.
+경우에 따라 Validator에서 만든 데이터베이스 쿼리에 대한 사용자 지정 커넥션을 설정해야 할 수도 있습니다. 이를 위해 테이블 이름 앞에 커넥션 이름을 추가할 수 있습니다.
 
     'email' => 'unique:connection.users,email_address'
 
@@ -2252,12 +2386,13 @@ Occasionally, you may need to set a custom connection for database queries made 
 
 Sometimes, you may wish to ignore a given ID during unique validation. For example, consider an "update profile" screen that includes the user's name, email address, and location. You will probably want to verify that the email address is unique. However, if the user only changes the name field and not the email field, you do not want a validation error to be thrown because the user is already the owner of the email address in question.
 
-경우에 따라 고유한 유효성 검사 중에 지정된 ID를 무시하고 싶을 수 있습니다. 예를 들어 사용자 이름, 이메일 주소 및 위치가 포함된 "프로필 업데이트" 화면을 생각해보세요. 이메일 주소가 고유한지 확인하고 싶을 것입니다. 그러나 사용자가 이메일 필드가 아닌 이름 필드만 변경하는 경우 해당 사용자가 이미 해당 이메일 주소의 소유자이기 때문에 유효성 검사 에러가 발생하는 것을 원하지 않습니다.
+때때로 유니크 규칙의 유효성 검사 중에 지정된 ID를 무시하고 싶을 수 있습니다. 예를 들어 사용자 이름, 이메일 주소 및 위치가 포함된 "프로필 업데이트" 화면을 생각해보세요. 이메일 주소가 고유한지 확인하고 싶을 것입니다. 그러나 사용자가 이메일 필드가 아닌 이름 필드만 변경하는 경우 해당 사용자가 이미 해당 이메일 주소의 소유자이기 때문에 유니크 규칙으로 인해 유효성 검사 에러가 발생하는 것을 원하지 않을 것입니다.
 
 To instruct the validator to ignore the user's ID, we'll use the `Rule` class to fluently define the rule. In this example, we'll also specify the validation rules as an array instead of using the `|` character to delimit the rules:
 
-사용자 ID를 무시하도록 지시하려면, 규칙을 유연하게 정의할 수 있는 `Rule` 클래스를 사용하면 됩니다. 다음 예제에서 규칙을 `|` 문자를 구분자로 사용하는 대신에 유효성 검사 규칙을 배열로 지정하고 있습니다.
+사용자 ID를 무시하도록 지시하려면, 규칙을 유연하게 정의할 수 있는 `Rule` 클래스를 사용하면 됩니다. 다음 예제에서 규칙을 `|` 문자를 구분자로 사용하는 대신에 유효성 검사 규칙을 배열로 지정하고 있습니다. 아래 예시는 유저의 아이디가 이미 존재하는 경우 `email` 속성의 유효성 검사는 유니크 규칙을 무시하도록 정의하고 있습니다.
 
+    use Illuminate\Database\Eloquent\Builder;
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Validation\Rule;
 
@@ -2271,8 +2406,8 @@ To instruct the validator to ignore the user's ID, we'll use the `Rule` class to
 > **Warning**  
 > You should never pass any user controlled request input into the `ignore` method. Instead, you should only pass a system generated unique ID such as an auto-incrementing ID or UUID from an Eloquent model instance. Otherwise, your application will be vulnerable to an SQL injection attack.
 
-> **Warning**  
-> `ignore` 메소드에 유저가 전달한 리퀘스트 입력값을 절대 입력해서는 안 됩니다. 대신, 엘로퀀트 모델 인스턴스의 자동 증가 ID나 UUID 등 시스템이 생성한 고유 ID를 전달하십시오. 그렇지 않으면 어플리케이션이 SQL 인젝션 공격에 취약하게 됩니다.
+> **Warning**
+> `ignore` 메소드에는 유저가 조작한 리퀘스트 input-입력값을 절대 전달해서는 안 됩니다. 대신, auto-incrementing ID나 엘로퀀트 모델 인스턴스의 UUID와 같이 시스템에서 생성된 유니크 ID만 전달하도록 합니다. 그렇지 않으면 어플리케이션이 SQL 인젝션 공격에 취약하게 됩니다.
 
 Instead of passing the model key's value to the `ignore` method, you may also pass the entire model instance. Laravel will automatically extract the key from the model:
 
@@ -2288,18 +2423,18 @@ If your table uses a primary key column name other than `id`, you may specify th
 
 By default, the `unique` rule will check the uniqueness of the column matching the name of the attribute being validated. However, you may pass a different column name as the second argument to the `unique` method:
 
-기본적으로 `unique`규칙은 유효성 검사중인 속성의 이름과 일치하는 열의 고유성을 검사합니다. 그러나 `unique` 메소드의 두 번째 인자에 다른 칼럼의 이름을 전달할 수 있습니다.
+기본적으로 `unique`규칙은 유효성 검사 중인 속성의 이름과 일치하는 컬럼의 데이터가 유니크인지 검사합니다. 그러나 `unique` 메소드의 두 번째 인자에 다른 칼럼의 이름을 전달할 수 있습니다.
 
-    Rule::unique('users', 'email_address')->ignore($user->id),
+    Rule::unique('users', 'email_address')->ignore($user->id)
 
 **Adding Additional Where Clauses:**
 **추가적인 Where 구문 추가하기:**
 
 You may specify additional query conditions by customizing the query using the `where` method. For example, let's add a query condition that scopes the query to only search records that have an `account_id` column value of `1`:
 
-`where` 메서드를 사용하여 쿼리를 사용자 지정하여 추가 쿼리 조건을 지정할 수 있습니다. 예를 들어 `account_id` 열 값이 `1`인 레코드만 검색하도록 쿼리 범위를 지정하는 쿼리 조건을 추가해 보겠습니다.
+`where` 메서드를 사용하여 쿼리를 사용자 지정하여 추가 쿼리 조건을 지정할 수 있습니다. 예를 들어 `account_id` 컬럼 값이 `1`인 레코드만 검색하도록 쿼리 범위를 지정하는 쿼리 조건을 추가해 보겠습니다.
 
-    'email' => Rule::unique('users')->where(fn ($query) => $query->where('account_id', 1))
+    'email' => Rule::unique('users')->where(fn (Builder $query) => $query->where('account_id', 1))
 
 <a name="rule-uppercase"></a>
 #### uppercase
@@ -2323,7 +2458,7 @@ The field under validation must be a valid URL.
 
 The field under validation must be a valid [Universally Unique Lexicographically Sortable Identifier](https://github.com/ulid/spec) (ULID).
 
-필드는 반드시 유효한 [Universally Unique Lexicographically Sortable Identifier](https://github.com/ulid/spec) (ULID) 여야 합니다.
+검증 중인 필드는 반드시 유효한 [Universally Unique Lexicographically Sortable Identifier](https://github.com/ulid/spec) (ULID) 여야 합니다.
 
 <a name="rule-uuid"></a>
 #### uuid
@@ -2331,7 +2466,7 @@ The field under validation must be a valid [Universally Unique Lexicographically
 
 The field under validation must be a valid RFC 4122 (version 1, 3, 4, or 5) universally unique identifier (UUID).
 
-유효성 검사중인 필드는 유효한 RFC 4122 (버전 1, 3, 4 또는 5) 범용 고유 식별자 (UUID) 여야합니다.
+유효성 검사중인 필드는 유효한 RFC 4122 (버전 1, 3, 4 또는 5) 범용 고유 식별자 (universally unique identifier, UUID) 여야합니다.
 
 <a name="conditionally-adding-rules"></a>
 ## Conditionally Adding Rules
@@ -2355,7 +2490,7 @@ You may occasionally wish to not validate a given field if another field has a g
 
 Alternatively, you may use the `exclude_unless` rule to not validate a given field unless another field has a given value:
 
-또는 다른 필드에 지정된 값이 없으면 `exclude_unless` 규칙을 사용하여 지정된 필드의 유효성을 검사하지 않을 수 있습니다.
+지정한 다른 필드에 있는 값이 주어진 값이 아닌 경우에 검증 중인 필드의 유효성 검사를 수행하지 않도록 하려면 `exclude_unless` 규칙을 사용하면 됩니다. 아래 예제에서 'appointment_date' 필드는 `has_appointment` 필드의 값이 `true` 값이 아닌 경우 유효성 검사를 수행하지 않습니다.
 
     $validator = Validator::make($data, [
         'has_appointment' => 'required|boolean',
@@ -2369,7 +2504,7 @@ Alternatively, you may use the `exclude_unless` rule to not validate a given fie
 
 In some situations, you may wish to run validation checks against a field **only** if that field is present in the data being validated. To quickly accomplish this, add the `sometimes` rule to your rule list:
 
-경우에 따라 해당 필드가 유효성 검사 중인 데이터에 있는 경우 **만** 해당 필드에 대해 유효성 검사를 실행할 수 있습니다. 이를 빠르게 수행하려면 `sometimes` 규칙을 규칙 목록에 추가하세요.
+어떤 경우에는 검증되고 있는 데이터에 **오직** 검증 중인 필드가 존재하는 경우에**만** 유효성 검사를 하길 원할 수 있습니다. 이를 빠르게 수행하려면 규칙 목록에 `sometimes` 규칙을 추가하세요.
 
     $v = Validator::make($data, [
         'email' => 'sometimes|required|email',
@@ -2377,13 +2512,13 @@ In some situations, you may wish to run validation checks against a field **only
 
 In the example above, the `email` field will only be validated if it is present in the `$data` array.
 
-이 예제에서는 `$data` 배열에 `email` 필드가 존재할 경우에만 그 필드의 유효성 검사가 실행됩니다.
+이 예제에서는 유효성 검사 중인 데이터인 `$data` 배열에 `email` 필드가 존재할 경우에만 그 필드의 유효성 검사가 되도록 `sometimes` 규칙이 사용되었습니다.
 
 > **Note**  
 > If you are attempting to validate a field that should always be present but may be empty, check out [this note on optional fields](#a-note-on-optional-fields).
 
-> **Note**  
-> 항상 있어야 하지만 비어 있을 수 있는 필드의 유효성을 검사하려는 경우 [선택 필드에 대한 참고 사항](#a-note-on-optional-fields)을 확인하세요.
+> **Note**
+> 항상 존재해야하지만 비어있지 않은 필드인지를 확인하는 유효성 검사를 하려는 경우 [옵션 필드에 대한 주의사항](#a-note-on-optional-fields)을 확인하세요.
 
 <a name="complex-conditional-validation"></a>
 #### Complex Conditional Validation
@@ -2391,7 +2526,7 @@ In the example above, the `email` field will only be validated if it is present 
 
 Sometimes you may wish to add validation rules based on more complex conditional logic. For example, you may wish to require a given field only if another field has a greater value than 100. Or, you may need two fields to have a given value only when another field is present. Adding these validation rules doesn't have to be a pain. First, create a `Validator` instance with your _static rules_ that never change:
 
-때때로 여러분은 한가지 이상의 복잡한 로직에 대해서 유효성 규칙을 추가하고자 할 수도 있습니다. 예를 들어, 어떤 다른 필드가 100 이상의 값을 가질때에만 주어진 필드가 반드시 존재하길 바랄 수도 있습니다. 또는 다른 필드가 존재할 때에만 두개의 필드가 주어진 값을 가질 필요가 있을수도 있습니다. 이러한 유효성 검사 규칙을 추가하는 것이 어렵지 않을 수 있습니다. 우선 _고정 규칙_ 을 변경할 필요 없이 그대로 사용하여 `Validator` 인스턴스를 생성합니다.
+때로는 더 복잡한 조건부 논리를 기반으로 유효성 검사 규칙을 추가하고 싶을 수도 있습니다. 예를 들어, 다른 필드의 값이 100보다 큰 경우에만 지정한 다른 필드를 요구할 수 있습니다. 또는 다른 필드가 존재할 때만 두 필드가 지정한 값을 갖도록 요구할 수도 있습니다. 이러한 유효성 검사 규칙을 추가하는 것은 어렵지 않습니다. 먼저, 절대 변경되지 않는 정적 규칙 _static rules_ 를 정의한 `Validator` 인스턴스를 생성합니다.
 
     use Illuminate\Support\Facades\Validator;
 
@@ -2402,17 +2537,19 @@ Sometimes you may wish to add validation rules based on more complex conditional
 
 Let's assume our web application is for game collectors. If a game collector registers with our application and they own more than 100 games, we want them to explain why they own so many games. For example, perhaps they run a game resale shop, or maybe they just enjoy collecting games. To conditionally add this requirement, we can use the `sometimes` method on the `Validator` instance.
 
-웹 애플리케이션이 게임 수집가용이라고 가정해 보겠습니다. 게임 수집가가 우리 애플리케이션에 등록하고 그들이 100개 이상의 게임을 소유하고 있다면 우리는 그들이 왜 그렇게 많은 게임을 소유하고 있는지 설명하기를 원합니다. 예를 들어 게임 재판매 상점을 운영하거나 게임 수집을 즐기는 경우가 있습니다. 이 요구 사항을 조건부로 추가하려면 `Validator` 인스턴스에서 `sometimes` 메서드를 사용할 수 있습니다.
+게임 수집가를 위한 웹 애플리케이션이라고 가정해 봅시다. 게임 수집가가 애플리케이션에 등록하고 100개 이상의 게임을 소유한 경우, 그들이 왜 그렇게 많은 게임을 소유하고 있는지 설명을 추가로 받는 로직을 만든다고 생각해 봅시다. 예를 들어, 많은 게임을 소유한 이유로는 게임 재판매 상점을 운영하거나 단순히 게임 수집을 즐기는 것 등의 이유가 있을 수 있습니다. 이 요구 사항을 조건부로 추가하려면 `Validator` 인스턴스에서 `sometimes` 메서드를 사용하면 됩니다. 아래 예제는 게임이 100개 이상인 경우, 왜 게임을 100개 이상 가지고 있는지 500자 이하의 설명을 필수로 요구하는 'reason' 필드를 받도록 유효성 검사를 수행한다는 의미입니다.
 
-    $validator->sometimes('reason', 'required|max:500', function ($input) {
+    use Illuminate\Support\Fluent;
+
+    $validator->sometimes('reason', 'required|max:500', function (Fluent $input) {
         return $input->games >= 100;
     });
 
 The first argument passed to the `sometimes` method is the name of the field we are conditionally validating. The second argument is a list of the rules we want to add. If the closure passed as the third argument returns `true`, the rules will be added. This method makes it a breeze to build complex conditional validations. You may even add conditional validations for several fields at once:
 
-`sometimes` 메소드에 전달된 첫 번째 인수는 조건부로 유효성을 검사하는 필드의 이름입니다. 두 번째 인수는 추가하려는 규칙 목록입니다. 세 번째 인수로 전달된 클로저가 `true`를 반환하면 규칙이 추가됩니다. 이 방법을 사용하면 복잡한 조건부 유효성 검사를 쉽게 구축할 수 있습니다. 한 번에 여러 필드에 대한 조건부 유효성 검사를 추가할 수도 있습니다.
+`sometimes` 메소드에 전달된 첫 번째 인자는 조건부로 유효성을 검사하는 필드의 이름입니다. 두 번째 인자는 추가하려는 규칙 목록입니다. 세 번째 인자는 조건부 규칙을 정하는 클로저를 받으며 전달된 클로저가 `true`를 반환하면 첫 번째 인자에 주어진 필드는 두  번째 인자로 지정한 유효성 검사 규칙을 적용하여 유효성 검사를 합니다. 이 방법을 사용하면 복잡한 조건부 유효성 검사를 쉽게 구축할 수 있습니다. 한 번에 여러 필드에 대한 조건부 유효성 검사를 추가할 수도 있습니다.
 
-    $validator->sometimes(['reason', 'cost'], 'required', function ($input) {
+    $validator->sometimes(['reason', 'cost'], 'required', function (Fluent $input) {
         return $input->games >= 100;
     });
 
@@ -2428,7 +2565,7 @@ The first argument passed to the `sometimes` method is the name of the field we 
 
 Sometimes you may want to validate a field based on another field in the same nested array whose index you do not know. In these situations, you may allow your closure to receive a second argument which will be the current individual item in the array being validated:
 
-인덱스를 모르는 동일한 중첩 배열의 다른 필드를 기반으로 필드의 유효성을 검사해야 하는 경우가 있습니다. 이러한 상황에서 클로저가 유효성 검사 중인 배열의 현재 개별 항목이 될 두 번째 인수를 수신하도록 허용할 수 있습니다.
+검증 데이터의 중첩된 배열 구조에서 어떤 배열은 키가 아닌 인덱스로 이뤄진 배열일 수 있습니다. 유효성 검사는 배열의 키에 해당하는 필드를 지정해야 하는데 배열에 키가 없고 인덱스로 된 배열인 경우 입력 데이터에 따라 `type`이 `'email'`인 배열이 먼저인지 `type`이 `'url'`인 배열이 먼저인지 인덱스를 모르는 동일한 깊이에 위치해 있는 배열의 유효성 검사를 해야 할 때가 있습니다. 아래의 예시에서 `channels` 필드는 키가 없는 두 배열을 포함하고 있습니다. 두 배열의 `address` 필드는 `type` 필드의 값을 기반으로 유효성 검사를 하려고 합니다. 이러한 상황에서 클로저의 두 번째 인자로 파라메터를 지정하여 현재 검증 중인 배열의 개별 항목을 받도록 허용할 수 있습니다.
 
     $input = [
         'channels' => [
@@ -2443,17 +2580,17 @@ Sometimes you may want to validate a field based on another field in the same ne
         ],
     ];
 
-    $validator->sometimes('channels.*.address', 'email', function ($input, $item) {
+    $validator->sometimes('channels.*.address', 'email', function (Fluent $input, Fluent $item) {
         return $item->type === 'email';
     });
 
-    $validator->sometimes('channels.*.address', 'url', function ($input, $item) {
+    $validator->sometimes('channels.*.address', 'url', function (Fluent $input, Fluent $item) {
         return $item->type !== 'email';
     });
 
 Like the `$input` parameter passed to the closure, the `$item` parameter is an instance of `Illuminate\Support\Fluent` when the attribute data is an array; otherwise, it is a string.
 
-클로저에 전달된 `$input` 매개변수와 마찬가지로 `$item` 매개변수는 속성 데이터가 배열일 때 `Illuminate\Support\Fluent`의 인스턴스입니다. 그렇지 않으면 문자열입니다.
+클로저에 전달된 `$input` 매개변수와 마찬가지로 `$item` 매개변수는 속성 데이터가 배열일 때 `Illuminate\Support\Fluent`의 인스턴스이며 배열이 아닌 경우에는 문자열입니다.
 
 <a name="validating-arrays"></a>
 ## Validating Arrays
@@ -2461,7 +2598,7 @@ Like the `$input` parameter passed to the closure, the `$item` parameter is an i
 
 As discussed in the [`array` validation rule documentation](#rule-array), the `array` rule accepts a list of allowed array keys. If any additional keys are present within the array, validation will fail:
 
-[`array` 유효성 검사 규칙 문서](#rule-array)에 설명된 대로 `array` 규칙은 허용되는 배열 키 목록을 허용합니다. 배열 내에 추가 키가 있는 경우 유효성 검사가 실패합니다.
+[`array` 유효성 검사 규칙 문서](#rule-array)에 설명된 대로 `array` 규칙에서 지정한 키 목록에 속해 있는 속성을 가진 배열만을 입력 데이터로 허용합니다. 배열 내에 추가 키가 있는 경우 유효성 검사가 실패합니다. 아래의 예시에서 `array:username,locale` 규칙에 의해 검증 대상 배열에는 `username`과 `locale` 필드만 허가 대상이지만 지정하지 않은 `name`, `admin` 필드가 추가되어 있기 때문에 검증이 실패합니다. `locale` 필드는 없지만 허가 되어 있으므로 검증 규칙에 따라 검증이 될 수도 있습니다.
 
     use Illuminate\Support\Facades\Validator;
 
@@ -2479,7 +2616,7 @@ As discussed in the [`array` validation rule documentation](#rule-array), the `a
 
 In general, you should always specify the array keys that are allowed to be present within your array. Otherwise, the validator's `validate` and `validated` methods will return all of the validated data, including the array and all of its keys, even if those keys were not validated by other nested array validation rules.
 
-일반적으로 배열 내에 존재하도록 허용된 배열 키를 항상 지정해야 합니다. 그렇지 않으면 유효성 검사기의 `validate` 및 `validated` 메서드는 해당 키가 다른 중첩된 배열 유효성 검사 규칙에 의해 유효성이 검사되지 않은 경우에도 배열 및 모든 키를 포함하여 유효성이 검사된 모든 데이터를 반환합니다.
+일반적으로 배열의 유효성을 검사할 때는 항상 허용된 키 목록을 지정하여 유효성 검사를 수행하도록 합니다. 허용할 키의 목록을 지정하는식으로 사용하지 않으면 validator의 `validate` 및 `validated` 메서드는 배열에서 허용되지 않은 키를 포함한 모든 키를 가진 데이터를 검증된 데이터로 반환하게 될 수 있습니다. 중첩된 배열의 유효성을 검사할 때 유효성 검사 대상인 키 보다 더 깊이 위치한 배열에 검증하도록 지정되지 않은 키가 있을 수 있음에도 불구하고 지정한 키의 유효성이 검증되었다면 더 깊이 위치한 배열의 검증되지 않은 데이터도 검증된 데이터로 반환되므로 보안상의 문제가 발생할 수 있습니다.
 
 <a name="validating-nested-array-input"></a>
 ### Validating Nested Array Input
@@ -2487,7 +2624,7 @@ In general, you should always specify the array keys that are allowed to be pres
 
 Validating nested array based form input fields doesn't have to be a pain. You may use "dot notation" to validate attributes within an array. For example, if the incoming HTTP request contains a `photos[profile]` field, you may validate it like so:
 
-중첩 배열 기반 form 입력 필드의 유효성을 검사하는 것에 대해 괴로워 할 필요가 없습니다. "점 표기법"을 사용하여 배열 내의 속성을 확인할 수 있습니다. 예를 들어 들어오는 HTTP 요청에 `photos[profile]` 필드가 포함되어 있으면 다음과 같이 유효성을 검사할 수 있습니다.
+중첩 배열 기반 form input-입력 필드의 유효성을 검사하는 것에 대해 괴로워 할 필요가 없습니다. "점 표기법"을 사용하여 배열 내의 속성을 확인할 수 있습니다. 예를 들어 들어오는 HTTP 리퀘스트에 `photos[profile]` 필드가 포함되어 있으면 다음과 같이 유효성을 검사할 수 있습니다.
 
     use Illuminate\Support\Facades\Validator;
 
@@ -2497,7 +2634,7 @@ Validating nested array based form input fields doesn't have to be a pain. You m
 
 You may also validate each element of an array. For example, to validate that each email in a given array input field is unique, you may do the following:
 
-배열의 각 요소를 확인할 수도 있습니다. 예를 들어, 주어진 배열 입력 필드의 각 이메일이 고유한지 확인하려면 다음을 수행할 수 있습니다.
+배열의 각 element-요소를 확인할 수도 있습니다. 예를 들어, 주어진 배열 입력 필드의 각 이메일이 고유한지 확인하려면 다음을 수행할 수 있습니다.
 
     $validator = Validator::make($request->all(), [
         'person.*.email' => 'email|unique:users',
@@ -2520,14 +2657,15 @@ Likewise, you may use the `*` character when specifying [custom validation messa
 
 Sometimes you may need to access the value for a given nested array element when assigning validation rules to the attribute. You may accomplish this using the `Rule::forEach` method. The `forEach` method accepts a closure that will be invoked for each iteration of the array attribute under validation and will receive the attribute's value and explicit, fully-expanded attribute name. The closure should return an array of rules to assign to the array element:
 
-때로는 중첩된 배열의 값에 대한 유효성 검사가 필요한 경우가 있습니다. 이런 경우에는 `Rule::forEach` 메소드를 사용하면 됩니다. `forEach` 메소드는 클로저를 인자로 전달 받습니다. 이 클로저는 유효성 검사 과정에서 배열의 요소에 접근하는 반복문 안에서 호출됩니다. 클로저에는 배열의 요소 키와 값을 인자로 전달받습니다. 클로저는 각각의 요소에 해당하는 규칙으로 이루어진 배열을 반환해야합니다. 
+속성에 유효성 검사 규칙을 할당할 때 주어진 중첩 배열 element-요소의 값에 액세스해야 하는 경우가 있습니다. 이런 경우에는 `Rule::forEach` 메소드를 사용하면 됩니다. `forEach` 메소드는 클로저를 인자로 전달 받습니다. 이 클로저는 유효성 검사 과정에서 배열의 요소에 접근하는 반복문 안에서 호출됩니다. 클로저에는 배열의 
+속성 값과 명시적이고 완전히 확장된 속성 이름(fully-expanded attribute name)을 받습니다. 완전히 확장된 속성 이름은 `companies.*.id`에서 점 기호를 통해 확장되어 마지막으로 확장된 이름인 `id` 속성 이름을 의미합니다. 클로저는 각각의 요소에 해당하는 유효성 검사 규칙으로 이루어진 배열을 반환해야합니다.
 
     use App\Rules\HasPermission;
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Validation\Rule;
 
     $validator = Validator::make($request->all(), [
-        'companies.*.id' => Rule::forEach(function ($value, $attribute) {
+        'companies.*.id' => Rule::forEach(function (string|null $value, string $attribute) {
             return [
                 Rule::exists(Company::class, 'id'),
                 new HasPermission('manage-company', $value),
@@ -2541,7 +2679,7 @@ Sometimes you may need to access the value for a given nested array element when
 
 When validating arrays, you may want to reference the index or position of a particular item that failed validation within the error message displayed by your application. To accomplish this, you may include the `:index` (starts from `0`) and `:position` (starts from `1`) placeholders within your [custom validation message](#manual-customizing-the-error-messages):
 
-배열의 유효성 검사를 진행할 때, 애플리케이션에서 표시하는 에러 메세지에서 실패한 아이템이 몇 번째 인지 위치를 참조하고 싶을 수 있습니다. 이렇게 하기 위해서는 [에러 메시지 사용자 정의](#manual-customizing-the-error-messages) 안에서 `:index` (0 부터 시작)와 `:position` (1 부터 시작) 플레이스홀더를 사용하면 됩니다. 
+배열의 유효성 검사를 진행할 때, 애플리케이션에서 표시하는 에러 메세지에서 실패한 아이템의 인덱스 번호 또는 몇 번째 위치인지를 참조하고 싶을 수 있습니다. 이렇게 하기 위해서는 [에러 메시지 사용자 정의](#manual-customizing-the-error-messages) 안에서 `:index` (0 부터 시작)와 `:position` (1 부터 시작) 플레이스홀더를 사용하면 됩니다. 
 
     use Illuminate\Support\Facades\Validator;
 
@@ -2564,7 +2702,9 @@ When validating arrays, you may want to reference the index or position of a par
         'photos.*.description.required' => 'Please describe photo #:position.',
     ]);
 
-위와 같은 예제의 경우에는 유효성 겁사는 실패하고 사용자에게 표시되는 에러 메세지는 _"Please describe photo #2."_ 와 같이 나타납니다. ("두 번째 사진에 설명을 입력해주세요")
+Given the example above, validation will fail and the user will be presented with the following error of _"Please describe photo #2."_
+
+위와 같은 예제의 경우에는 유효성 검사는 실패하고 사용자에게 표시되는 에러 메세지는 _"Please describe photo #2."_ 와 같이 나타납니다. ("두 번째 사진에 설명을 입력해주세요")
 
 <a name="validating-files"></a>
 ## Validating Files
@@ -2572,7 +2712,7 @@ When validating arrays, you may want to reference the index or position of a par
 
 Laravel provides a variety of validation rules that may be used to validate uploaded files, such as `mimes`, `image`, `min`, and `max`. While you are free to specify these rules individually when validating files, Laravel also offers a fluent file validation rule builder that you may find convenient:
 
-라라벨은 `mimes`, `image`, `min`, `max` 같이 업로드된 파일을 검증하는데 사용되는 다양한 유효성 검증 규칙을 제공한다. 파일의 유효성을 검사할 때 이러한 규칙을 개별적으로 자유롭게 지정할 수 있지만 Laravel은 편리한 파일 유효성 검사 규칙 빌더도 제공합니다.
+라라벨은 `mimes`, `image`, `min`, `max` 같이 업로드된 파일의 유효성을 검사하는 데 사용할 수 있는 다양한 유효성 검사 규칙을 제공합니다. 파일의 유효성을 검사할 때 이러한 규칙을 개별적으로 자유롭게 지정할 수 있지만 라라벨은 우아하게 쓸 수 있는 검사 규칙 빌더를 제공하므로 편리하게 사용할 수 있습니다.
 
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Validation\Rules\File;
@@ -2588,7 +2728,7 @@ Laravel provides a variety of validation rules that may be used to validate uplo
 
 If your application accepts images uploaded by your users, you may use the `File` rule's `image` constructor method to indicate that the uploaded file should be an image. In addition, the `dimensions` rule may be used to limit the dimensions of the image:
 
-여러분의 애플리케이션이 유저가 올린 이미지를 허용한다면, 업로드된 파일이 이미지여야 하는지 나타내기 위해 `File` 규칙의 `image` 생성자 메서드를 사용할 수 있습니다. 추가적으로 이미지의 크기를 제한하기 위해 `dimensions` 규칙을 사용할 수 있습니다.
+애플리케이션에서 사용자가 업로드한 이미지를 허용하는 경우 `File` 규칙의 `image` 생성자 메서드를 사용하여 업로드된 파일이 이미지여야 함을 나타낼 수 있습니다. 추가적으로 이미지의 치수를 제한하기 위해 `dimensions` 규칙을 사용할 수 있습니다.
 
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Validation\Rules\File;
@@ -2607,7 +2747,7 @@ If your application accepts images uploaded by your users, you may use the `File
 > More information regarding validating image dimensions may be found in the [dimension rule documentation](#rule-dimensions).
 
 > **Note**  
-> 이미지 크기 검증과 관련 정보는 [이미지 크기 문서](#rule-dimensions)에서 찾아볼 수 있습니다.
+> 이미지 치수의 유효성 검사에 대한 자세한 내용은 [이미지 치수 문서](#rule-dimensions)에서 찾아볼 수 있습니다.
 
 <a name="validating-files-file-types"></a>
 #### File Types
@@ -2615,7 +2755,7 @@ If your application accepts images uploaded by your users, you may use the `File
 
 Even though you only need to specify the extensions when invoking the `types` method, this method actually validates the MIME type of the file by reading the file's contents and guessing its MIME type. A full listing of MIME types and their corresponding extensions may be found at the following location:
 
-`types` 메서드를 호출할 때 확장자를 지정해주기만 하면, 이 메서드는 실제로 파일의 내용을 읽고 MIME 형식을 추측하여 파일의 MIME 형식을 확인합니다. MIME 유형 및 해당 확장의 전체 목록은 다음 위치에서 찾을 수 있습니다.
+`types` 메서드를 호출할 때 확장자만 지정하면 되지만, 이 메서드는 실제로 파일의 내용을 읽고 MIME 타입을 추측하여 파일의 MIME 타입을 검증합니다. MIME 유형과 해당 확장자의 전체 목록은 다음 위치에서 확인할 수 있습니다.
 
 [https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types](https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)
 
@@ -2625,7 +2765,7 @@ Even though you only need to specify the extensions when invoking the `types` me
 
 To ensure that passwords have an adequate level of complexity, you may use Laravel's `Password` rule object:
 
-비밀번호가 적절한 수준의 복잡성을 갖도록 하려면 라라벨의 `Password` 규칙 객체를 사용할 수 있습니다.
+비밀번호가 적절한 수준의 복잡성을 갖도록 하려면 라라벨의 `Password` rule 객체를 사용할 수 있습니다.
 
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Validation\Rules\Password;
@@ -2636,7 +2776,7 @@ To ensure that passwords have an adequate level of complexity, you may use Larav
 
 The `Password` rule object allows you to easily customize the password complexity requirements for your application, such as specifying that passwords require at least one letter, number, symbol, or characters with mixed casing:
 
-`Password` 규칙 개체를 사용하면 비밀번호에 문자, 숫자, 기호 또는 대소문자가 혼합된 문자가 하나 이상 필요하도록 지정하는 것과 같이 애플리케이션에 대한 비밀번호 복잡성 요구 사항을 쉽게 사용자 지정할 수 있습니다.
+`Password` rule 객체를 사용하면 비밀번호에 문자, 숫자, 기호 또는 대소문자가 혼합된 문자가 하나 이상 필요하도록 지정하는 것과 같이 애플리케이션에 대한 비밀번호 복잡성 요구 사항을 쉽게 사용자 지정할 수 있습니다.
 
     // Require at least 8 characters...
     Password::min(8)
@@ -2661,11 +2801,11 @@ In addition, you may ensure that a password has not been compromised in a public
 
 Internally, the `Password` rule object uses the [k-Anonymity](https://en.wikipedia.org/wiki/K-anonymity) model to determine if a password has been leaked via the [haveibeenpwned.com](https://haveibeenpwned.com) service without sacrificing the user's privacy or security.
 
-내부적으로 `Password` 규칙 객체는 [k-Anonymity](https://en.wikipedia.org/wiki/K-anonymity) 모델을 사용하여 [haveibeenpwned.com](https://haveibeenpwned.com) 을 통해 비밀번호가 유출되었는지 확인합니다. 사용자의 개인 정보 또는 보안을 희생하지 않고 서비스를 제공합니다.
+내부적으로 `Password` rule 객체는 [k-Anonymity](https://en.wikipedia.org/wiki/K-anonymity) 모델을 사용하여 [haveibeenpwned.com](https://haveibeenpwned.com) 을 통해 비밀번호가 유출되었는지 확인합니다. 사용자의 개인 정보 또는 보안을 희생하지 않고 서비스를 제공합니다.
 
 By default, if a password appears at least once in a data leak, it will be considered compromised. You can customize this threshold using the first argument of the `uncompromised` method:
 
-기본적으로 암호가 데이터 유출에서 한 번 이상 나타나면 손상된 것으로 간주됩니다. `uncompromised` 메소드의 첫 번째 인수를 사용하여 이 임계값을 사용자 정의할 수 있습니다.
+기본적으로 암호가 데이터 유출에서 한 번 이상 나타나면 유출된 것으로 간주됩니다. `uncompromised` 메소드의 첫 번째 인자를 사용하여 이 임계값을 사용자 정의할 수 있습니다.
 
     // Ensure the password appears less than 3 times in the same data leak...
     Password::min(8)->uncompromised(3);
@@ -2687,17 +2827,15 @@ Of course, you may chain all the methods in the examples above:
 
 You may find it convenient to specify the default validation rules for passwords in a single location of your application. You can easily accomplish this using the `Password::defaults` method, which accepts a closure. The closure given to the `defaults` method should return the default configuration of the Password rule. Typically, the `defaults` rule should be called within the `boot` method of one of your application's service providers:
 
-애플리케이션의 단일 위치에서 암호에 대한 기본 유효성 검사 규칙을 지정하는 것이 편리할 수 있습니다. 클로저를 입력받는 `Password::defaults` 메소드를 사용하여 이를 쉽게 달성할 수 있습니다. `defaults` 메소드에 주어진 클로저는 Password 규칙의 기본 구성을 반환해야 합니다. 일반적으로 `defaults` 규칙은 애플리케이션 서비스 제공자 중 하나의 `boot` 메소드 내에서 호출되어야 합니다.
+애플리케이션의 단일 위치에서 암호에 대한 기본 유효성 검사 규칙을 지정하는 것이 편리할 수 있습니다. 클로저를 입력받는 `Password::defaults` 메소드를 사용하여 이를 쉽게 달성할 수 있습니다. `defaults` 메소드에 주어진 클로저는 Password 규칙의 기본 구성을 반환해야 합니다. 일반적으로 애플리케이션의 서비스 프로바이더 중 하나의 `boot` 메서드 내에서 `defaults` 규칙을 호출해야 합니다.
 
 ```php
 use Illuminate\Validation\Rules\Password;
 
 /**
  * Bootstrap any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     Password::defaults(function () {
         $rule = Password::min(8);
@@ -2711,13 +2849,13 @@ public function boot()
 
 Then, when you would like to apply the default rules to a particular password undergoing validation, you may invoke the `defaults` method with no arguments:
 
-그런 다음 유효성 검사를 받는 특정 비밀번호에 기본 규칙을 적용하려면 인수 없이 `defaults` 메소드를 호출하면 됩니다.
+그런 다음 유효성 검사를 받는 특정 비밀번호에 기본 규칙을 적용하려면 인자 없이 `defaults` 메소드를 호출하면 됩니다.
 
     'password' => ['required', Password::defaults()],
 
 Occasionally, you may want to attach additional validation rules to your default password validation rules. You may use the `rules` method to accomplish this:
 
-경우에 따라 기본 암호 유효성 검사 규칙에 추가 유효성 검사 규칙을 연결할 수 있습니다. 이를 수행하기 위해 `rules` 메소드를 사용할 수 있습니다.
+경우에 따라 기본 비밀번호 유효성 검사 규칙에 유효성 검사 규칙을 추가하고 싶을 때가 있습니다. 이를 위해 `rules` 메서드를 사용할 수 있습니다.
 
     use App\Rules\ZxcvbnRule;
 
@@ -2737,33 +2875,29 @@ Occasionally, you may want to attach additional validation rules to your default
 
 Laravel provides a variety of helpful validation rules; however, you may wish to specify some of your own. One method of registering custom validation rules is using rule objects. To generate a new rule object, you may use the `make:rule` Artisan command. Let's use this command to generate a rule that verifies a string is uppercase. Laravel will place the new rule in the `app/Rules` directory. If this directory does not exist, Laravel will create it when you execute the Artisan command to create your rule:
 
-라라벨은 다양하고 유용한 유효성 검사 규칙을 제공합니다. 그러나 일부를 지정하고 싶을 수도 있습니다. 사용자 정의 유효성 검사 규칙을 등록하는 한 가지 방법은 규칙 개체를 사용하는 것입니다. 새 규칙 개체를 생성하려면 `make:rule` Artisan 명령을 사용할 수 있습니다. 이 명령을 사용하여 문자열이 대문자인지 확인하는 규칙을 생성해 보겠습니다. 라라벨은 `app/Rules` 디렉토리에 새 규칙을 배치합니다. 이 디렉토리가 존재하지 않는 경우 라라벨은 Artisan 명령을 실행하여 규칙을 생성할 때 생성합니다.
+라라벨은 다양하고 유용한 유효성 검사 규칙을 제공합니다. 사용자가 직접 몇 가지 규칙을 지정할 수도 있습니다. 사용자 정의 유효성 검사 규칙을 등록하는 한 가지 방법은 rule 객체를 사용하는 것입니다. 새 rule 객체를 생성하려면 `make:rule` 아티즌 명령를 사용하면 됩니다. 이 명령을 사용하여 문자열이 대문자인지 확인하는 규칙을 생성해 보겠습니다. 라라벨은 `app/Rules` 디렉토리에 새 rule 클래스를 배치합니다. 이 디렉토리가 존재하지 않는 경우 라라벨은 아티즌 명령를 실행하여 rule 클래스를 생성할 때 폴더도 함께 생성합니다.
 
 ```shell
-php artisan make:rule Uppercase --invokable
+php artisan make:rule Uppercase
 ```
 
-Once the rule has been created, we are ready to define its behavior. A rule object contains a single method: `__invoke`. This method receives the attribute name, its value, and a callback that should be invoked on failure with the validation error message:
+Once the rule has been created, we are ready to define its behavior. A rule object contains a single method: `validate`. This method receives the attribute name, its value, and a callback that should be invoked on failure with the validation error message:
 
-rule 객체가 생성되고나면, 유효성 검사가 동작하는 방식을 정해야 합니다. rule 객체는 `__invokable` 메서드 하나를 가지고 있습니다. 이 메서드는 유효성 검사 오류 메시지와 함께 실패 시 호출되어야 하는 속성 이름, 해당 값 및 콜백을 수신합니다.
+rule 객체가 생성되고나면, 유효성 검사가 동작하는 방식을 정해야 합니다. rule 객체는 `validate` 메서드 하나를 가지고 있습니다. 이 메서드는 속성 이름, 저징된 이름의 속성이 갖는 값, 유효성 검사 오류 메시지와 함께 실패 시 호출해야 하는 콜백을 받습니다.
 
     <?php
 
     namespace App\Rules;
 
-    use Illuminate\Contracts\Validation\InvokableRule;
+    use Closure;
+    use Illuminate\Contracts\Validation\ValidationRule;
 
-    class Uppercase implements InvokableRule
+    class Uppercase implements ValidationRule
     {
         /**
          * Run the validation rule.
-         *
-         * @param  string  $attribute
-         * @param  mixed  $value
-         * @param  \Closure  $fail
-         * @return void
          */
-        public function __invoke($attribute, $value, $fail)
+        public function validate(string $attribute, mixed $value, Closure $fail): void
         {
             if (strtoupper($value) !== $value) {
                 $fail('The :attribute must be uppercase.');
@@ -2787,7 +2921,7 @@ You may call the `trans` helper from your `message` method if you would like to 
 
 Once the rule has been defined, you may attach it to a validator by passing an instance of the rule object with your other validation rules:
 
-rule 을 정의하고 나면, 다른 유효성 검사 rule 객체들과 함께, rule 객체의 인스턴스를 전달하여, validator 에 추가할 수 있습니다.
+rule 을 정의하고 나면, 다른 유효성 검사 rule 객체들과 함께, rule 객체의 인스턴스를 전달하여, validator 에 유효성 검사 규칙을 추가할 수 있습니다.
 
     use App\Rules\Uppercase;
 
@@ -2799,7 +2933,7 @@ rule 을 정의하고 나면, 다른 유효성 검사 rule 객체들과 함께, 
 
 Instead of providing a literal error message to the `$fail` closure, you may also provide a [translation string key](/docs/{{version}}/localization) and instruct Laravel to translate the error message:
 
-`$fail` 클로저 에 문자 그대로의 오류 메시지를 제공하는 대신 [번역 문자열 키](/docs/{{version}}/localization)를 제공하고 Laravel에게 오류 메시지를 번역하도록 지시할 수도 있습니다.
+`$fail` 클로저 에 문자 그대로의 오류 메시지를 제공하는 대신 [번역 문자열 키](/docs/{{version}}/localization)를 제공하고 라라벨에게 오류 메시지를 번역하도록 지시할 수도 있습니다.
 
     if (strtoupper($value) !== $value) {
         $fail('validation.uppercase')->translate();
@@ -2807,7 +2941,7 @@ Instead of providing a literal error message to the `$fail` closure, you may als
 
 If necessary, you may provide placeholder replacements and the preferred language as the first and second arguments to the `translate` method:
 
-필요한 경우 `translate` 메서드에 대한 첫 번째 및 두 번째 인수로 자리 표시자 대체 및 번역하고자 하는 언어를 제공할 수 있습니다 .
+필요한 경우 `translate` 메서드에 대한 첫 번째 및 두 번째 인자로 플레이스홀더 대체자와 번역해서 표기할 기본 언어를 지정하여 번역 파일의 매칭되는 번역 표기를 표시하도록 할 수 있습니다.
 
     $fail('validation.location')->translate([
         'value' => $this->value,
@@ -2818,21 +2952,21 @@ If necessary, you may provide placeholder replacements and the preferred languag
 
 If your custom validation rule class needs to access all of the other data undergoing validation, your rule class may implement the `Illuminate\Contracts\Validation\DataAwareRule` interface. This interface requires your class to define a `setData` method. This method will automatically be invoked by Laravel (before validation proceeds) with all of the data under validation:
 
-사용자 정의 유효성 검사 규칙 클래스가 유효성 검사를 받는 다른 모든 데이터에 액세스해야 하는 경우 규칙 클래스는 `Illuminate\Contracts\Validation\DataAwareRule` 인터페이스를 구현할 수 있습니다. 이 인터페이스를 사용하려면 클래스에서 `setData` 메서드를 정의해야 합니다. 이 메소드는 검증 중인 모든 데이터와 함께 라라벨에 의해 (검증이 진행되기 전) 자동으로 호출됩니다.
+사용자 정의 유효성 검사 규칙 클래스가 유효성 검사를 받는 다른 모든 데이터에 액세스해야 하는 경우 rule 클래스는 `Illuminate\Contracts\Validation\DataAwareRule` 인터페이스를 구현할 수 있습니다. 이 인터페이스를 사용하려면 클래스에서 `setData` 메서드를 정의해야 합니다. 이 메소드는 검증 중인 모든 데이터와 함께 라라벨에 의해 (검증이 진행되기 전) 자동으로 호출됩니다.
 
     <?php
 
     namespace App\Rules;
 
-    use Illuminate\Contracts\Validation\Rule;
-    use Illuminate\Contracts\Validation\InvokableRule;
+    use Illuminate\Contracts\Validation\DataAwareRule;
+    use Illuminate\Contracts\Validation\ValidationRule;
 
-    class Uppercase implements DataAwareRule, InvokableRule
+    class Uppercase implements DataAwareRule, ValidationRule
     {
         /**
          * All of the data under validation.
          *
-         * @var array
+         * @var array<string, mixed>
          */
         protected $data = [];
 
@@ -2841,10 +2975,9 @@ If your custom validation rule class needs to access all of the other data under
         /**
          * Set the data under validation.
          *
-         * @param  array  $data
-         * @return $this
+         * @param  array<string, mixed>  $data
          */
-        public function setData($data)
+        public function setData(array $data): static
         {
             $this->data = $data;
 
@@ -2854,16 +2987,17 @@ If your custom validation rule class needs to access all of the other data under
 
 Or, if your validation rule requires access to the validator instance performing the validation, you may implement the `ValidatorAwareRule` interface:
 
-또는 유효성 검사 규칙에 유효성 검사를 수행하는 유효성 검사기 인스턴스에 대한 액세스가 필요한 경우 `ValidatorAwareRule` 인터페이스를 구현할 수 있습니다.
+또는 유효성 검사 규칙에 유효성 검사를 수행하는 validator 인스턴스에 대한 액세스가 필요한 경우 `ValidatorAwareRule` 인터페이스를 구현할 수 있습니다.
 
     <?php
 
     namespace App\Rules;
 
-    use Illuminate\Contracts\Validation\InvokableRule;
+    use Illuminate\Contracts\Validation\ValidationRule;
     use Illuminate\Contracts\Validation\ValidatorAwareRule;
+    use Illuminate\Validation\Validator;
 
-    class Uppercase implements InvokableRule, ValidatorAwareRule
+    class Uppercase implements ValidationRule, ValidatorAwareRule
     {
         /**
          * The validator instance.
@@ -2876,11 +3010,8 @@ Or, if your validation rule requires access to the validator instance performing
 
         /**
          * Set the current validator.
-         *
-         * @param  \Illuminate\Validation\Validator  $validator
-         * @return $this
          */
-        public function setValidator($validator)
+        public function setValidator(Validator $validator): static
         {
             $this->validator = $validator;
 
@@ -2894,7 +3025,7 @@ Or, if your validation rule requires access to the validator instance performing
 
 If you only need the functionality of a custom rule once throughout your application, you may use a closure instead of a rule object. The closure receives the attribute's name, the attribute's value, and a `$fail` callback that should be called if validation fails:
 
-애플리케이션 전체에서 사용자 지정 규칙의 기능이 한 번만 필요한 경우 규칙 개체 대신 클로저를 사용할 수 있습니다. 클로저는 속성 이름, 속성 값, 유효성 검사가 실패하면 호출되어야 하는 `$fail` 콜백을 입력받습니다.
+애플리케이션 전체에서 사용자 지정 규칙의 기능이 한 번만 필요한 경우 rule 객체 대신 클로저를 사용할 수 있습니다. 클로저는 속성 이름, 지정된 속성이 갖는 값, 유효성 검사가 실패하면 호출되어야 하는 `$fail` 콜백을 입력받습니다.
 
     use Illuminate\Support\Facades\Validator;
 
@@ -2902,9 +3033,9 @@ If you only need the functionality of a custom rule once throughout your applica
         'title' => [
             'required',
             'max:255',
-            function ($attribute, $value, $fail) {
+            function (string $attribute, mixed $value, Closure $fail) {
                 if ($value === 'foo') {
-                    $fail('The '.$attribute.' is invalid.');
+                    $fail("The {$attribute} is invalid.");
                 }
             },
         ],
@@ -2912,7 +3043,7 @@ If you only need the functionality of a custom rule once throughout your applica
 
 <a name="implicit-rules"></a>
 ### Implicit Rules
-### 묵시적 규칙
+### 암묵적 규칙
 
 By default, when an attribute being validated is not present or contains an empty string, normal validation rules, including custom rules, are not run. For example, the [`unique`](#rule-unique) rule will not be run against an empty string:
 
@@ -2928,14 +3059,14 @@ By default, when an attribute being validated is not present or contains an empt
 
 For a custom rule to run even when an attribute is empty, the rule must imply that the attribute is required. To quickly generate a new implicit rule object, you may use the `make:rule` Artisan command with the `--implicit` option:
 
-속성이 비어 있는 경우에도 사용자 지정 규칙이 실행되려면 규칙이 해당 속성이 필수임을 암시해야 합니다. 새로운 암시적 규칙 개체를 빠르게 생성하려면 `make:rule` Artisan 명령을 다음 `--implicit` 옵션과 함께 사용할 수 있습니다.
+속성이 비어 있는(속성이 없거나 빈 문자열인) 경우에는 유효성 검사 규칙이 실행되지 않지만, 사용자 지정 규칙이 이런 제약없이 속성이 없거나 빈 문자열인 경우에도 유효성 검사 규칙을 실행하게 하려면 유효성 검사 규칙이 해당 속성이 필수로 여기고 비어 있는 속성이더라도 유효성 검사 규칙을 적용하라는 암묵적인 규칙으로 만들어야 합니다. 이러한 암묵적 규칙을 갖는 새로운 rule 객체를 빠르게 생성하려면 `--implicit` 옵션과 함께 `make:rule` 아티즌 명령를 사용하면 됩니다.
 
 ```shell
-php artisan make:rule Uppercase --invokable --implicit
+php artisan make:rule Uppercase --implicit
 ```
 
 > **Warning**  
 > An "implicit" rule only _implies_ that the attribute is required. Whether it actually invalidates a missing or empty attribute is up to you.
 
-> **Warning**  
-> "묵시적" 규칙은 속성이 필요하다는 것을 _묵시합니다_. 실제로 누락되거나 비어 있는 속성을 무효화하는지 여부는 사용자에게 달려 있습니다.
+> **Warning**
+> "암묵적" 규칙은 속성이 필요하다는 것을 암묵적으로(_implies_) 포함하고 있습니다. 비어 있을 경우 전달된 속성을 유효성 검사 규칙에 적용하지 않는 일반적인 규칙이 아니라 암묵적 규칙은 누락되거나 비어있더라도 유효성 검사 규칙의 적용을 받게 하므로 검사 규칙을 어떻게 정의하느냐에 따라 실제로 누락되거나 비어 있는 속성을 무효화하는지 여부를 달리할 수 있습니다.

@@ -53,17 +53,17 @@ This command will place a new `EnsureTokenIsValid` class within your `app/Http/M
     namespace App\Http\Middleware;
 
     use Closure;
+    use Illuminate\Http\Request;
+    use Symfony\Component\HttpFoundation\Response;
 
     class EnsureTokenIsValid
     {
         /**
          * Handle an incoming request.
          *
-         * @param  \Illuminate\Http\Request  $request
-         * @param  \Closure  $next
-         * @return mixed
+         * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
          */
-        public function handle($request, Closure $next)
+        public function handle(Request $request, Closure $next): Response
         {
             if ($request->input('token') !== 'my-secret-token') {
                 return redirect('home');
@@ -81,10 +81,10 @@ It's best to envision middleware as a series of "layers" HTTP requests must pass
 
 미들웨어를 HTTP 요청이 애플리케이션에 도달하기 전에 반드시 통과해야 하는 일종의 "단계(layers)"라고 생각하는 것이 가장 좋습니다. 각 단계에서 요청을 검사할 수 있고 요청을 완전히 거절할 수도 있습니다.
 
-> **Note**
+> **Note**  
 > All middleware are resolved via the [service container](/docs/{{version}}/container), so you may type-hint any dependencies you need within a middleware's constructor.
 
-> **Note**
+> **Note**  
 > 모든 미들웨어는 [서비스 컨테이너](/docs/{{version}}/container)를 통해 처리되므로 미들웨어의 생성자에 필요한 모든 의존성을 입력 할 수 있습니다.
 
 <a name="before-after-middleware"></a>
@@ -101,10 +101,12 @@ Of course, a middleware can perform tasks before or after passing the request de
     namespace App\Http\Middleware;
 
     use Closure;
+    use Illuminate\Http\Request;
+    use Symfony\Component\HttpFoundation\Response;
 
     class BeforeMiddleware
     {
-        public function handle($request, Closure $next)
+        public function handle(Request $request, Closure $next): Response
         {
             // Perform action
 
@@ -121,10 +123,12 @@ However, this middleware would perform its task **after** the request is handled
     namespace App\Http\Middleware;
 
     use Closure;
+    use Illuminate\Http\Request;
+    use Symfony\Component\HttpFoundation\Response;
 
     class AfterMiddleware
     {
-        public function handle($request, Closure $next)
+        public function handle(Request $request, Closure $next): Response
         {
             $response = $next($request);
 
@@ -150,13 +154,31 @@ If you want a middleware to run during every HTTP request to your application, l
 ### Assigning Middleware To Routes
 ### 라우트에 미들웨어 지정하기
 
-If you would like to assign middleware to specific routes, you should first assign the middleware a key in your application's `app/Http/Kernel.php` file. By default, the `$routeMiddleware` property of this class contains entries for the middleware included with Laravel. You may add your own middleware to this list and assign it a key of your choosing:
+If you would like to assign middleware to specific routes, you may invoke the `middleware` method when defining the route:
 
-특정 경로에 미들웨어를 할당하려면 먼저 애플리케이션의 `appHttpKernel.php` 파일에서 미들웨어 키를 할당해야 합니다. 기본적으로 이 클래스의 `$routeMiddleware` 속성은 Laravel에 포함된 미들웨어에 대한 항목을 포함합니다. 이 목록에 자신의 미들웨어를 추가하고 선택한 키를 할당할 수 있습니다.
+특정 Route에 미들웨어를 할당하려면 Route를 정의할 때 `middleware` 메소드를 호출할 수 있습니다.
+
+    use App\Http\Middleware\Authenticate;
+
+    Route::get('/profile', function () {
+        // ...
+    })->middleware(Authenticate::class);
+
+You may assign multiple middleware to the route by passing an array of middleware names to the `middleware` method:
+
+`middleware` 메서드에 미들웨어 이름 배열을 전달하여 Route에 여러 미들웨어를 할당할 수 있습니다.
+
+    Route::get('/', function () {
+        // ...
+    })->middleware([First::class, Second::class]);
+
+For convenience, you may assign aliases to middleware in your application's `app/Http/Kernel.php` file. By default, the `$middlewareAliases` property of this class contains entries for the middleware included with Laravel. You may add your own middleware to this list and assign it an alias of your choosing:
+
+편의를 위해 어플리케이션의 `appHttpKernel.php` 파일에서 미들웨어에 별칭을 지정할 수 있습니다. 기본적으로 이 클래스의 `middlewareAliases` 속성에는 Laravel에 포함된 미들웨어에 대한 항목이 포함되어 있습니다. 이 목록에 자신의 미들웨어를 추가하고 선택한 별칭을 지정할 수 있습니다.
 
     // Within App\Http\Kernel class...
 
-    protected $routeMiddleware = [
+    protected $middlewareAliases = [
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
@@ -168,31 +190,13 @@ If you would like to assign middleware to specific routes, you should first assi
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
     ];
 
-Once the middleware has been defined in the HTTP kernel, you may use the `middleware` method to assign middleware to a route:
+Once the middleware alias has been defined in the HTTP kernel, you may use the alias when assigning middleware to routes:
 
-미들웨어를 HTTP 커널에 등록했다면, 라우트에 `middleware` 메소드를 사용하여 미들웨어를 지정할 수 있습니다.
+미들웨어 별칭을 HTTP 커널에 등록했다면 미들웨어를 Route에 할당할 때 별칭을 사용할 수 있습니다.
 
     Route::get('/profile', function () {
-        //
+        // ...
     })->middleware('auth');
-
-You may assign multiple middleware to the route by passing an array of middleware names to the `middleware` method:
-
-라우트에 `middleware` 메서드에 미들웨어 이름으로 된 배열을 전달하여 여러개의 미들웨어를 지정할 수도 있습니다.
-
-    Route::get('/', function () {
-        //
-    })->middleware(['first', 'second']);
-
-When assigning middleware, you may also pass the fully qualified class name:
-
-미들웨어를 지정할 때, 전체 클래스 이름을 전달할 수도 있습니다.
-
-    use App\Http\Middleware\EnsureTokenIsValid;
-
-    Route::get('/profile', function () {
-        //
-    })->middleware(EnsureTokenIsValid::class);
 
 <a name="excluding-middleware"></a>
 #### Excluding Middleware
@@ -206,11 +210,11 @@ When assigning middleware to a group of routes, you may occasionally need to pre
 
     Route::middleware([EnsureTokenIsValid::class])->group(function () {
         Route::get('/', function () {
-            //
+            // ...
         });
 
         Route::get('/profile', function () {
-            //
+            // ...
         })->withoutMiddleware([EnsureTokenIsValid::class]);
     });
 
@@ -222,7 +226,7 @@ You may also exclude a given set of middleware from an entire [group](/docs/{{ve
 
     Route::withoutMiddleware([EnsureTokenIsValid::class])->group(function () {
         Route::get('/profile', function () {
-            //
+            // ...
         });
     });
 
@@ -252,14 +256,13 @@ Laravel includes predefined `web` and `api` middleware groups that contain commo
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
-            // \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
         'api' => [
-            'throttle:api',
+            \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
@@ -269,17 +272,17 @@ Middleware groups may be assigned to routes and controller actions using the sam
 미들웨어 그룹은 개별 미들웨어와 동일한 방식으로 라우트와 컨트롤러 액션에 지정할 수 있습니다. 즉, 미들웨어 그룹은 보다 편리하게 많은 미들웨어를 한번에 라우트에 할당할 수 있게 해줍니다.
 
     Route::get('/', function () {
-        //
+        // ...
     })->middleware('web');
 
     Route::middleware(['web'])->group(function () {
-        //
+        // ...
     });
 
-> **Note**
+> **Note**  
 > Out of the box, the `web` and `api` middleware groups are automatically applied to your application's corresponding `routes/web.php` and `routes/api.php` files by the `App\Providers\RouteServiceProvider`.
 
-> **Note**
+> **Note**  
 > 별다른 설정없이도, `web` 과 `api` 미들웨어 그룹이 `App\Providers\RouteServiceProvider` 에 의해서 자동으로 애플리케이션의 `routes/web.php`과 `routes/api.php` 파일에 적용됩니다.
 
 <a name="sorting-middleware"></a>
@@ -327,18 +330,17 @@ Additional middleware parameters will be passed to the middleware after the `$ne
     namespace App\Http\Middleware;
 
     use Closure;
+    use Illuminate\Http\Request;
+    use Symfony\Component\HttpFoundation\Response;
 
     class EnsureUserHasRole
     {
         /**
-         * Handle the incoming request.
+         * Handle an incoming request.
          *
-         * @param  \Illuminate\Http\Request  $request
-         * @param  \Closure  $next
-         * @param  string  $role
-         * @return mixed
+         * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
          */
-        public function handle($request, Closure $next, $role)
+        public function handle(Request $request, Closure $next, string $role): Response
         {
             if (! $request->user()->hasRole($role)) {
                 // Redirect...
@@ -353,8 +355,8 @@ Middleware parameters may be specified when defining the route by separating the
 
 라우트를 정의 할 때 미들웨어 이름과 인자를 `:` 로 구분합니다. 여러 개의 인자는 쉼표로 구분합니다.
 
-    Route::put('/post/{id}', function ($id) {
-        //
+    Route::put('/post/{id}', function (string $id) {
+        // ...
     })->middleware('role:editor');
 
 <a name="terminable-middleware"></a>
@@ -371,29 +373,25 @@ Sometimes a middleware may need to do some work after the HTTP response has been
     namespace Illuminate\Session\Middleware;
 
     use Closure;
+    use Illuminate\Http\Request;
+    use Symfony\Component\HttpFoundation\Response;
 
     class TerminatingMiddleware
     {
         /**
          * Handle an incoming request.
          *
-         * @param  \Illuminate\Http\Request  $request
-         * @param  \Closure  $next
-         * @return mixed
+         * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
          */
-        public function handle($request, Closure $next)
+        public function handle(Request $request, Closure $next): Response
         {
             return $next($request);
         }
 
         /**
          * Handle tasks after the response has been sent to the browser.
-         *
-         * @param  \Illuminate\Http\Request  $request
-         * @param  \Illuminate\Http\Response  $response
-         * @return void
          */
-        public function terminate($request, $response)
+        public function terminate(Request $request, Response $response): void
         {
             // ...
         }
@@ -411,10 +409,8 @@ When calling the `terminate` method on your middleware, Laravel will resolve a f
 
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->app->singleton(TerminatingMiddleware::class);
     }

@@ -1600,10 +1600,10 @@ The `Enum` rule is a class based rule that validates whether the field under val
         'status' => [new Enum(ServerStatus::class)],
     ]);
 
-> **Warning**
+> **Warning**  
 > Enums are only available on PHP 8.1+.
 
-> **Warning**
+> **Warning**  
 > enum은 PHP 8.1 이상에서만 사용할 수 있습니다.
 
 <a name="rule-exclude"></a>
@@ -1822,7 +1822,7 @@ The field under validation must be an integer.
 > This validation rule does not verify that the input is of the "integer" variable type, only that the input is of a type accepted by PHP's `FILTER_VALIDATE_INT` rule. If you need to validate the input as being a number please use this rule in combination with [the `numeric` validation rule](#rule-numeric).
 
 > **Warning**
-> 이 유효성 검사 규칙은 input-입력이 "정수" 변수 유형인지 확인하지 않고 입력이 PHP의 `FILTER_VALIDATE_INT` 규칙에 의해 허용되는 유형인지만 확인합니다. 입력이 수인지 확인해야 하는 경우 [numeric 유효성 검사 규칙](#rule-numeric)과 함께 이 규칙을 사용하세요.
+> 이 유효성 검사 규칙은 입력이 "정수" 변수 유형인지 확인하지 않고 입력이 PHP의 `FILTER_VALIDATE_INT` 규칙에 의해 허용되는 유형인지만 확인합니다. 입력이 숫자인지 확인해야 하는 경우 ['numeric' 유효성 검사 규칙](#rule-numeric)과 함께 이 규칙을 사용하세요.
 
 <a name="rule-ip"></a>
 #### ip
@@ -1964,6 +1964,12 @@ The field under validation must be a multiple of _value_.
 
 검증 중인 필드는 _value_ 의 배수여야 합니다.
 
+> **Warning**  
+> The [`bcmath` PHP extension](https://www.php.net/manual/en/book.bc.php) is required in order to use the `multiple_of` rule.
+
+> **Warning**  
+> `multiple_of` 규칙을 사용하려면 [`bcmath` PHP 확장 프로그램](https://www.php.net/manual/en/book.bc.php) 이 필요합니다.
+
 <a name="rule-missing"></a>
 #### missing
 
@@ -1971,33 +1977,34 @@ The field under validation must not be present in the input data.
 
 검증 중인 필드는 input-입력 데이터에 존재하지 않아야 합니다.
 
- <a name="rule-missing-if"></a>
- #### missing_if:_anotherfield_,_value_,...
+<a name="rule-missing-if"></a>
+#### missing_if:_anotherfield_,_value_,...
 
- The field under validation must not be present if the _anotherfield_ field is equal to any _value_.
+The field under validation must not be present if the _anotherfield_ field is equal to any _value_.
 
- 검증 중인 필드가 다른 필드 _anotherfield_ 의 값인 _value_ 와 같으면 검증 중인 필드는 존재하지 않아야 합니다.
+검증 중인 필드가 다른 필드 _anotherfield_ 의 값인 _value_ 와 같으면 검증 중인 필드는 존재하지 않아야 합니다.
 
- <a name="rule-missing-unless"></a>
- #### missing_unless:_anotherfield_,_value_
+<a name="rule-missing-unless"></a>
+#### missing_unless:_anotherfield_,_value_
 
 The field under validation must not be present unless the _anotherfield_ field is equal to any _value_.
 
 검증 중인 필드가 다른 필드 _anotherfield_ 의 값인 _value_ 와 같지 않으면 검증 중인 필드는 존재하지 않아야 합니다.
 
- <a name="rule-missing-with"></a>
- #### missing_with:_foo_,_bar_,...
+<a name="rule-missing-with"></a>
+#### missing_with:_foo_,_bar_,...
 
- The field under validation must not be present _only if_ any of the other specified fields are present.
+The field under validation must not be present _only if_ any of the other specified fields are present.
 
- 지정된 다른 필드 중 어느 하나라도 존재하면 검증 중인 필드는 존재하지 않아야 합니다. _foo_ _bar_ 는 _only if_ 으로 표현되며 _only if_ 는 '~인 경우에만'이란 뜻을 가지고 있습니다.
+지정된 다른 필드 중 어느 하나라도 존재하면 검증 중인 필드는 존재하지 않아야 합니다. _foo_ _bar_ 는 _only if_ 으로 표현되며 _only if_ 는 '~인 경우에만'이란 뜻을 가지고 있습니다.
 
- <a name="rule-missing-with-all"></a>
- #### missing_with_all:_foo_,_bar_,...
+<a name="rule-missing-with-all"></a>
+#### missing_with_all:_foo_,_bar_,...
 
- The field under validation must not be present _only if_ all of the other specified fields are present.
+The field under validation must not be present _only if_ all of the other specified fields are present.
 
- 지정된 다른 필드 모두가 존재하면 검증 중인 필드는 존재하지 않아야 합니다. _foo_ _bar_ 는 _only if_ 으로 표현되며 _only if_ 는 '~인 경우에만'이란 뜻을 가지고 있습니다.
+지정된 다른 필드 모두가 존재하면 검증 중인 필드는 존재하지 않아야 합니다. _foo_ _bar_ 는 _only if_ 으로 표현되며 _only if_ 는 '~인 경우에만'이란 뜻을 가지고 있습니다.
+
 
 <a name="rule-not-in"></a>
 #### not_in:_foo_,_bar_,...
@@ -2031,7 +2038,7 @@ Internally, this rule uses the PHP `preg_match` function. The pattern specified 
 > **Warning**  
 > When using the `regex` / `not_regex` patterns, it may be necessary to specify your validation rules using an array instead of using `|` delimiters, especially if the regular expression contains a `|` character.
 
-> **Warning**
+> **Warning**  
 > `regex` / `not_regex` 패턴을 사용할 때, 특히 정규 표현식에 `|` 문자가 포함된 경우 `|` 구분 기호를 사용하는 대신 배열을 사용하여 유효성 검사 규칙을 지정해야 할 수도 있습니다.
 
 <a name="rule-nullable"></a>
@@ -2190,7 +2197,6 @@ The field under validation must match the given regular expression.
 Internally, this rule uses the PHP `preg_match` function. The pattern specified should obey the same formatting required by `preg_match` and thus also include valid delimiters. For example: `'email' => 'regex:/^.+@.+$/i'`.
 
 이 규칙은 내부적으로 PHP의 `preg_match` 함수를 사용합니다. 지정된 패턴은 `preg_match` 에서 요구하는 것과 동일한 formatting-형식을 따라야하며 유효한 구분 기호(`/`)를 포함해야합니다. 예를 들면 다음과 같습니다. `'email' => 'regex:/^.+@.+$/i'`.
-
 
 > **Warning**  
 > When using the `regex` / `not_regex` patterns, it may be necessary to specify rules in an array instead of using `|` delimiters, especially if the regular expression contains a `|` character.
@@ -2512,7 +2518,7 @@ In the example above, the `email` field will only be validated if it is present 
 > If you are attempting to validate a field that should always be present but may be empty, check out [this note on optional fields](#a-note-on-optional-fields).
 
 > **Note**
-> 항상 존재해야하며 비어있지 않은 필드인지를 확인하는 유효성 검사를 하려는 경우 [옵션 필드에 대한 주의사항](#a-note-on-optional-fields)을 확인하세요.
+> 항상 존재해야하지만 비어있지 않은 필드인지를 확인하는 유효성 검사를 하려는 경우 [옵션 필드에 대한 주의사항](#a-note-on-optional-fields)을 확인하세요.
 
 <a name="complex-conditional-validation"></a>
 #### Complex Conditional Validation
@@ -2550,7 +2556,7 @@ The first argument passed to the `sometimes` method is the name of the field we 
 > **Note**  
 > The `$input` parameter passed to your closure will be an instance of `Illuminate\Support\Fluent` and may be used to access your input and files under validation.
 
-> **Note**
+> **Note**  
 > 클로저에 전달된 `$input` 매개변수는 `Illuminate\Support\Fluent`의 인스턴스가 되며 유효성 검사 중인 입력 및 파일에 액세스하는 데 사용할 수 있습니다.
 
 <a name="complex-conditional-array-validation"></a>

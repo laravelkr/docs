@@ -2,43 +2,43 @@
 # 에셋 번들링 (Vite)
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Installation & Setup](#installation)
 - [설치 & 설정](#installation)
-    - [Installing Node](#installing-node)
-    - [Node 설치](#installing-node)
-    - [Installing Vite And The Laravel Plugin](#installing-vite-and-laravel-plugin)
-    - [Vite와 라라벨 플러그인 설치](#installing-vite-and-laravel-plugin)
-    - [Configuring Vite](#configuring-vite)
-    - [Vite 설정](#configuring-vite)
-    - [Loading Your Scripts And Styles](#loading-your-scripts-and-styles)
-    - [스크립트와 스타일 불러오기](#loading-your-scripts-and-styles)
+  - [Installing Node](#installing-node)
+  - [Node 설치](#installing-node)
+  - [Installing Vite And The Laravel Plugin](#installing-vite-and-laravel-plugin)
+  - [Vite와 라라벨 플러그인 설치](#installing-vite-and-laravel-plugin)
+  - [Configuring Vite](#configuring-vite)
+  - [Vite 설정](#configuring-vite)
+  - [Loading Your Scripts And Styles](#loading-your-scripts-and-styles)
+  - [스크립트와 스타일 불러오기](#loading-your-scripts-and-styles)
 - [Running Vite](#running-vite)
 - [Vite 실행](#running-vite)
 - [Working With JavaScript](#working-with-scripts)
 - [자바스크립트 작업](#working-with-scripts)
-    - [Aliases](#aliases)
-    - [별칭](#aliases)
-    - [Vue](#vue)
-    - [Vue](#vue)
-    - [React](#react)
-    - [React](#react)
-    - [Inertia](#inertia)
-    - [Inertia](#inertia)
-    - [URL Processing](#url-processing)
-    - [URL 처리](#url-processing)
+  - [Aliases](#aliases)
+  - [별칭](#aliases)
+  - [Vue](#vue)
+  - [Vue](#vue)
+  - [React](#react)
+  - [React](#react)
+  - [Inertia](#inertia)
+  - [Inertia](#inertia)
+  - [URL Processing](#url-processing)
+  - [URL Processing](#url-processing)
 - [Working With Stylesheets](#working-with-stylesheets)
 - [스타일시트 작업](#working-with-stylesheets)
 - [Working With Blade & Routes](#working-with-blade-and-routes)
 - [블레이드 및 라우트 작업](#working-with-blade-and-routes)
-    - [Processing Static Assets With Vite](#blade-processing-static-assets)
-    - [Vite로 정적 에셋 처리](#blade-processing-static-assets)
-    - [Refreshing On Save](#blade-refreshing-on-save)
-    - [저장시 새로고침](#blade-refreshing-on-save)
-    - [Aliases](#blade-aliases)
-    - [별칭](#blade-aliases)
+  - [Processing Static Assets With Vite](#blade-processing-static-assets)
+  - [Vite로 정적 에셋 처리](#blade-processing-static-assets)
+  - [Refreshing On Save](#blade-refreshing-on-save)
+  - [저장시 새로고침](#blade-refreshing-on-save)
+  - [Aliases](#blade-aliases)
+  - [별칭](#blade-aliases)
 - [Custom Base URLs](#custom-base-urls)
-- [사용자 정의 기본 URL](#custom-base-urls)
+- [커스텀 정의 기본 URL](#custom-base-urls)
 - [Environment Variables](#environment-variables)
 - [환경 변수](#environment-variables)
 - [Disabling Vite In Tests](#disabling-vite-in-tests)
@@ -47,14 +47,16 @@
 - [서버 사이드 렌더링(SSR)](#ssr)
 - [Script & Style Tag Attributes](#script-and-style-attributes)
 - [스크립트 및 스타일 태그 속성](#script-and-style-attributes)
-    - [Content Security Policy (CSP) Nonce](#content-security-policy-csp-nonce)
-    - [컨텐트 보안 정책 (CSP) 논스](#content-security-policy-csp-nonce)
-    - [Subresource Integrity (SRI)](#subresource-integrity-sri)
-    - [하위 리소스 무결성 (SRI)](#subresource-integrity-sri)
-    - [Arbitrary Attributes](#arbitrary-attributes)
-    - [임의 속성](#arbitrary-attributes)
+  - [Content Security Policy (CSP) Nonce](#content-security-policy-csp-nonce)
+  - [컨텐트 보안 정책 (CSP) 논스](#content-security-policy-csp-nonce)
+  - [Subresource Integrity (SRI)](#subresource-integrity-sri)
+  - [하위 리소스 무결성 (SRI)](#subresource-integrity-sri)
+  - [Arbitrary Attributes](#arbitrary-attributes)
+  - [임의 속성](#arbitrary-attributes)
 - [Advanced Customization](#advanced-customization)
 - [고급 사용자 정의](#advanced-customization)
+  - [Correcting Dev Server URLs](#correcting-dev-server-urls)
+  - [Dev Server URL 수정](#correcting-dev-server-urls)
 
 <a name="introduction"></a>
 ## Introduction
@@ -62,7 +64,7 @@
 
 [Vite](https://vitejs.dev) is a modern frontend build tool that provides an extremely fast development environment and bundles your code for production. When building applications with Laravel, you will typically use Vite to bundle your application's CSS and JavaScript files into production ready assets.
 
-[Vite](https://vitejs.dev)는 매우 빠른 개발 환경을 제공하고 프로덕션용 코드를 번들로 제공하는 최신 프론트엔드 빌드 도구입니다. 라라벨로 애플리케이션을 빌드할 때 일반적으로 Vite를 사용하여 애플리케이션의 CSS 및 자바스크립트 파일을 프로덕션에 나갈 준비된 자산으로 묶습니다.
+[Vite](https://vitejs.dev)는 매우 빠른 개발 환경을 제공하고 프로덕션용 코드를 번들로 제공하는 최신 프론트엔드 빌드 도구입니다. 라라벨로 애플리케이션을 빌드할 때 일반적으로 Vite를 사용하여 어플리케이션의 CSS 및 자바스크립트 파일을 프로덕션에 나갈 준비된 자산으로 묶습니다.
 
 Laravel integrates seamlessly with Vite by providing an official plugin and Blade directive to load your assets for development and production.
 
@@ -82,9 +84,9 @@ Before transitioning to Vite, new Laravel applications utilized [Mix](https://la
 
 Vite로 전환하기 전에 새로운 라라벨 애플리케이션은 자산을 번들링할 때 [webpack](https://webpack.js.org/) 으로 구동되는 [Mix](https://laravel-mix.com/) 를 활용했습니다. Vite는 리치 자바스크립트 애플리케이션을 구축할 때 더 빠르고 생산적인 경험을 제공하는 데 중점을 둡니다. [Inertia](https://inertiajs.com) 와 같은 도구로 개발된 애플리케이션을 포함하여 SPA(단일 페이지 애플리케이션)를 개발하는 경우 Vite가 가장 적합합니다.
 
-Vite also works well with traditional server-side rendered applications with JavaScript "sprinkles", including those using [Livewire](https://laravel-livewire.com). However, it lacks some features that Laravel Mix supports, such as the ability to copy arbitrary assets into the build that are not referenced directly in your JavaScript application.
+Vite also works well with traditional server-side rendered applications with JavaScript "sprinkles", including those using [Livewire](https://livewire.laravel.com). However, it lacks some features that Laravel Mix supports, such as the ability to copy arbitrary assets into the build that are not referenced directly in your JavaScript application.
 
-Vite는 또한 [Livewire](https://laravel-livewire.com) 를 사용하는 애플리케이션을 포함하여 자바스크립트 "sprinkles"가 있는 기존 서버 사이드 렌더링 애플리케이션과도 잘 작동합니다. 그러나 자바스크립트 애플리케이션에서 직접 참조되지 않는 임의의 자산을 빌드에 복사하는 기능과 같이 Laravel Mix가 지원하는 일부 기능이 부족합니다.
+Vite는 또한 [Livewire](https://livewire.laravel.com) 를 사용하는 애플리케이션을 포함하여 자바스크립트 "sprinkles"가 있는 기존 서버 사이드 렌더링 애플리케이션과도 잘 작동합니다. 그러나 자바스크립트 애플리케이션에서 직접 참조되지 않는 임의의 자산을 빌드에 복사하는 기능과 같이 Laravel Mix가 지원하는 일부 기능이 부족합니다.
 
 <a name="migrating-back-to-mix"></a>
 #### Migrating Back To Mix
@@ -92,7 +94,7 @@ Vite는 또한 [Livewire](https://laravel-livewire.com) 를 사용하는 애플�
 
 Have you started a new Laravel application using our Vite scaffolding but need to move back to Laravel Mix and webpack? No problem. Please consult our [official guide on migrating from Vite to Mix](https://github.com/laravel/vite-plugin/blob/main/UPGRADE.md#migrating-from-vite-to-laravel-mix).
 
-Vite 스캐폴딩을 사용하여 새로운 Laravel 애플리케이션을 시작했지만 Laravel Mix와 webpack으로 다시 돌아갈 필요가 있나요? 문제 없어요. [Vite에서 Mix로의 마이그레이션에 대한 공식 가이드](https://github.com/laravel/vite-plugin/blob/main/UPGRADE.md#migrating-from-vite-to-laravel-mix)를 참조하세요.
+Vite 스캐폴딩을 사용하여 새로운 Laravel 애플리케이션을 시작했지만 Laravel Mix와 Webpack으로 다시 돌아갈 필요가 있나요? 문제 없어요. [Vite에서 Mix로의 마이그레이션에 대한 공식 가이드](https://github.com/laravel/vite-plugin/blob/main/UPGRADE.md#migrating-from-vite-to-laravel-mix)를 참조하세요.
 
 <a name="installation"></a>
 ## Installation & Setup
@@ -248,11 +250,36 @@ If you are unable to generate a trusted certificate for your system, you may ins
 
 시스템에 대한 신뢰할 수 있는 인증서를 생성할 수 없는 경우 [`@vitejs/plugin-basic-ssl` 플러그인](https://github.com/vitejs/vite-plugin-basic-ssl) 을 설치하고 구성할 수 있습니다. 신뢰할 수 없는 인증서를 사용하는 경우 `npm run dev` 명령을 실행할 때 콘솔의 "로컬" 링크를 따라 브라우저에서 Vite의 개발 서버에 대한 인증서 경고를 수락해야 합니다 .
 
+<a name="configuring-hmr-in-sail-on-wsl2"></a>
+#### Running The Development Server In Sail On WSL2
+#### WSL2의 Sail에서 개발서버 실행하기
+
+When running the Vite development server within [Laravel Sail](/docs/{{version}}/sail) on Windows Subsystem for Linux 2 (WSL2), you should add the following configuration to your `vite.config.js` file to ensure the browser can communicate with the development server:
+
+윈도우 서브시스템 for Linux 2 (WSL2)에 있는 [라라벨 Sail](/docs/{{version}}/sail)에서 Vite 개발서버를 실행한다면 브라우저가 개발서버와 통신할 수 있게하기 위해서 다음의 설정을 `vite.config.js` 파일에 추가해야합니다.
+
+```js
+// ...
+
+export default defineConfig({
+    // ...
+    server: { // [tl! add:start]
+        hmr: {
+            host: 'localhost',
+        },
+    }, // [tl! add:end]
+});
+```
+
+If your file changes are not being reflected in the browser while the development server is running, you may also need to configure Vite's [`server.watch.usePolling` option](https://vitejs.dev/config/server-options.html#server-watch).
+
+개발 서버가 실행되는 동안 파일의 변경 사항이 브라우저에 반영되지 않는다면, Vite의 [`server.watch.usePolling` 옵션](https://vitejs.dev/config/server-options.html#server-watch)을 설정해야 할 수도 있습니다.
+
 <a name="loading-your-scripts-and-styles"></a>
 ### Loading Your Scripts And Styles
 ### 스크립트와 스타일 불러오기
 
-With your Vite entry points configured, you only need reference them in a `@vite()` Blade directive that you add to the `<head>` of your application's root template:
+With your Vite entry points configured, you may now reference them in a `@vite()` Blade directive that you add to the `<head>` of your application's root template:
 
 Vite 진입점을 구성하면 애플리케이션의 루트 템플릿의 `<head>`에 추가하는 `@vite()` Blade 지시문에서만 참조하면 됩니다.
 
@@ -317,6 +344,10 @@ npm run dev
 npm run build
 ```
 
+If you are running the development server in [Sail](/docs/{{version}}/sail) on WSL2, you may need some [additional configuration](#configuring-hmr-in-sail-on-wsl2) options.
+
+WSL2의 [Sail]() 안에서 개발서버를 실행중이라면 [추가적인 설정](#configuring-hmr-in-sail-on-wsl2)이 필요할 수도 있습니다. 
+
 <a name="working-with-scripts"></a>
 ## Working With JavaScript
 ## 자바스크립트 작업
@@ -359,9 +390,15 @@ export default defineConfig({
 ### Vue
 ### Vue
 
-There are a few additional options you will need to include in the `vite.config.js` configuration file when using the Vue plugin with the Laravel plugin:
+If you would like to build your frontend using the [Vue](https://vuejs.org/) framework, then you will also need to install the `@vitejs/plugin-vue` plugin:
+[Vue](https:vuejs.org) 프레임워크를 사용하여 프런트 엔드를 구축하려면 `@vitejsplugin-vue` 플러그인도 설치해야 합니다.:
 
-Vue 플러그인과 라라벨 플러그인을 함께 사용할 때 `vite.config.js` 구성 파일에 포함해야 하는 몇 가지 추가 옵션이 있습니다.
+```sh
+npm install --save-dev @vitejs/plugin-vue
+```
+
+You may then include the plugin in your `vite.config.js` configuration file. There are a few additional options you will need when using the Vue plugin with Laravel:
+그런 다음 `vite.config.js` 구성 파일에 플러그인을 포함할 수 있습니다. Laravel과 함께 Vue 플러그인을 사용할 때 필요한 몇 가지 추가 옵션이 있습니다.:
 
 ```js
 import { defineConfig } from 'vite';
@@ -403,9 +440,34 @@ export default defineConfig({
 ### React
 ### React
 
-When using Vite with React, you will need to ensure that any files containing JSX have a `.jsx` or `.tsx` extension, remembering to update your entry point, if required, as [shown above](#configuring-vite). You will also need to include the additional `@viteReactRefresh` Blade directive alongside your existing `@vite` directive.
+If you would like to build your frontend using the [React](https://reactjs.org/) framework, then you will also need to install the `@vitejs/plugin-react` plugin:
+[React](https://reactjs.org/) 프레임워크를 사용하여 프런트 엔드를 구축하려면 `@vitejsplugin-react` 플러그인도 설치해야 합니다.:
 
-Vite를 React와 함께 사용할 때 JSX를 포함하는 모든 파일에 `.jsx` 또는 `.tsx` 확장자가 있는지 확인해야 하며, 필요한 경우 [위에 표시된](#configuring-vite) 것처럼 진입점을 업데이트해야 합니다. 또한 기존 `@vite` 지시문과 함께 추가 `@viteReactRefresh` Blade 지시문을 포함해야 합니다.
+```sh
+npm install --save-dev @vitejs/plugin-react
+```
+
+You may then include the plugin in your `vite.config.js` configuration file:
+그런 다음 `vite.config.js` 구성 파일에 플러그인을 포함할 수 있습니다.:
+
+```js
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+    plugins: [
+        laravel(['resources/js/app.jsx']),
+        react(),
+    ],
+});
+```
+
+You will need to ensure that any files containing JSX have a `.jsx` or `.tsx` extension, remembering to update your entry point, if required, as [shown above](#configuring-vite).
+JSX를 포함하는 모든 파일에 `.jsx` 또는 `.tsx` 확장자가 있는지 확인하고 필요한 경우 [위에 표시된](#configuring-vite)와 같이 진입점을 업데이트해야 합니다.
+
+You will also need to include the additional `@viteReactRefresh` Blade directive alongside your existing `@vite` directive.
+또한 기존 `@vite` 디렉티브와 함께 추가 `@viteReactRefresh` 블레이드 디렉티브를 포함해야 합니다.
 
 ```blade
 @viteReactRefresh
@@ -501,7 +563,7 @@ You can learn more about Vite's CSS support within the [Vite documentation](http
 [Vite 문서](https://vitejs.dev/guide/features.html#css) 에서 Vite의 CSS 지원에 대해 자세히 알아볼 수 있습니다. [Tailwind](https://tailwindcss.com) 와 같은 PostCSS 플러그인을 사용하는 경우 프로젝트 루트에 `postcss.config.js` 파일을 생성하면 Vite가 자동으로 적용합니다.
 
 ```js
-module.exports = {
+export default {
     plugins: {
         tailwindcss: {},
         autoprefixer: {},
@@ -509,13 +571,18 @@ module.exports = {
 };
 ```
 
+> **Note**
+> Laravel's [starter kits](/docs/{{version}}/starter-kits) already include the proper Tailwind, PostCSS, and Vite configuration. Or, if you would like to use Tailwind and Laravel without using one of our starter kits, check out [Tailwind's installation guide for Laravel](https://tailwindcss.com/docs/guides/laravel).
+> **Note**
+> Laravel의 [스타터 키트](/docs/{{version}}/starter-kits)에는 이미 적절한 Tailwind, PostCSS 및 Vite 구성이 포함되어 있습니다. 또는 스타터 키트 중 하나를 사용하지 않고 Tailwind와 Laravel을 사용하려면 [Tailwind의 Laravel 설치 가이드](https://tailwindcss.com/docs/guides/laravel)를 확인하세요.
+
 <a name="working-with-blade-and-routes"></a>
 ## Working With Blade & Routes
 ## 블레이드 및 경로 작업
 
 <a name="blade-processing-static-assets"></a>
 ### Processing Static Assets With Vite
-### Vite로 정적 자산 처리
+### Vite로 정적 Assets 처리
 
 When referencing assets in your JavaScript or CSS, Vite automatically processes and versions them. In addition, when building Blade based applications, Vite can also process and version static assets that you reference solely in Blade templates.
 
@@ -619,18 +686,15 @@ export default defineConfig({
 ### Aliases
 ### 별칭
 
-It is common in JavaScript applications to [create aliases](#aliases) to regularly referenced directories. But, you may also create aliases to use in Blade by using the `macro` method on the `Illuminate\Support\Vite` class. Typically, "macros" should be defined within the `boot` method of a [service provider](/docs/{{version}}/providers):
-
-자바스크립트 응용 프로그램에서는 정기적으로 참조되는 디렉토리에 대한 별칭을 만드는 것이 일반적입니다. 그러나 `Illuminate\Support\Vite` 클래스의 `macro` 메서드를 사용하여 Blade에서 사용할 별칭을 만들 수도 있습니다. 일반적으로 "macro"는 서비스 제공자의 `boot` 메소드 내에서 정의되어야 합니다.
+It is common in JavaScript applications to [create aliases](#aliases) to regularly referenced directories. But, you may also create aliases to use in Blade by using the `macro` method on the `Illuminate\Support\Facades\Vite` class. Typically, "macros" should be defined within the `boot` method of a [service provider](/docs/{{version}}/providers):
+JavaScript 응용 프로그램에서는 정기적으로 참조되는 디렉토리에 대한 [별칭 생성](#aliases)이 일반적입니다. 그러나 `Illuminate\Support\Facades\Vite` 클래스에서 `macro` 메서드를 사용하여 블레이드에서 사용할 별칭을 만들 수도 있습니다. 일반적으로 "매크로"는 [서비스 공급자](/docs/{{version}}/providers)의 `boot` 메서드 내에서 정의되어야 합니다.:
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        Vite::macro('image', fn ($asset) => $this->asset("resources/images/{$asset}"));
+        Vite::macro('image', fn (string $asset) => $this->asset("resources/images/{$asset}"));
     }
 
 Once a macro has been defined, it can be invoked within your templates. For example, we can use the `image` macro defined above to reference an asset located at `resources/images/logo.png`:
@@ -703,7 +767,7 @@ use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
-    public function test_without_vite_example()
+    public function test_without_vite_example(): void
     {
         $this->withoutVite();
 
@@ -776,7 +840,15 @@ Then, to build and start the SSR server, you may run the following commands:
 
 ```sh
 npm run build
-node bootstrap/ssr/ssr.mjs
+node bootstrap/ssr/ssr.js
+```
+
+If you are using [SSR with Inertia](https://inertiajs.com/server-side-rendering), you may instead use the `inertia:start-ssr` Artisan command to start the SSR server:
+
+[Inertia과 SSR](https://inertiajs.com/server-side-rendering)를 사용하는 경우, `inertia:start-ssr` 아티즌 명령어를 사용하여 SSR 서버를 시작할수 있습니다.
+
+```sh
+php artisan inertia:start-ssr
 ```
 
 > **Note**  
@@ -803,18 +875,18 @@ If you wish to include a [`nonce` attribute](https://developer.mozilla.org/en-US
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Vite;
+use Symfony\Component\HttpFoundation\Response;
 
 class AddContentSecurityPolicyHeaders
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next): Response
     {
         Vite::useCspNonce();
 
@@ -849,12 +921,11 @@ Vite::useCspNonce($nonce);
 ### Subresource Integrity (SRI)
 ### 하위 리소스 무결성 (SRI)
 
-If your Vite manifest includes `integrity` hashes for your assets, Laravel will automatically add the `integrity` attribute on any script and style tags it generates in order to enforce [Subresource Integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity). By default, Vite does not include the `integrity` hash in its manifest, but you may enable it by installing the [`vite-plugin-manifest-uri`](https://www.npmjs.com/package/vite-plugin-manifest-sri) NPM plugin:
-
-Vite 매니페스트가 자산에 대한 `integrity` 해시를 포함하는 경우 Laravel은 [하위 리소스 무결성](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity) 을 적용하기 위해 생성하는 모든 스크립트 및 스타일 태그에 `integrity` 속성을 자동으로 추가합니다. 기본적으로 Vite는 매니페스트에 `integrity` 해시를 포함하지 않지만 [`vite-plugin-manifest-uri`](https://www.npmjs.com/package/vite-plugin-manifest-sri) NPM 플러그인을 설치하여 활성화할 수 있습니다.
+If your Vite manifest includes `integrity` hashes for your assets, Laravel will automatically add the `integrity` attribute on any script and style tags it generates in order to enforce [Subresource Integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity). By default, Vite does not include the `integrity` hash in its manifest, but you may enable it by installing the [`vite-plugin-manifest-sri`](https://www.npmjs.com/package/vite-plugin-manifest-sri) NPM plugin:
+Vite 매니페스트가 자산에 대한 `integrity` 해시를 포함하는 경우 Laravel은 [Subresource Integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity)를 적용하기 위해 생성하는 모든 스크립트 및 스타일 태그에 `integrity` 속성을 자동으로 추가합니다. 기본적으로 Vite는 매니페스트에 `integrity` 해시를 포함하지 않지만 [`vite-plugin-manifest-sri`](https://www.npmjs.com/package/vite-plugin-manifest-sri)를 설치하여 활성화할 수 있습니다. NPM 플러그인:
 
 ```shell
-npm install -D vite-plugin-manifest-sri
+npm install --save-dev vite-plugin-manifest-sri
 ```
 
 You may then enable this plugin in your `vite.config.js` file:
@@ -981,3 +1052,50 @@ export default defineConfig({
     },
 });
 ```
+
+<a name="correcting-dev-server-urls"></a>
+### Correcting Dev Server URLs
+### Dev Server URL 수정
+
+Some plugins within the Vite ecosystem assume that URLs which begin with a forward-slash will always point to the Vite dev server. However, due to the nature of the Laravel integration, this is not the case.
+Vite 생태계 내의 일부 플러그인은 슬래시로 시작하는 URL이 항상 Vite 개발 서버를 가리킨다고 가정합니다. 그러나 Laravel 통합의 특성상 그렇지 않습니다.
+
+For example, the `vite-imagetools` plugin outputs URLs like the following while Vite is serving your assets:
+예를 들어, `vite-imagetools` 플러그인은 Vite가 자산을 제공하는 동안 다음과 같은 URL을 출력합니다.:
+
+```html
+<img src="/@imagetools/f0b2f404b13f052c604e632f2fb60381bf61a520">
+```
+
+The `vite-imagetools` plugin is expecting that the output URL will be intercepted by Vite and the plugin may then handle all URLs that start with `/@imagetools`. If you are using plugins that are expecting this behaviour, you will need to manually correct the URLs. You can do this in your `vite.config.js` file by using the `transformOnServe` option. 
+
+`vite-imagetools` 플러그인은 출력 URL이 Vite에 의해 차단될 것으로 예상하고 플러그인은 `@imagetools`로 시작하는 모든 URL을 처리할 수 있습니다. 이 동작이 예상되는 플러그인을 사용하는 경우 URL을 수동으로 수정해야 합니다. `transformOnServe` 옵션을 사용하여 `vite.config.js` 파일에서 이 작업을 수행할 수 있습니다.
+
+In this particular example, we will prepend the dev server URL to all occurrences of `/@imagetools` within the generated code:
+
+이 예시에서 생성된 코드에 있는 모든 `/@imagetools` 항목 앞에 개발 서버 URL을 추가합니다.
+
+```js
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+import { imagetools } from 'vite-imagetools';
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            // ...
+            transformOnServe: (code, devServerUrl) => code.replaceAll('/@imagetools', devServerUrl+'/@imagetools'),
+        }),
+        imagetools(),
+    ],
+});
+```
+
+Now, while Vite is serving Assets, it will output URLs that point to the Vite dev server:
+이제 Vite가 Assets을 제공하는 동안 Vite 개발 서버를 가리키는 URL을 출력합니다.:
+
+```html
+- <img src="/@imagetools/f0b2f404b13f052c604e632f2fb60381bf61a520"><!-- [tl! remove] -->
++ <img src="http://[::1]:5173/@imagetools/f0b2f404b13f052c604e632f2fb60381bf61a520"><!-- [tl! add] -->
+```
+

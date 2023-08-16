@@ -14,7 +14,7 @@
     - [Routing](#routing)
     - [라우팅](#routing)
     - [Authentication & Storage](#authentication-and-storage)
-    - [Authentication & Storage](#authentication-and-storage)
+    - [인증과 저장](#authentication-and-storage)
     - [Access Scopes](#access-scopes)
     - [스코프 접근하기](#access-scopes)
     - [Optional Parameters](#optional-parameters)
@@ -29,10 +29,10 @@ In addition to typical, form based authentication, Laravel also provides a simpl
 
 일반적인 Form을 기반으로한 인증에 더해서, 라라벨은 [라라벨 소셜라이트-Socialite](https://github.com/laravel/socialite)를 사용하여 OAuth 인증을 간단하고 편리하게 제공합니다. Socialite는 현재 페이스북, 트위터, 링크드인, 구글, 깃허브, 깃랩 그리고 Bitbucket을 기본적으로 지원하고 있습니다.
 
-> **Note**
+> **Note**  
 > Adapters for other platforms are available via the community driven [Socialite Providers](https://socialiteproviders.com/) website.
 
-> **Note**
+> **Note**  
 > 다른 플랫폼을 위한 어댑터는 커뮤니티에서 주도하는 [Socialite Providers](https://socialiteproviders.com/) 웹사이트에서 확인할 수 있습니다. (한국 사용자들이 많이 사용하는 카카오, 네이버, 라인등도 제공됩니다)
 
 ## Installation
@@ -70,10 +70,10 @@ These credentials should be placed in your application's `config/services.php` c
         'redirect' => 'http://example.com/callback-url',
     ],
 
-> **Note**
+> **Note**  
 > If the `redirect` option contains a relative path, it will automatically be resolved to a fully qualified URL.
 
-> **Note**
+> **Note**  
 > `redirect` 옵션값에 상대경로가 포함된경우, 자동으로 Full URL로 인식됩니다.
 
 ## Authentication
@@ -131,10 +131,10 @@ OAuth 공급자로부터 사용자를 조회한 뒤에, 애플리케이션 데�
         return redirect('/dashboard');
     });
 
-> **Note**
+> **Note**  
 > For more information regarding what user information is available from specific OAuth providers, please consult the documentation on [retrieving user details](#retrieving-user-details).
 
-> **Note**
+> **Note**  
 > 특정 OAuth 공급자가 제공하는 사용자의 정보에 대한 보다 자세한 내용은 [사용자의 상세정보 조회하기](#retrieving-user-details) 문서를 참고하십시오.
 
 <a name="access-scopes"></a>
@@ -162,7 +162,7 @@ You can overwrite all existing scopes on the authentication request using the `s
 ### Optional Parameters
 ### 옵션 파라미터
 
-A number of OAuth providers support other optional parameters in the redirect request. To include any optional parameters in the request, call the `with` method with an associative array:
+A number of OAuth providers support other optional parameters on the redirect request. To include any optional parameters in the request, call the `with` method with an associative array:
 
 몇몇 OAuth 공급자는 리다이렉트 요청에서 다른 옵션 파라미터를 지원합니다. Oauth 공급자에게 보내는 요청에 옵션 파라미터를 포함하려면, `with` 메소드에 필요한 값을 배열로 호출하면 됩니다.
 
@@ -172,9 +172,11 @@ A number of OAuth providers support other optional parameters in the redirect re
         ->with(['hd' => 'example.com'])
         ->redirect();
 
-> {note} When using the `with` method, be careful not to pass any reserved keywords such as `state` or `response_type`.
+> **Warning**  
+> When using the `with` method, be careful not to pass any reserved keywords such as `state` or `response_type`.
 
-> {note} `with` 메소드를 사용할 때, `state` 와 `response_type` 같이 사전에 예약된 키워드를 사용하지 않도록 주의하십시오.
+> **Warning**  
+> When using the `with` method, be careful not to pass any reserved keywords such as `state` or `response_type`.
 
 ## Retrieving User Details
 ## 사용자의 상세정보 조회하기
@@ -242,6 +244,8 @@ The `stateless` method may be used to disable session state verification. This i
 
     return Socialite::driver('google')->stateless()->user();
 
-> {note} Stateless authentication is not available for the Twitter OAuth 1.0 driver.
+> **Warning**  
+> Stateless authentication is not available for the Twitter OAuth 1.0 driver.
 
-> {note} Twitter OAuth 1.0 드라이버에는 상태 비 저장 인증을 사용할 수 없습니다.
+> **Warning**  
+> Twitter OAuth 1.0 드라이버에는 상태 비 저장 인증을 사용할 수 없습니다.

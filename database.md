@@ -19,9 +19,9 @@ Almost every modern web application interacts with a database. Laravel makes int
 
 <div class="content-list" markdown="1">
 
-- MariaDB 10.3+ ([Version Policy](https://mariadb.org/about/#maintenance-policy))
+- MariaDB 10.10+ ([Version Policy](https://mariadb.org/about/#maintenance-policy))
 - MySQL 5.7+ ([Version Policy](https://en.wikipedia.org/wiki/MySQL#Release_history))
-- PostgreSQL 10.0+ ([Version Policy](https://www.postgresql.org/support/versioning/))
+- PostgreSQL 11.0+ ([Version Policy](https://www.postgresql.org/support/versioning/))
 - SQLite 3.8.8+
 - SQL Server 2017+ ([Version Policy](https://docs.microsoft.com/en-us/lifecycle/products/?products=sql-server))
 
@@ -162,6 +162,15 @@ Sometimes your database query may result in a single, scalar value. Instead of b
 
     $burgers = DB::scalar(
         "select count(case when food = 'burger' then 1 end) as burgers from menu"
+    );
+
+<a name="selecting-multiple-result-sets"></a>
+#### Selecting Multiple Result Sets
+
+If your application calls stored procedures that return multiple result sets, you may use the `selectResultSets` method to retrieve all of the result sets returned by the stored procedure:
+
+    [$options, $notifications] = DB::selectResultSets(
+        "CALL get_user_options_and_notifications(?)", $request->user()->id
     );
 
 <a name="using-named-bindings"></a>

@@ -62,6 +62,7 @@
     - [Previewing Subscription Invoices](#previewing-subscription-invoices)
     - [Generating Invoice PDFs](#generating-invoice-pdfs)
 - [Handling Failed Payments](#handling-failed-payments)
+    - [Confirming Payments](#confirming-payments)
 - [Strong Customer Authentication (SCA)](#strong-customer-authentication)
     - [Payments Requiring Additional Confirmation](#payments-requiring-additional-confirmation)
     - [Off-session Payment Notifications](#off-session-payment-notifications)
@@ -1455,8 +1456,9 @@ To ensure your application can handle Stripe webhooks, be sure to configure the 
 - `customer.subscription.deleted`
 - `customer.updated`
 - `customer.deleted`
-- `invoice.payment_succeeded`
+- `payment_method.automatically_updated`
 - `invoice.payment_action_required`
+- `invoice.payment_succeeded`
 
 For convenience, Cashier includes a `cashier:webhook` Artisan command. This command will create a webhook in Stripe that listens to all of the events required by Cashier:
 
@@ -2027,10 +2029,21 @@ You can derive the specific status of an incomplete payment by inspecting the `p
         }
     }
 
+<a name="confirming-payments"></a>
+### Confirming Payments
+
+Some payment methods require additional data in order to confirm payments. For example, SEPA payment methods require additional "mandate" data during the payment process. You may provide this data to Cashier using the `withPaymentConfirmationOptions` method:
+
+    $subscription->withPaymentConfirmationOptions([
+        'mandate_data' => '...',
+    ])->swap('price_xxx');
+    
+You may consult the [Stripe API documentation](https://stripe.com/docs/api/payment_intents/confirm) to review all of the options accepted when confirming payments.
+
 <a name="strong-customer-authentication"></a>
 ## Strong Customer Authentication
 
-If your business or one of your customers is based in Europe you will need to abide by the EU's Strong Customer Authentication (SCA) regulations. These regulations were imposed in September 2019 by the European Union to prevent payment fraud. Luckily, Stripe and Cashier are prepared for building SCA compliant applications.
+If your business or one of your customers is based in Europe you will need to abide by the EU's Strong Customer Authentication (SCA) regulations. These regulations were imposed in September 2019 by the European Union to prevent payment fraud. Luckily, Stripe and Cashier are prepared for building SCA compliant applications.
 
 > **Warning**  
 > Before getting started, review [Stripe's guide on PSD2 and SCA](https://stripe.com/guides/strong-customer-authentication) as well as their [documentation on the new SCA APIs](https://stripe.com/docs/strong-customer-authentication).

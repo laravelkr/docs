@@ -40,9 +40,9 @@ Laravel Breeze's default view layer is made up of simple [Blade templates](/docs
 
 라라벨 Breeze의 기본 뷰 레이어(View Layer)는 [Tailwind CSS](https://tailwindcss.com)을 사용하여 간단한 [블레이드 템플릿](/docs/{{version}}/blade)으로 구성되어 있습니다. 또는 브리즈는 Vue 나 React 와 [Inertia](https://inertiajs.com)를 사용해서 애플리케이션을 스캐폴딩할 수 있습니다.
 
-Breeze provides a wonderful starting point for beginning a fresh Laravel application and is also great choice for projects that plan to take their Blade templates to the next level with [Laravel Livewire](https://laravel-livewire.com).  
+Breeze provides a wonderful starting point for beginning a fresh Laravel application and is also great choice for projects that plan to take their Blade templates to the next level with [Laravel Livewire](https://livewire.laravel.com).  
 
-Breeze는 새로운 라라벨 애플리케이션을 시작하기 좋은 출발점을 제공하며 [라라벨 Livewire](https://laravel-livewire.com)을 통해 블레이드 템플릿을 한 단계 끌어올리는 프로젝트에도 훌륭한 선택입니다.
+Breeze는 새로운 라라벨 애플리케이션을 시작하기 좋은 출발점을 제공하며 [라라벨 Livewire](https://livewire.laravel.com)을 통해 블레이드 템플릿을 한 단계 끌어올리는 프로젝트에도 훌륭한 선택입니다.
 
 <img src="https://laravel.com/img/docs/breeze-register.png">
 
@@ -105,10 +105,10 @@ If you would like Breeze to include "dark mode" support when scaffolding your ap
 php artisan breeze:install --dark
 ```
 
-> **Warning**
+> **Warning**  
 > To learn more about compiling your application's CSS and JavaScript, check out the Laravel's [Vite documentation](/docs/{{version}}/vite#running-vite).  
 
-> **Warning**
+> **Warning**  
 > 애플리케이션의 CSS 및 JavaScript 파일을 컴파일 하는 방법에 대해 자세히 알아보려면 라라벨의 [Vite 문서](/docs/{{version}}/vite#running-vite)를 확인하여 주십시오.
 
 <a name="breeze-and-inertia"></a>
@@ -186,9 +186,9 @@ While Laravel Breeze provides a simple and minimal starting point for building a
 
 라라벨 Breeze는 라라벨 애플리케이션을 구축하기 위한 간단하고 최소한의 출발점을 제공하지만 Jetstream은 보다 강력한 기능과 추가적인 프론트엔드 기술로 무장되어 있습니다. **라라벨을 처음 접하신다면 라라벨 Jetstream을 시작하기 전에 라라벨 Breeze를 통해 라라벨의 작동 방식을 익히시는 것이 좋습니다.**
 
-Jetstream provides a beautifully designed application scaffolding for Laravel and includes login, registration, email verification, two-factor authentication, session management, API support via Laravel Sanctum, and optional team management. Jetstream is designed using [Tailwind CSS](https://tailwindcss.com) and offers your choice of [Livewire](https://laravel-livewire.com) or [Inertia](https://inertiajs.com) driven frontend scaffolding.  
+Jetstream provides a beautifully designed application scaffolding for Laravel and includes login, registration, email verification, two-factor authentication, session management, API support via Laravel Sanctum, and optional team management. Jetstream is designed using [Tailwind CSS](https://tailwindcss.com) and offers your choice of [Livewire](https://livewire.laravel.com) or [Inertia](https://inertiajs.com) driven frontend scaffolding.  
 
-Jetstream은 라라벨용으로 아름답게 디자인 된 애플리케이션 스캐폴딩을 제공하며 로그인, 가입, 이메일 인증, 2차 인증, 세션 관리, 라라벨 Sanctum을 통한 API 지원, 팀 관리 기능이 포함되어 있습니다. Jetstream은 [Tailwind CSS](https://tailwindcss.com)을 사용하도록 설계 되었으며 프론트엔드로 [Livewire](https://laravel-livewire.com) 또는 [Inertia](https://inertiajs.com)를 사용할 수 있습니다.
+Jetstream은 라라벨용으로 아름답게 디자인 된 애플리케이션 스캐폴딩을 제공하며 로그인, 가입, 이메일 인증, 2차 인증, 세션 관리, 라라벨 Sanctum을 통한 API 지원, 팀 관리 기능이 포함되어 있습니다. Jetstream은 [Tailwind CSS](https://tailwindcss.com)을 사용하도록 설계 되었으며 프론트엔드로 [Livewire](https://livewire.laravel.com) 또는 [Inertia](https://inertiajs.com)를 사용할 수 있습니다.
 
 Complete documentation for installing Laravel Jetstream can be found within the [official Jetstream documentation](https://jetstream.laravel.com/2.x/introduction.html).  
 

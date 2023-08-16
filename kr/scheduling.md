@@ -25,6 +25,8 @@
     - [점검 모드](#maintenance-mode)
 - [Running The Scheduler](#running-the-scheduler)
 - [스케줄러 실행하기](#running-the-scheduler)
+    - [Sub-Minute Scheduled Tasks](#sub-minute-scheduled-tasks)
+    - [1분 미만 단위로 예약된 작업](#sub-minute-scheduled-tasks)
     - [Running The Scheduler Locally](#running-the-scheduler-locally)
     - [로컬에서 스케줄러 실행하기](#running-the-scheduler-locally)
 - [Task Output](#task-output)
@@ -65,21 +67,9 @@ You may define all of your scheduled tasks in the `schedule` method of your appl
     class Kernel extends ConsoleKernel
     {
         /**
-         * The Artisan commands provided by your application.
-         *
-         * @var array
-         */
-        protected $commands = [
-            //
-        ];
-
-        /**
          * Define the application's command schedule.
-         *
-         * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-         * @return void
          */
-        protected function schedule(Schedule $schedule)
+        protected function schedule(Schedule $schedule): void
         {
             $schedule->call(function () {
                 DB::table('recent_users')->delete();
@@ -133,7 +123,7 @@ The `job` method may be used to schedule a [queued job](/docs/{{version}}/queues
 
 Optional second and third arguments may be provided to the `job` method which specifies the queue name and queue connection that should be used to queue the job:
 
-선택적인 두 번째 및 세 번째 인수는 작업을 대기열에 넣는 데 사용해야 하는 대기열 이름과 대기열 연결을 지정하는 `job` 메서드에 제공됩니다.
+`job` 메서드에 제공되는 두 번째 및 세 번째 인자는 옵션으로 지정할 수 있습니다. 두 번째 인자로는 대기열의 이름을 지정할 수 있고, 세 번째 인자로는 연결할 커넥션을 지정합니다.
 
     use App\Jobs\Heartbeat;
 
@@ -148,7 +138,7 @@ Optional second and third arguments may be provided to the `job` method which sp
 
 The `exec` method may be used to issue a command to the operating system:
 
-`exec` 메소드는 커맨드는 OS에 직접 명령어를 실행하는데 사용됩니다.
+`exec` 메서드는 운영체제에 명령을 실행하게 할 때 사용됩니다:
 
     $schedule->exec('node /home/forge/script.js')->daily();
 
@@ -160,9 +150,17 @@ We've already seen a few examples of how you may configure a task to run at spec
 
 지정된 간격으로 실행되도록 작업을 구성하는 방법에 대한 몇 가지 예를 이미 보았습니다. 그러나 작업에 할당할 수 있는 작업 일정 빈도가 더 많습니다.
 
+
 Method  | Description
 ------------- | -------------
 `->cron('* * * * *');`  |  Run the task on a custom cron schedule
+`->everySecond();`  |  Run the task every second
+`->everyTwoSeconds();`  |  Run the task every two seconds
+`->everyFiveSeconds();`  |  Run the task every five seconds
+`->everyTenSeconds();`  |  Run the task every ten seconds
+`->everyFifteenSeconds();`  |  Run the task every fifteen seconds
+`->everyTwentySeconds();`  |  Run the task every twenty seconds
+`->everyThirtySeconds();`  |  Run the task every thirty seconds
 `->everyMinute();`  |  Run the task every minute
 `->everyTwoMinutes();`  |  Run the task every two minutes
 `->everyThreeMinutes();`  |  Run the task every three minutes
@@ -173,16 +171,16 @@ Method  | Description
 `->everyThirtyMinutes();`  |  Run the task every thirty minutes
 `->hourly();`  |  Run the task every hour
 `->hourlyAt(17);`  |  Run the task every hour at 17 minutes past the hour
-`->everyOddHour();`  |  Run the task every odd hour
-`->everyTwoHours();`  |  Run the task every two hours
-`->everyThreeHours();`  |  Run the task every three hours
-`->everyFourHours();`  |  Run the task every four hours
-`->everySixHours();`  |  Run the task every six hours
+`->everyOddHour($minutes = 0);`  |  Run the task every odd hour
+`->everyTwoHours($minutes = 0);`  |  Run the task every two hours
+`->everyThreeHours($minutes = 0);`  |  Run the task every three hours
+`->everyFourHours($minutes = 0);`  |  Run the task every four hours
+`->everySixHours($minutes = 0);`  |  Run the task every six hours
 `->daily();`  |  Run the task every day at midnight
 `->dailyAt('13:00');`  |  Run the task every day at 13:00
 `->twiceDaily(1, 13);`  |  Run the task daily at 1:00 & 13:00
 `->twiceDailyAt(1, 13, 15);`  |  Run the task daily at 1:15 & 13:15
-`->weekly();`  |  Run the task every sunday at 00:00
+`->weekly();`  |  Run the task every Sunday at 00:00
 `->weeklyOn(1, '8:00');`  |  Run the task every week on Monday at 8:00
 `->monthly();`  |  Run the task on the first day of every month at 00:00
 `->monthlyOn(4, '15:00');`  |  Run the task every month on the 4th at 15:00
@@ -192,11 +190,18 @@ Method  | Description
 `->quarterlyOn(4, '14:00');` |  Run the task every quarter on the 4th at 14:00
 `->yearly();`  |  Run the task on the first day of every year at 00:00
 `->yearlyOn(6, 1, '17:00');`  |  Run the task every year on June 1st at 17:00
-`->timezone('America/New_York');` | Set the timezone
+`->timezone('America/New_York');` | Set the timezone for the task
 
 메소드  | 설명
 ------------- | -------------
 `->cron('* * * * *');`  |  지정한 cron 형태로 작업 실행
+`->everySecond();`  |  매초 마다 작업 실행
+`->everyTwoSeconds();`  |  2초마다 작업 실행
+`->everyFiveSeconds();`  |  5초 간격으로 작업 실행
+`->everyTenSeconds();`  |  10초 간격으로 작업 실행 
+`->everyFifteenSeconds();`  |  15초 간격으로 작업 실행
+`->everyTwentySeconds();`  |  20초 간격으로 작업 실행
+`->everyThirtySeconds();`  |  30초 간격으로 작업 실행
 `->everyMinute();`  |  매분 마다 작업 실행
 `->everyTwoMinutes();`  |  2분마다 작업 실행
 `->everyThreeMinutes();`  |  3분마다 작업 실행
@@ -207,11 +212,11 @@ Method  | Description
 `->everyThirtyMinutes();`  |  30분 간격으로 작업 실행
 `->hourly();`  |  1시간 간격으로 작업 실행
 `->hourlyAt(17);`  |  매시간 17분에 실행
-`->everyOddHour();`  |  홀수 시간마다 작업 실행
-`->everyTwoHours();`  |  2시간마다 작업 실행
-`->everyThreeHours();`  |  3시간마다 작업 실행
-`->everyFourHours();`  |  4시간마다 작업 실행
-`->everySixHours();`  |  6시간마다 작업 실행
+`->everyOddHour($minutes = 0);`  |  홀수 시간마다 작업 실행
+`->everyTwoHours($minutes = 0);`  |  2시간마다 작업 실행
+`->everyThreeHours($minutes = 0);`  |  3시간마다 작업 실행
+`->everyFourHours($minutes = 0);`  |  4시간마다 작업 실행
+`->everySixHours($minutes = 0);`  |  6시간마다 작업 실행
 `->daily();`  |  한밤중을 기준으로 하루에 한번 작업 실행
 `->dailyAt('13:00');`  |  매일 13:00에 작업 실행
 `->twiceDaily(1, 13);`  |  하루중 1:00 & 13:00 에 작업 실행(총2번)
@@ -226,15 +231,15 @@ Method  | Description
 `->quarterlyOn(4, '14:00');` |  분기별 4일 14:00에 작업 실행
 `->yearly();`  |  매년 1월1일 00:00 에 작업 실행
 `->yearlyOn(6, 1, '17:00');`  |  매년 6월 1일 17:00에 작업 실행
-`->timezone('America/New_York');` | 타임존 지정
+`->timezone('America/New_York');` | 지정한 타임존의 시간에 작업 실행
 
 These methods may be combined with additional constraints to create even more finely tuned schedules that only run on certain days of the week. For example, you may schedule a command to run weekly on Monday:
 
-이 메소드와 추가적인 제한들을 조합하면 특정 요일에만 실행하는 세밀한 스케줄을 생성할 수 있습니다. 예를 들어 매주 월요일에 커맨드가 실행하도록 스케줄링을 지정 할 수 있습니다.
+이 메소드와 추가적인 제한들을 조합하면 특정 요일에만 실행하는 스케줄을 좀 더 디테일하게 만들 수 있습니다. 예를 들어 매주 월요일에 커맨드가 실행하도록 스케줄링을 지정 해 봅시다.
 
     // Run once per week on Monday at 1 PM...
     $schedule->call(function () {
-        //
+        // ...
     })->weekly()->mondays()->at('13:00');
 
     // Run hourly from 8 AM to 5 PM on weekdays...
@@ -247,6 +252,8 @@ These methods may be combined with additional constraints to create even more fi
 A list of additional schedule constraints may be found below:
 
 추가 일정 제약 목록은 아래에서 찾을 수 있습니다.
+
+<div class="overflow-auto">
 
 Method  | Description
 ------------- | -------------
@@ -265,6 +272,8 @@ Method  | Description
 `->when(Closure);`  |  Limit the task based on a truth test
 `->environments($env);`  |  Limit the task to specific environments
 
+</div>
+
 메소드  | 설명
 ------------- | -------------
 `->weekdays();`  |  평일로 제한
@@ -279,8 +288,8 @@ Method  | Description
 `->days(array\|mixed);`  |  특정 요일로 제한
 `->between($startTime, $endTime);`  |  시작과 종료 시간 사이에 작업 실행을 제한
 `->unlessBetween($startTime, $endTime);`  |  시작 시간과 종료 시간 사이에 작업이 실행되지 않도록 제한
-`->when(Closure);`  |  클로저 결과에 따라서 수행
-`->environments($env);`  |  특정 환경으로 작업 제한
+`->when(Closure);`  |  클로저의 참/거짓의 결과에 따라서 실행을 제한
+`->environments($env);`  |  특정 환경변수에 따라 실행을 제한
 
 <a name="day-constraints"></a>
 #### Day Constraints
@@ -304,13 +313,13 @@ Alternatively, you may use the constants available on the `Illuminate\Console\Sc
                     ->hourly()
                     ->days([Schedule::SUNDAY, Schedule::WEDNESDAY]);
 
-<a name="between-time-constraints"></a>                   
+<a name="between-time-constraints"></a>
 #### Between Time Constraints
 #### Between 시간 제한
 
 The `between` method may be used to limit the execution of a task based on the time of day:
 
-`between` 메소드는 하루중에 시간에 따라 실행 시간을 제한하기 위해 사용될 수 있습니다.
+`between` 메소드는 하루 사이에 실행되는 시간 구간을 제한하기 위해 사용될 수 있습니다.
 
     $schedule->command('emails:send')
                         ->hourly()
@@ -330,7 +339,7 @@ Similarly, the `unlessBetween` method can be used to exclude the execution of a 
 
 The `when` method may be used to limit the execution of a task based on the result of a given truth test. In other words, if the given closure returns `true`, the task will execute as long as no other constraining conditions prevent the task from running:
 
-`when` 메소드는 참/거짓 결과에 따라 작업의 실행을 제한하는 데에 사용 될 수 있습니다. 즉, 클로저가 `true`를 반환한다면 다른 제한 조건들이 없는 경우 작업이  실행될 것입니다.
+`when` 메소드는 참/거짓 결과에 따라 작업의 실행을 제한하는 데에 사용 될 수 있습니다. 즉, 클로저가 `true`를 반환한다면 다른 제한 조건들이 없는 경우 작업이 실행될 것입니다.
 
     $schedule->command('emails:send')->daily()->when(function () {
         return true;
@@ -354,7 +363,7 @@ When using chained `when` methods, the scheduled command will only execute if al
 
 The `environments` method may be used to execute tasks only on the given environments (as defined by the `APP_ENV` [environment variable](/docs/{{version}}/configuration#environment-configuration)):
 
-`environments` 메소드는 주어진 환경에서만 태스크를 실행하는 데 사용될 수 있습니다 (`APP_ENV`에 정의된대로 [환경 변수](/docs/{{version}}/configuration#environment-configuration)).
+`environments` 메소드는 주어진 환경변수에 해당할 때만 태스크를 실행하도록 하고 싶을 때 사용할 수 있습니다 (`APP_ENV`에 정의된대로 [환경 변수](/docs/{{version}}/configuration#environment-configuration)).
 
     $schedule->command('emails:send')
                 ->daily()
@@ -366,30 +375,30 @@ The `environments` method may be used to execute tasks only on the given environ
 
 Using the `timezone` method, you may specify that a scheduled task's time should be interpreted within a given timezone:
 
-`timezone` 메소드를 사용하면 예약 된 작업의 시간을 주어진 타임존 안에서 실행 되도록 지정할 수 있습니다.
+`timezone` 메소드를 사용하면 예약 된 작업의 시간을 주어진 타임존 시간에서 실행되도록 합니다.
 
     $schedule->command('report:generate')
              ->timezone('America/New_York')
-             ->at('02:00')
+             ->at('2:00')
 
 If you are repeatedly assigning the same timezone to all of your scheduled tasks, you may wish to define a `scheduleTimezone` method in your `App\Console\Kernel` class. This method should return the default timezone that should be assigned to all scheduled tasks:
 
 만약, 스케줄링된 모든 작업에 동일한 타임존을 반복적으로 할당하는 경우 `App\Console\Kernel` 클래스에서 `scheduleTimezone` 메서드를 정의할 수 있습니다. 이 메서드는 모든 예약된 작업에 할당되어야 하는 기본 타임존을 반환해야 합니다.
 
+    use DateTimeZone;
+
     /**
      * Get the timezone that should be used by default for scheduled events.
-     *
-     * @return \DateTimeZone|string|null
      */
-    protected function scheduleTimezone()
+    protected function scheduleTimezone(): DateTimeZone|string|null
     {
         return 'America/Chicago';
     }
 
-> **Warning**
+> **Warning**  
 > Remember that some timezones utilize daylight savings time. When daylight saving time changes occur, your scheduled task may run twice or even not run at all. For this reason, we recommend avoiding timezone scheduling when possible.
 
-> **Warning**
+> **Warning**  
 > 일부 타임존에서는 서머타임(daylight savings time)을 사용합니다. 서머타임에 따라 시간이 변경되버리면, 예약 된 작업이 두 번 실행되거나 아예 실행되지 않을 수도 있습니다. 따라서 가능한 경우 작업을 예약할 때 타임존 지정을 사용하지 않는 것이 좋습니다.
 
 <a name="preventing-task-overlaps"></a>
@@ -408,7 +417,7 @@ In this example, the `emails:send` [Artisan command](/docs/{{version}}/artisan) 
 
 If needed, you may specify how many minutes must pass before the "without overlapping" lock expires. By default, the lock will expire after 24 hours:
 
-필요한 경우, "중복 방지" 잠금이 얼마나 지나야 하는지 분단위의 시간을 지정할 수 있습니다. 기본적으로, 잠금(lock)은 24시간 후에 만료됩니다.
+필요한 경우, "중복 방지" 잠금 시간이 얼마나 지난 후 만료되는지 분단위의 시간을 지정할 수 있습니다. 기본적으로 잠금(lock)은 24시간 후에 만료됩니다.
 
     $schedule->command('emails:send')->withoutOverlapping(10);
 
@@ -420,10 +429,10 @@ Behind the scenes, the `withoutOverlapping` method utilizes your application's [
 ### Running Tasks On One Server
 ### 한 서버에서 작업 실행하기
 
-> **Warning**
+> **Warning**  
 > To utilize this feature, your application must be using the `database`, `memcached`, `dynamodb`, or `redis` cache driver as your application's default cache driver. In addition, all servers must be communicating with the same central cache server.
 
-> **Warning**
+> **Warning**  
 > 이 기능을 사용하기 위해서는, 애플리케이션이 기본 캐시 드라이버로 반드시 `database`, `memcached`, `dynamodb` 또는 `redis` 캐시 드라이버를 사용해야 합니다. 또한 모든 서버는 하나의 중앙 캐시 서버와 통신해야 합니다.
 
 If your application's scheduler is running on multiple servers, you may limit a scheduled job to only execute on a single server. For instance, assume you have a scheduled task that generates a new report every Friday night. If the task scheduler is running on three worker servers, the scheduled task will run on all three servers and generate the report three times. Not good!
@@ -470,6 +479,7 @@ $schedule->call(fn () => User::resetApiRequestCount())
     ->onOneServer();
 ```
 
+
 <a name="background-tasks"></a>
 ### Background Tasks
 ### 백그라운드 작업
@@ -482,10 +492,10 @@ By default, multiple tasks scheduled at the same time will execute sequentially 
              ->daily()
              ->runInBackground();
 
-> **Warning**
+> **Warning**  
 > The `runInBackground` method may only be used when scheduling tasks via the `command` and `exec` methods.
 
-> **Warning**
+> **Warning**  
 > `runInBackground` 메소드는 `command`와 `exec` 메소드를 통해 작업을 스케쥴 할 때만 사용될 수 있습니다.
 
 <a name="maintenance-mode"></a>
@@ -514,9 +524,53 @@ So, when using Laravel's scheduler, we only need to add a single cron configurat
 * * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
 ```
 
+<a name="sub-minute-scheduled-tasks"></a>
+### Sub-Minute Scheduled Tasks
+### 1분 미만 단위로 예약된 작업
+
+On most operating systems, cron jobs are limited to running a maximum of once per minute. However, Laravel's scheduler allows you to schedule tasks to run at more frequent intervals, even as often as once per second:
+
+대부분의 운영 체제에서 크론 작업은 분당 최대 한 번 실행되도록 제한됩니다. 하지만 라라벨의 스케줄러를 사용하면 초당 한 번 단위로 운영 체제에 등록된 크론보다 더 자주 실행되도록 작업을 예약할 수 있습니다.
+
+    $schedule->call(function () {
+        DB::table('recent_users')->delete();
+    })->everySecond();
+
+When sub-minute tasks are defined within your application, the `schedule:run` command will continue running until the end of the current minute instead of exiting immediately. This allows the command to invoke all required sub-minute tasks throughout the minute.
+
+애플리케이션에서 1분 미만의 작업이 정의되면 `schedule:run` 명령어는 작업을 확인하는 프로세스를 즉시 종료되지 않고 현재 확인된 시간(분)이 종료될 때까지 계속 프로세스를 실행합니다. 이를 통해 명령어는 1분 동안 필요한 모든 1분 미만의 작업을 처리할 수 있습니다.
+
+(역자주: schedule:run 명령어는 1분 단위로 실행된다는 점을 생각하면 그보다 더 작은 단위의 작업을 처리하기 위해서 프로세스가 1분동안 유지되면서 초단위 작업을 처리하는 것을 의미합니다.)
+
+Since sub-minute tasks that take longer than expected to run could delay the execution of later sub-minute tasks, it is recommend that all sub-minute tasks dispatch queued jobs or background commands to handle the actual task processing:
+
+1분 미만 작업의 실행 시간이 예상보다 오래 걸리면 다음번의 1분 미만 작업이 실행되는 것을 지연시킬 수 있으므로 모든 1분 미만 작업은 큐-queue 또는 백그라운드 명령을 통해서 실제 작업이 처리하는 것을 권장합니다.
+
+    use App\Jobs\DeleteRecentUsers;
+
+    $schedule->job(new DeleteRecentUsers)->everyTenSeconds();
+
+    $schedule->command('users:delete')->everyTenSeconds()->runInBackground();
+
+<a name="interrupting-sub-minute-tasks"></a>
+#### Interrupting Sub-Minute Tasks
+#### 1분 미만 단위 작업의 중단
+
+As the `schedule:run` command runs for the entire minute of invocation when sub-minute tasks are defined, you may sometimes need to interrupt the command when deploying your application. Otherwise, an instance of the `schedule:run` command that is already running would continue using your application's previously deployed code until the current minute ends.
+
+1분 미만의 작업을 정의하면 `schedule:run` 명령어는 적어도 1분동안은 계속 실행상태이기 때문에 애플리케이션을 배포하는 순간과 같이 때때로 명령어를 중단시켜야 할 때가 있습니다. 그렇지 않으면 `schedule:run`명령어는 계속 실행중이지만, 1분이 완전이 끝나기 전 까지 이전에 배포된 애플리케이션 코드가 계속 사용됩니다.
+
+To interrupt in-progress `schedule:run` invocations, you may add the `schedule:interrupt` command to your application's deployment script. This command should be invoked after your application is finished deploying:
+
+`schedule:run`으로 실행중인 프로세스를 중단하려면 애플리케이션을 배포하는 스크립트에 `schedule:interrupt` 명령어를 추가하면 됩니다. 이 명령어는 애플리케이션이 배포된 뒤에 호출하도록 해야합니다.  
+
+```shell
+php artisan schedule:interrupt
+```
+
 <a name="running-the-scheduler-locally"></a>
-## Running The Scheduler Locally
-## 로컬에서 스케줄러 실행하기
+### Running The Scheduler Locally
+### 로컬에서 스케줄러 실행하기
 
 Typically, you would not add a scheduler cron entry to your local development machine. Instead, you may use the `schedule:work` Artisan command. This command will run in the foreground and invoke the scheduler every minute until you terminate the command:
 
@@ -563,10 +617,10 @@ If you only want to email the output if the scheduled Artisan or system command 
              ->daily()
              ->emailOutputOnFailure('taylor@example.com');
 
-> **Warning**
+> **Warning**  
 > The `emailOutputTo`, `emailOutputOnFailure`, `sendOutputTo`, and `appendOutputTo` methods are exclusive to the `command` and `exec` methods.
 
-> **Warning**
+> **Warning**  
 > `emailOutputTo`, `emailOutputOnFailure`, `sendOutputTo` 그리고 `appendOutputTo` 메소드는 `command` 와 `exec` 메소드에서만 사용가능합니다.
 
 <a name="task-hooks"></a>

@@ -16,17 +16,17 @@
 
 Redirect responses are instances of the `Illuminate\Http\RedirectResponse` class, and contain the proper headers needed to redirect the user to another URL. There are several ways to generate a `RedirectResponse` instance. The simplest method is to use the global `redirect` helper:
 
-리다이렉트 Response 는 `Illuminate\Http\RedirectResponse` 클래스의 인스턴스이며, 사용자를 다른 URL로 리다이렉트하는데 필요한 적절한 헤더를 포함하고 있습니다. `RedirectResponse` 인스턴스를 생성하는 여러가지 방법이 있습니다. 가장 간단한 방법은 글로벌 `redirect` 헬퍼 함수를 사용하는 것입니다.
+리다이렉트 응답은 `Illuminate\Http\RedirectResponse` 클래스의 인스턴스이며, 사용자를 다른 URL로 리다이렉트하는데 필요한 적절한 헤더를 포함하고 있습니다. `RedirectResponse` 인스턴스를 생성하는 여러가지 방법이 있습니다. 가장 간단한 방법은 글로벌 `redirect` 헬퍼 함수를 사용하는 것입니다.
 
-    Route::get('dashboard', function () {
-        return redirect('home/dashboard');
+    Route::get('/dashboard', function () {
+        return redirect('/home/dashboard');
     });
 
 Sometimes you may wish to redirect the user to their previous location, such as when a submitted form is invalid. You may do so by using the global `back` helper function. Since this feature utilizes the [session](/docs/{{version}}/session), make sure the route calling the `back` function is using the `web` middleware group or has all of the session middleware applied:
 
 때때로, 전송된 form 양식이 유효하지 않은 경우와 같이 사용자를 이전 위치로 리다이렉트 시키고자 할 수 있습니다. 글로벌 `back` 헬퍼 함수를 사용하여 그렇게 할 수 있습니다. 이 기능은 [세션](/docs/{{version}}/session)을 사용하기 때문에 `back` 함수를 사용하는 라우트 호출은 `web` 미들웨어 그룹 안에 있거나 세션 미들웨어가 적용되어 있어야 합니다.
 
-    Route::post('user/profile', function () {
+    Route::post('/user/profile', function () {
         // Validate the request...
 
         return back()->withInput();
@@ -38,17 +38,23 @@ Sometimes you may wish to redirect the user to their previous location, such as 
 
 When you call the `redirect` helper with no parameters, an instance of `Illuminate\Routing\Redirector` is returned, allowing you to call any method on the `Redirector` instance. For example, to generate a `RedirectResponse` to a named route, you may use the `route` method:
 
-`redirect` 헬퍼가 아무런 인자 없이 호출될 때에는, `Illuminate\Routing\Redirector` 인스턴스가 반환되어, `Redirector` 인스턴스의 메소드를 사용할 수 있습니다. 다음과 같이 이름이 지정된 라우트에 대한 `RedirectResponse` 를 생성하려면 `route` 메소드를 사용할 수 있습니다.
+매개변수 없이 `redirect` 헬퍼함수를 호출하면 `Illuminate\Routing\Redirector` 인스턴스가 반환되며, 이 인스턴스(`Redirector`)에서 `Redirector` 인스턴스의 모든 메서드를 호출할 수 있습니다. 예를 들어, 다음과 같이 이름이 지정된 라우트에 대한 `RedirectResponse`를 생성하려면 `route` 메서드를 사용할 수 있습니다:
 
     return redirect()->route('login');
 
 If your route has parameters, you may pass them as the second argument to the `route` method:
 
-라우트가 인자를 받아야 한다면, `route` 메소드의 두번째 인자로 이를 전달할 수 있습니다.
+라우트가 파라매터를 가지고 있을 때, `route` 메소드의 두번째 인자로 파라메터를 전달할 수 있습니다.
 
     // For a route with the following URI: profile/{id}
 
     return redirect()->route('profile', ['id' => 1]);
+
+For convenience, Laravel also offers the global `to_route` function:
+
+편의를 위해 라라벨은 글로벌 `to_route` 함수도 제공합니다:
+
+    return to_route('profile', ['id' => 1]);
 
 <a name="populating-parameters-via-eloquent-models"></a>
 #### Populating Parameters Via Eloquent Models
@@ -68,10 +74,8 @@ If you would like to customize the value that is placed in the route parameter, 
 
     /**
      * Get the value of the model's route key.
-     *
-     * @return mixed
      */
-    public function getRouteKey()
+    public function getRouteKey(): mixed
     {
         return $this->slug;
     }
@@ -80,7 +84,7 @@ If you would like to customize the value that is placed in the route parameter, 
 ## Redirecting To Controller Actions
 ## 컨트롤러 액션으로 리다이렉트 하기
 
-You may also generate redirects to [controller actions](/docs/{{version}}/controllers). To do so, pass the controller and action name to the `action` method: 
+You may also generate redirects to [controller actions](/docs/{{version}}/controllers). To do so, pass the controller and action name to the `action` method:
 
 또한 [컨트롤러 액션](/docs/{{version}}/controllers)으로 리다이렉트하는 응답을 생성할 수도 있습니다. 이렇게 하기 위해서는, 컨트롤러와 액션의 이름을 `action` 메소드에 전달하면 됩니다. 
 
@@ -102,12 +106,12 @@ If your controller route requires parameters, you may pass them as the second ar
 
 Redirecting to a new URL and [flashing data to the session](/docs/{{version}}/session#flash-data) are usually done at the same time. Typically, this is done after successfully performing an action when you flash a success message to the session. For convenience, you may create a `RedirectResponse` instance and flash data to the session in a single, fluent method chain:
 
-새로운 URL로 리다이렉팅 되는 것과 [세션에 데이터를 임시 저장하는것](/docs/{{version}}/session#flash-data)은 일반적으로 동시에 완료됩니다. 일반적으로, 이 작업은 여러분이 성공 메세지를 세션에 임시 저장할 때 작업을 성공적으로 액션을 수행한 다음에 완료됩니다. 보다 간편하게, 한번에 `RedirectResponse` 인스턴스를 생성하고 데이터를 세션에 임시저장하는 유연한 메소드 체이닝을 할 수 있습니다.
+새로운 URL로 리다이렉팅 되는 것과 [세션에 데이터를 임시 저장하는것](/docs/{{version}}/session#flash-data)은 일반적으로 같은 시점에 이뤄지도록 정해집니다. 일반적으로, 이 작업은 여러분이 성공 메세지를 세션에 임시 저장할 때 작업을 성공적으로 액션을 수행한 다음에 완료됩니다. 이를 보다 간편하게, 한번에 `RedirectResponse` 인스턴스를 생성하고 데이터를 세션에 임시저장하는 유연한 메소드 체이닝을 할 수 있는 기능을 제공하고 있습니다.
 
-    Route::post('user/profile', function () {
+    Route::post('/user/profile', function () {
         // Update the user's profile...
 
-        return redirect('dashboard')->with('status', 'Profile updated!');
+        return redirect('/dashboard')->with('status', 'Profile updated!');
     });
 
 You may use the `withInput` method provided by the `RedirectResponse` instance to flash the current request's input data to the session before redirecting the user to a new location. Once the input has been flashed to the session, you may easily [retrieve it](/docs/{{version}}/requests#retrieving-old-input) during the next request:

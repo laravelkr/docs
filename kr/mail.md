@@ -334,10 +334,10 @@ mailable 클래스의 `content` 메소드 안에서 `view`나 이메일 컨텐�
         );
     }
 
-> **Note**
+> **Note**  
 > You may wish to create a `resources/views/emails` directory to house all of your email templates; however, you are free to place them wherever you wish within your `resources/views` directory.
 
-> **Note**
+> **Note**  
 > 모든 이메일 템플릿을 모아놓기 위한 `resources/views/emails` 디렉토리를 만들기를 원할 수도 있습니다. 하지만, 실제로는 `resources/views` 디렉토리 안에 어디에 구성하더라도 상관없습니다.
 
 <a name="plain-text-emails"></a>
@@ -633,10 +633,10 @@ Embedding inline images into your emails is typically cumbersome; however, Larav
 </body>
 ```
 
-> **Warning**
+> **Warning**  
 > The `$message` variable is not available in plain-text message templates since plain-text messages do not utilize inline attachments.
 
-> **Warning**
+> **Warning**  
 > `$message` 변수는 플레인-텍스트 메시지가 인라인 첨부파일을 사용하지 않기 때문에 플레인-텍스트 메시지 템플릿에서 사용할 수 없습니다.
 
 <a name="embedding-raw-data-attachments"></a>
@@ -881,10 +881,10 @@ Thanks,<br>
 {{ config('app.name') }}
 </x-mail::message>
 ```
-> **Note**
+> **Note**  
 > Do not use excess indentation when writing Markdown emails. Per Markdown standards, Markdown parsers will render indented content as code blocks.
 
-> **Note**
+> **Note**  
 > 마크다운으로 메일을 작성할 때, 너무 많은 들여쓰기를 사용하지 마십시오. 마크다운 표준에 따라 마크다운 파서는 들여쓰기된 콘텐츠를 코드 블록으로 렌더링합니다.
 
 <a name="button-component"></a>
@@ -1143,10 +1143,10 @@ Alternatively, you may call the `afterCommit` method from your mailable's constr
         }
     }
 
-> **Note**
+> **Note**  
 > To learn more about working around these issues, please review the documentation regarding [queued jobs and database transactions](/docs/{{version}}/queues#jobs-and-database-transactions).
  
-> **Note**
+> **Note**  
 > 이러한 문제를 해결하는 방법에 대해 자세히 알아보려면 [대기 중인 작업 및 데이터베이스 트랜잭션](/docs/{{version}}/queues#jobs-and-database-transactions)에 관한 문서를 확인하세요.
 
 <a name="rendering-mailables"></a>
@@ -1178,10 +1178,10 @@ When designing a mailable's template, it is convenient to quickly preview the re
         return new App\Mail\InvoicePaid($invoice);
     });
 
-> **Warning**
+> **Warning**  
 > [Inline attachments](#inline-attachments) will not be rendered when a mailable is previewed in your browser. To preview these mailables, you should send them to an email testing application such as [MailHog](https://github.com/mailhog/MailHog) or [HELO](https://usehelo.com).
 
-> **Warning**
+> **Warning**  
 > [인라인 첨부 파일(Inline attachments)](#inline-attachments)은 브라우저에서 메일링을 미리 볼 때 렌더링되지 않습니다. 이러한 메일링을 미리 보려면 [MailHog](https://github.com/mailhog/MailHog) 또는 [HELO](https://usehelo.com)와 같은 이메일 테스트 애플리케이션으로 보내야 합니다.
 
 <a name="localizing-mailables"></a>

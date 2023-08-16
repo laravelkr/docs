@@ -37,7 +37,7 @@ The `App\Providers\EventServiceProvider` included with your Laravel application 
     /**
      * The event listener mappings for the application.
      *
-     * @var array
+     * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
         OrderShipped::class => [
@@ -522,7 +522,7 @@ To dispatch an event, you may call the static `dispatch` method on the event. Th
     OrderShipped::dispatchUnless($condition, $order);
 
 > **Note**  
-> When testing, it can be helpful to assert that certain events were dispatched without actually triggering their listeners. Laravel's [built-in testing helpers](#testing) makes it a cinch.
+> When testing, it can be helpful to assert that certain events were dispatched without actually triggering their listeners. Laravel's [built-in testing helpers](#testing) make it a cinch.
 
 <a name="event-subscribers"></a>
 ## Event Subscribers

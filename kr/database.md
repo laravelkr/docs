@@ -3,18 +3,18 @@
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
-  - [Configuration](#configuration)
-  - [설정하기](#configuration)
-  - [Read & Write Connections](#read-and-write-connections)
-  - [읽기 & 쓰기 커넥션](#read-and-write-connections)
+    - [Configuration](#configuration)
+    - [설정하기](#configuration)
+    - [Read & Write Connections](#read-and-write-connections)
+    - [읽기 & 쓰기 커넥션](#read-and-write-connections)
 - [Running SQL Queries](#running-queries)
 - [SQL 쿼리 실행](#running-queries)
-  - [Using Multiple Database Connections](#using-multiple-database-connections)
-  - [여러개의 데이터베이스 커넥션 사용하기](#using-multiple-database-connections)
-  - [Listening For Query Events](#listening-for-query-events)
-  - [쿼리 이벤트 리스닝](#listening-for-query-events)
-  - [Monitoring Cumulative Query Time](#monitoring-cumulative-query-time)
-  - [누적 쿼리 시간 모니터링](#monitoring-cumulative-query-time)
+    - [Using Multiple Database Connections](#using-multiple-database-connections)
+    - [여러개의 데이터베이스 커넥션 사용하기](#using-multiple-database-connections)
+    - [Listening For Query Events](#listening-for-query-events)
+    - [쿼리 이벤트 리스닝](#listening-for-query-events)
+    - [Monitoring Cumulative Query Time](#monitoring-cumulative-query-time)
+    - [누적 쿼리 시간 모니터링](#monitoring-cumulative-query-time)
 - [Database Transactions](#database-transactions)
 - [데이터베이스 트랙잭션](#database-transactions)
 - [Connecting To The Database CLI](#connecting-to-the-database-cli)
@@ -32,9 +32,9 @@ Almost every modern web application interacts with a database. Laravel makes int
 
 거의 모든 최신 웹 애플리케이션은 데이터베이스와 상호 작용합니다. 라라벨은 원시 SQL, [유창한 쿼리 빌더](/docs/{{version}}/queries) 및 [Eloquent ORM](/docs/{{version}}/eloquent)을 사용하여 지원되는 다양한 데이터베이스에서 데이터베이스와 매우 간단하게 상호 작용할 수 있습니다. 현재 라라벨은 5개의 데이터베이스를 주요하게 지원하고 있습니다.
 
-- MariaDB 10.3+ ([Version Policy](https://mariadb.org/about/#maintenance-policy))
+- MariaDB 10.10+ ([Version Policy](https://mariadb.org/about/#maintenance-policy))
 - MySQL 5.7+ ([Version Policy](https://en.wikipedia.org/wiki/MySQL#Release_history))
-- PostgreSQL 10.0+ ([Version Policy](https://www.postgresql.org/support/versioning/))
+- PostgreSQL 11.0+ ([Version Policy](https://www.postgresql.org/support/versioning/))
 - SQLite 3.8.8+
 - SQL Server 2017+ ([Version Policy](https://docs.microsoft.com/en-us/lifecycle/products/?products=sql-server))
 
@@ -179,15 +179,14 @@ To run a basic SELECT query, you may use the `select` method on the `DB` facade:
 
     use App\Http\Controllers\Controller;
     use Illuminate\Support\Facades\DB;
+    use Illuminate\View\View;
 
     class UserController extends Controller
     {
         /**
          * Show a list of all of the application's users.
-         *
-         * @return \Illuminate\Http\Response
          */
-        public function index()
+        public function index(): View
         {
             $users = DB::select('select * from users where active = ?', [1]);
 
@@ -221,6 +220,18 @@ Sometimes your database query may result in a single, scalar value. Instead of b
 
     $burgers = DB::scalar(
         "select count(case when food = 'burger' then 1 end) as burgers from menu"
+    );
+
+<a name="selecting-multiple-result-sets"></a>
+#### Selecting Multiple Result Sets
+#### 다중 결과셋 선택
+
+If your application calls stored procedures that return multiple result sets, you may use the `selectResultSets` method to retrieve all of the result sets returned by the stored procedure:
+
+애플리케이션에서 여러개의 결과셋을 반환하는 스토어 프로시저를 호출하려 한다면 `selectResultSets` 메서드를 사용할 수 있습니다. 이 메서드를 사용하여 스토어 프로시저가 반환하는 모든 결과셋을 조회할 수 있습니다.
+
+    [$options, $notifications] = DB::selectResultSets(
+        "CALL get_user_options_and_notifications(?)", $request->user()->id
     );
 
 <a name="using-named-bindings"></a>
@@ -292,9 +303,11 @@ Sometimes you may want to execute an SQL statement without binding any values. Y
 
     DB::unprepared('update users set votes = 100 where name = "Dries"');
 
-> {note} Since unprepared statements do not bind parameters, they may be vulnerable to SQL injection. You should never allow user controlled values within an unprepared statement.
+> **Warning**  
+> Since unprepared statements do not bind parameters, they may be vulnerable to SQL injection. You should never allow user controlled values within an unprepared statement.
 
-> {참고} 준비되지 않은 구문은 매개변수를 바인딩하지 않으므로 SQL 주입에 취약할 수 있습니다. 준비되지 않은 명령문 내에서 사용자 제어 값을 허용해서는 안 됩니다.
+> **Warning**  
+> 준비되지 않은 구문은 매개변수를 바인딩하지 않으므로 SQL 주입에 취약할 수 있습니다. 준비되지 않은 명령문 내에서 사용자 제어 값을 허용해서는 안 됩니다.
 
 <a name="implicit-commits-in-transactions"></a>
 #### Implicit Commits
@@ -340,6 +353,7 @@ If you would like to specify a closure that is invoked for each SQL query execut
 
     namespace App\Providers;
 
+    use Illuminate\Database\Events\QueryExecuted;
     use Illuminate\Support\Facades\DB;
     use Illuminate\Support\ServiceProvider;
 
@@ -347,22 +361,18 @@ If you would like to specify a closure that is invoked for each SQL query execut
     {
         /**
          * Register any application services.
-         *
-         * @return void
          */
-        public function register()
+        public function register(): void
         {
-            //
+            // ...
         }
 
         /**
          * Bootstrap any application services.
-         *
-         * @return void
          */
-        public function boot()
+        public function boot(): void
         {
-            DB::listen(function ($query) {
+            DB::listen(function (QueryExecuted $query) {
                 // $query->sql;
                 // $query->bindings;
                 // $query->time;
@@ -391,20 +401,16 @@ A common performance bottleneck of modern web applications is the amount of time
     {
         /**
          * Register any application services.
-         *
-         * @return void
          */
-        public function register()
+        public function register(): void
         {
-            //
+            // ...
         }
 
         /**
          * Bootstrap any application services.
-         *
-         * @return void
          */
-        public function boot()
+        public function boot(): void
         {
             DB::whenQueryingForLongerThan(500, function (Connection $connection, QueryExecuted $event) {
                 // Notify development team...
@@ -468,9 +474,11 @@ Lastly, you can commit a transaction via the `commit` method:
 
     DB::commit();
 
-> {tip} The `DB` facade's transaction methods control the transactions for both the [query builder](/docs/{{version}}/queries) and [Eloquent ORM](/docs/{{version}}/eloquent).
+> **Note**  
+> The `DB` facade's transaction methods control the transactions for both the [query builder](/docs/{{version}}/queries) and [Eloquent ORM](/docs/{{version}}/eloquent).
 
-> {tip} `DB` 파사드의 트랜잭션 메소드는 [query builder](/docs/{{version}}/queries) 및 [Eloquent ORM](/docs/{{version}}/eloquent) 모두에 대한 트랜잭션을 제어합니다.
+> **Note**  
+> `DB` 파사드의 트랜잭션 메소드는 [query builder](/docs/{{version}}/queries) 및 [Eloquent ORM](/docs/{{version}}/eloquent) 모두에 대한 트랜잭션을 제어합니다.
 
 <a name="connecting-to-the-database-cli"></a>
 ## Connecting To The Database CLI
@@ -560,10 +568,8 @@ use Illuminate\Support\Facades\Notification;
 
 /**
  * Register any other events for your application.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     Event::listen(function (DatabaseBusy $event) {
         Notification::route('mail', 'dev@example.com')

@@ -23,6 +23,8 @@
     - [환경 기반 설정](#environment-based-configuration)
     - [Databases & Migrations](#databases-and-migrations)
     - [데이터베이스 & 마이그레이션](#databases-and-migrations)
+    - [Directory Configuration](#directory-configuration)
+    - [디렉토리 설정하기](#directory-configuration)
 - [Next Steps](#next-steps)
 - [다음 단계](#next-steps)
     - [Laravel The Full Stack Framework](#laravel-the-fullstack-framework)
@@ -46,7 +48,7 @@ Whether you are new to PHP web frameworks or have years of experience, Laravel i
 
 PHP 웹 프레임워크를 처음 접하거나 다년간의 경험이 있더라도 라라벨은 함께 성장할 수 있는 프레임워크입니다. 웹 개발자로서의 첫 걸음을 떼도록 돕거나 전문 지식을 한 단계 높일 수 있도록 도와드립니다. 우리는 당신이 무엇을 만들지 기대하고 있습니다.
 
-> **Note**  
+> **Note**
 > New to Laravel? Check out the [Laravel Bootcamp](https://bootcamp.laravel.com) for a hands-on tour of the framework while we walk you through building your first Laravel application.
 
 > **Note**  
@@ -93,9 +95,9 @@ Laravel combines the best packages in the PHP ecosystem to offer the most robust
 ## Your First Laravel Project
 ## 첫 번째 라라벨 프로젝트
 
-Before creating your first Laravel project, you should ensure that your local machine has PHP and [Composer](https://getcomposer.org) installed. If you are developing on macOS, PHP and Composer can be installed via [Homebrew](https://brew.sh/). In addition, we recommend [installing Node and NPM](https://nodejs.org).
+Before creating your first Laravel project, you should ensure that your local machine has PHP and [Composer](https://getcomposer.org) installed. If you are developing on macOS, PHP and Composer can be installed within minutes via [Laravel Herd](https://herd.laravel.com). In addition, we recommend [installing Node and NPM](https://nodejs.org).
 
-여러분의 첫 번째 라라벨 프로젝트를 만들기 전에 로컬 머신에 PHP와 [컴포저](https://getcomposer.org)가 설치되어 있는지 확인해주세요. 만일 맥OS에서 개발하신다면 [홈브루](https://brew.sh/)를 통해 PHP와 컴포저를 설치할 수 있습니다. 추가적으로 [노드와 NPM도 설치하시길](https://nodejs.org) 권합니다.
+여러분의 첫 번째 라라벨 프로젝트를 만들기 전에 로컬 머신에 PHP와 [컴포저](https://getcomposer.org)가 설치되어 있는지 확인해주세요. 만일 맥OS에서 개발하신다면 [라라벨 Herd](https://herd.laravel.com)를 통해 몇 분 안에 PHP와 컴포저를 설치할 수 있습니다. 추가적으로 [Node.js 와 NPM도 설치하시길](https://nodejs.org) 권합니다.
 
 After you have installed PHP and Composer, you may create a new Laravel project via the Composer `create-project` command:
 
@@ -105,9 +107,9 @@ PHP와 컴포저를 설치한 후 컴포저의 `create-project` 명령어를 이
 composer create-project laravel/laravel example-app
 ```
 
-Or, you may create new Laravel projects by globally installing the Laravel installer via Composer:
+Or, you may create new Laravel projects by globally installing the Laravel installer via Composer. Or, if you installed PHP and Composer via [Laravel Herd](https://herd.laravel.com), the Laravel installer is already available to you:
 
-또는 컴포저를 통해 라라벨 인스톨러를 전역적으로 설치해서 라라벨 프로젝트를 만들 수도 있습니다.
+컴포저를 통해 라라벨 인스톨러를 전역적으로 설치해서 라라벨 프로젝트를 만들 수도 있습니다. 또는 [라라벨 Herd](https://herd.laravel.com)을 사용하여 PHP 와 컴포저를 설치했다면 이미 라라벨 인스톨러를 사용할 수 있습니다.
 
 ```nothing
 composer global require laravel/installer
@@ -136,6 +138,7 @@ Once you have started the Artisan development server, your application will be a
 > 라라벨 애플리케이션을 개발할 때 한발 앞서 시작하려면 당사의 [스타터 키트](/docs/{{version}}/starter-kits) 중 하나를 사용하는 것을 고려하십시오 . 라라벨의 스타터 키트는 새로운 라라벨 애플리케이션을 위한 백엔드 및 프론트엔드 인증 스캐폴딩을 제공합니다.
 
 <a name="laravel-and-docker"></a>
+## Laravel & Docker
 ## 라라벨 & 도커
 
 We want it to be as easy as possible to get started with Laravel regardless of your preferred operating system. So, there are a variety of options for developing and running a Laravel project on your local machine. While you may wish to explore these options at a later time, Laravel provides [Sail](/docs/{{version}}/sail), a built-in solution for running your Laravel project using [Docker](https://www.docker.com).
@@ -218,9 +221,9 @@ Next, you are ready to create your first Laravel project. Launch [Windows Termin
 curl -s https://laravel.build/example-app | bash
 ```
 
-Of course, you can change "example-app" in this URL to anything you like. The Laravel application's directory will be created within the directory you execute the command from.
+Of course, you can change "example-app" in this URL to anything you like - just make sure the application name only contains alpha-numeric characters, dashes, and underscores. The Laravel application's directory will be created within the directory you execute the command from.
 
-물론 이 URL의 "example-app"을 원하는 대로 변경할 수 있습니다. 라라벨 애플리케이션의 디렉토리는 명령을 실행한 디렉토리 내에 생성됩니다.
+물론 이 URL의 "example-app"을 원하는 대로 변경할 수 있지만 애플리케이션 이름은 영어 알파벳, 숫자, 대시, 밑줄만 포함해야 합니다. 라라벨 애플리케이션의 디렉토리는 명령을 실행한 디렉토리 내에 생성됩니다.
 
 Sail installation may take several minutes while Sail's application containers are built on your local machine.
 
@@ -261,17 +264,29 @@ Once these tools are installed, you may open any Laravel project by executing th
 ### Getting Started On Linux
 ### Linux에서 시작하기
 
-If you're developing on Linux and [Docker Compose](https://docs.docker.com/compose/install/) is already installed, you can use a simple terminal command to create a new Laravel project. For example, to create a new Laravel application in a directory named "example-app", you may run the following command in your terminal:
+If you're developing on Linux and [Docker Compose](https://docs.docker.com/compose/install/) is already installed, you can use a simple terminal command to create a new Laravel project.
 
-Linux에서 개발 중이며 [Docker Compose](https://docs.docker.com/compose/install/)가 이미 설치되어 있다면 간단한 터미널 명령을 사용하여 새 라라벨 프로젝트를 만들 수 있습니다. 예를 들어, "example-app"라는 디렉터리에 새 라라벨 애플리케이션을 생성하려면 터미널에서 다음 명령을 실행합니다.
+Linux에서 개발 중이며 [Docker Compose](https://docs.docker.com/compose/install/)가 이미 설치되어 있다면 간단한 터미널 명령을 사용하여 새 라라벨 프로젝트를 만들 수 있습니다. 
+
+First, if you are using Docker Desktop for Linux, you should execute the following command. If you are not using Docker Desktop for Linux, you may skip this step:
+
+먼저 만약 Linux 용 Docker Desktop을 사용중이라면 다음 명령어를 실행하십시오. Linux용 Docker Desktop 사용하지 않는다면 이 스텝은 넘어가도 좋습니다.
+
+```shell
+docker context use default
+```
+
+Then, to create a new Laravel application in a directory named "example-app", you may run the following command in your terminal:
+
+이제 "example-app"라는 디렉터리에 새 라라벨 애플리케이션을 생성하기 위해서 터미널에서 다음 명령을 실행합니다.
 
 ```shell
 curl -s https://laravel.build/example-app | bash
 ```
 
-Of course, you can change "example-app" in this URL to anything you like. The Laravel application's directory will be created within the directory you execute the command from.
+Of course, you can change "example-app" in this URL to anything you like - just make sure the application name only contains alpha-numeric characters, dashes, and underscores. The Laravel application's directory will be created within the directory you execute the command from.
 
-물론 이 URL의 "example-app"을 원하는 대로 변경할 수 있습니다. 라라벨 애플리케이션의 디렉토리는 명령을 실행한 디렉토리 내에 생성됩니다.
+물론 이 URL의 "example-app"을 원하는 대로 변경할 수 있지만 애플리케이션 이름은 영어 알파벳, 숫자, 대시, 밑줄만 포함해야 합니다. 라라벨 애플리케이션의 디렉토리는 명령을 실행한 디렉토리 내에 생성됩니다
 
 Sail installation may take several minutes while Sail's application containers are built on your local machine.
 
@@ -301,17 +316,25 @@ Once the application's Docker containers have been started, you can access the a
 ### Choosing Your Sail Services
 ### Sail 서비스 선택
 
-When creating a new Laravel application via Sail, you may use the `with` query string variable to choose which services should be configured in your new application's `docker-compose.yml` file. Available services include `mysql`, `pgsql`, `mariadb`, `redis`, `memcached`, `Meilisearch`, `minio`, `selenium`, and `mailhog`:
+When creating a new Laravel application via Sail, you may use the `with` query string variable to choose which services should be configured in your new application's `docker-compose.yml` file. Available services include `mysql`, `pgsql`, `mariadb`, `redis`, `memcached`, `meilisearch`, `minio`, `selenium`, and `mailpit`:
 
-Sail을 통해 새 라라벨 애플리케이션을 생성할 때 `with` 쿼리 문자열 변수를 사용하여 새 애플리케이션의 `docker-compose.yml` 파일에서 구성해야 하는 서비스를 선택할 수 있습니다. 사용 가능한 서비스에는 `mysql`, `pgsql`, `mariadb`, `redis`, `memcached`, `Meilisearch`, `minio`, `selenium`, 그리고 `mailhog`가 있습니다.
+Sail을 통해 새 라라벨 애플리케이션을 생성할 때 `with` 쿼리 문자열 변수를 사용하여 새 애플리케이션의 `docker-compose.yml` 파일에서 구성해야 하는 서비스를 선택할 수 있습니다. 사용 가능한 서비스에는 `mysql`, `pgsql`, `mariadb`, `redis`, `memcached`, `meilisearch`, `minio`, `selenium`, `mailpit`가 있습니다.
 
 ```shell
 curl -s "https://laravel.build/example-app?with=mysql,redis" | bash
 ```
 
-If you do not specify which services you would like configured, a default stack of `mysql`, `redis`, `Meilisearch`, `mailhog`, and `selenium` will be configured.
+If you do not specify which services you would like configured, a default stack of `mysql`, `redis`, `meilisearch`, `mailpit`, and `selenium` will be configured.
 
-구성할 서비스를 지정하지 않으면 `mysql`, `redis`, `Meilisearch`, `mailhog`, 그리고 `selenium`의 기본 스택이 구성됩니다.
+구성할 서비스를 지정하지 않으면 `mysql`, `redis`, `meilisearch`, `mailpit`, 그리고 `selenium`의 기본 스택이 구성됩니다.
+
+You may instruct Sail to install a default [Devcontainer](/docs/{{version}}/sail#using-devcontainers) by adding the `devcontainer` parameter to the URL:
+
+URL에 `devcontainer` 매개변수를 추가하여 Sail이 기본 [Devcontainer](/docs/{{version}}/sail#using-devcontainers)를 설치하도록 할 수 있습니다:
+
+```shell
+curl -s "https://laravel.build/example-app?with=mysql,redis&devcontainer" | bash
+```
 
 <a name="initial-configuration"></a>
 ## Initial Configuration
@@ -381,6 +404,14 @@ SQLite 데이터베이스를 설정하고나면 애플리케이션의 데이터�
 php artisan migrate
 ```
 
+<a name="directory-configuration"></a>
+### Directory Configuration
+### 디렉토리 설정하기
+
+Laravel should always be served out of the root of the "web directory" configured for your web server. You should not attempt to serve a Laravel application out of a subdirectory of the "web directory". Attempting to do so could expose sensitive files present within your application.
+
+라라벨이 설치된 디렉토리는 항상 웹 서버에서 설정하는 "웹 디렉토리" 보다 상위 디렉토리여야 합니다. "웹 디렉토리"의 하위 디렉터리에서 라라벨 애플리케이션을 위치시키면 안됩니다. 그렇게 하면 애플리케이션 내에 있는 민감한 파일이 브라우저를 통해서 노출될 수 있습니다.
+
 <a name="next-steps"></a>
 ## Next Steps
 ## 다음 단계
@@ -406,7 +437,7 @@ How you want to use Laravel will also dictate the next steps on your journey. Th
 
 라라벨을 어떻게 사용하고 싶은지에 따라 여정의 다음 단계도 결정됩니다. 라라벨을 사용하는 방법은 다양하며 아래 프레임워크에 대한 두 가지 주요 사용 사례를 살펴보겠습니다.
 
-> **Note**  
+> **Note**
 > New to Laravel? Check out the [Laravel Bootcamp](https://bootcamp.laravel.com) for a hands-on tour of the framework while we walk you through building your first Laravel application.
 
 > **Note**  
@@ -429,10 +460,10 @@ If you are using Laravel as a full stack framework, we also strongly encourage y
 라라벨을 풀 스택 프레임워크로 사용하는 경우 [Vite](/docs/{{version}}/vite)를 사용하여 애플리케이션의 CSS 및 자바스크립트를 컴파일하는 방법을 배우는 것을 강력히 권장합니다.
 
 > **Note**  
-> If you would like a head start when developing your Laravel application, consider using one of our [starter kits](/docs/{{version}}/starter-kits). Laravel's starter kits provide backend and frontend authentication scaffolding for your new Laravel application.
+> If you want to get a head start building your application, check out one of our official [application starter kits](/docs/{{version}}/starter-kits).
 
-> **Note**  
-> 라라벨 애플리케이션을 개발할 때 한발 앞서 시작하려면 당사의 [스타터 키트](/docs/{{version}}/starter-kits) 중 하나를 사용하는 것을 고려하십시오 . 라라벨의 스타터 키트는 새로운 라라벨 애플리케이션을 위한 백엔드 및 프론트엔드 인증 스캐폴딩을 제공합니다.
+> **Note**
+> 이제 본격적으로 애플리케이션을 만들려면 공식 [애플리케이션 스타터 키트](/docs/{{version}}/starter-kits) 중 하나를 확인하세요.
 
 <a name="laravel-the-api-backend"></a>
 ### Laravel The API Backend
@@ -446,8 +477,8 @@ If this is how you plan to use Laravel, you may want to check out our documentat
 
 라라벨을 이렇게 사용할 계획이라면 [라우팅](/docs/{{version}}/routing), [Laravel Sanctum](/docs/{{version}}/sanctum) 및 [Eloquent ORM](/docs/{{version}}/eloquent)에 대한 문서를 확인해 보는 것이 좋습니다.
 
-> **Note**  
-> If you would like a head start when developing your Laravel application, consider using one of our [starter kits](/docs/{{version}}/starter-kits). Laravel's starter kits provide backend and frontend authentication scaffolding for your new Laravel application.
+> **Note**
+> Need a head start scaffolding your Laravel backend and Next.js frontend? Laravel Breeze offers an [API stack](/docs/{{version}}/starter-kits#breeze-and-next) as well as a [Next.js frontend implementation](https://github.com/laravel/breeze-next) so you can get started in minutes.
 
-> **Note**  
-> 라라벨 애플리케이션을 개발할 때 한발 앞서 시작하려면 당사의 [스타터 키트](/docs/{{version}}/starter-kits) 중 하나를 사용하는 것을 고려하십시오 . 라라벨의 스타터 키트는 새로운 라라벨 애플리케이션을 위한 백엔드 및 프론트엔드 인증 스캐폴딩을 제공합니다.
+> **Note**
+> 라라벨 백엔드와 Next.js 프론트엔드의 스캐폴딩을 빠르게 시작하고 싶으신가요? 라라벨 Breeze는 몇 분 안에 시작할 수 있도록 [API 스택](/docs/{{version}}/starter-kits#breeze-and-next)과 [Next.js 프론트엔드 구현](https://github.com/laravel/breeze-next)을 제공합니다.

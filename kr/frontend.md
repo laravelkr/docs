@@ -1,4 +1,5 @@
 # Frontend
+# 프론트엔드
 
 - [Introduction](#introduction)
 - [소개](#introduction)
@@ -25,7 +26,7 @@
 
 Laravel is a backend framework that provides all of the features you need to build modern web applications, such as [routing](/docs/{{version}}/routing), [validation](/docs/{{version}}/validation), [caching](/docs/{{version}}/cache), [queues](/docs/{{version}}/queues), [file storage](/docs/{{version}}/filesystem), and more. However, we believe it's important to offer developers a beautiful full-stack experience, including powerful approaches for building your application's frontend.
 
-Laravel은 라우팅 , 유효성 검사 , 캐싱 , 대기열 , 파일 스토리지 등과 같은 최신 웹 애플리케이션을 구축하는 데 필요한 모든 기능을 제공하는 백엔드 프레임워크입니다 . 그러나 우리는 개발자에게 애플리케이션의 프론트엔드를 구축하기 위한 강력한 접근 방식을 포함하여 아름다운 전체 스택 경험을 제공하는 것이 중요하다고 생각합니다.
+라라벨은 라우팅 , 유효성 검사 , 캐싱 , 대기열 , 파일 스토리지 등과 같은 최신 웹 애플리케이션을 구축하는 데 필요한 모든 기능을 제공하는 백엔드 프레임워크입니다 . 그러나 우리는 개발자에게 애플리케이션의 프론트엔드를 구축하기 위한 강력한 접근 방식을 포함하여 아름다운 전체 스택 경험을 제공하는 것이 중요하다고 생각합니다.
 
 There are two primary ways to tackle frontend development when building an application with Laravel, and which approach you choose is determined by whether you would like to build your frontend by leveraging PHP or by using JavaScript frameworks such as Vue and React. We'll discuss both of these options below so that you can make an informed decision regarding the best approach to frontend development for your application.
 
@@ -63,6 +64,8 @@ Laravel에서 HTML을 렌더링하는 이 접근 방식은 여전히 [뷰](/docs
 </div>
 ```
 
+When building applications in this fashion, form submissions and other page interactions typically receive an entirely new HTML document from the server and the entire page is re-rendered by the browser. Even today, many applications may be perfectly suited to having their frontends constructed in this way using simple Blade templates.
+
 이러한 방식으로 애플리케이션을 구축할 때 양식 제출 및 기타 페이지 상호 작용은 일반적으로 서버에서 완전히 새로운 HTML 문서를 수신하고 전체 페이지가 브라우저에 의해 다시 렌더링됩니다. 오늘날에도 많은 애플리케이션이 간단한 블레이드 템플릿을 사용하여 이러한 방식으로 프론트엔드를 구성하는 데 완벽하게 적합할 수 있습니다.
 
 <a name="growing-expectations"></a>
@@ -83,11 +86,11 @@ Within the Laravel ecosystem, the need to create modern, dynamic frontends by pr
 
 <a name="livewire"></a>
 ### Livewire
-### 라이브와이어
+### Livewire
 
 [Laravel Livewire](https://livewire.laravel.com) is a framework for building Laravel powered frontends that feel dynamic, modern, and alive just like frontends built with modern JavaScript frameworks like Vue and React.
 
-[라라벨 라이브와이어](https://livewire.laravel.com)는 Vue 및 React와 같은 최신 자바스크립트 프레임워크로 구축된 프론트엔드와 마찬가지로 역동적이고 현대적이며 생생한 느낌을 주는 라라벨 기반 프론트엔드를 구축하기 위한 프레임워크입니다.
+[라라벨 Livewire](https://livewire.laravel.com)는 Vue 및 React와 같은 최신 자바스크립트 프레임워크로 구축된 프론트엔드와 마찬가지로 역동적이고 현대적이며 생생한 느낌을 주는 라라벨 기반 프론트엔드를 구축하기 위한 프레임워크입니다.
 
 When using Livewire, you will create Livewire "components" that render a discrete portion of your UI and expose methods and data that can be invoked and interacted with from your application's frontend. For example, a simple "Counter" component might look like the following:
 
@@ -183,16 +186,14 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class UserController extends Controller
 {
     /**
      * Show the profile for a given user.
-     *
-     * @param  int  $id
-     * @return \Inertia\Response
      */
-    public function show($id)
+    public function show(string $id): Response
     {
         return Inertia::render('Users/Profile', [
             'user' => User::findOrFail($id)

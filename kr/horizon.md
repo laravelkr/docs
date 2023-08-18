@@ -80,7 +80,7 @@ php artisan horizon:install
 ### Configuration
 ### 설정하기
 
-After publishing Horizon's assets, its primary configuration file will be located at `config/horizon.php`. This configuration file allows you to configure the queue worker options for your application, each configuration option includes a description of its purpose, so be sure to thoroughly explore this file.
+After publishing Horizon's assets, its primary configuration file will be located at `config/horizon.php`. This configuration file allows you to configure the queue worker options for your application. Each configuration option includes a description of its purpose, so be sure to thoroughly explore this file.
 
 Horizon 자산을 게시하면 기본 설정 파일이 `config/horizon.php`로 생성됩니다. 이 설정 파일을 사용하면 애플리케이션에 대한 대기열 작업자 옵션을 설정할 수 있습니다. 각 설정 옵션에는 용도에 대한 설명이 포함되어 있으므로 이 파일을 꼼꼼하게 살펴보십시오.
 
@@ -128,7 +128,7 @@ Horizon을 시작하면 애플리케이션이 실행되는 환경에 대한 작�
 #### Supervisors
 #### Supervisor
 
-As you can see in Horizon's default configuration file. Each environment can contain one or more "supervisors". By default, the configuration file defines this supervisor as `supervisor-1`; however, you are free to name your supervisors whatever you want. Each supervisor is essentially responsible for "supervising" a group of worker processes and takes care of balancing worker processes across queues.
+As you can see in Horizon's default configuration file, each environment can contain one or more "supervisors". By default, the configuration file defines this supervisor as `supervisor-1`; however, you are free to name your supervisors whatever you want. Each supervisor is essentially responsible for "supervising" a group of worker processes and takes care of balancing worker processes across queues.
 
 Horizon의 기본 설정 파일에서 볼 수 있듯이. 각 환경에는 하나 이상의 "supervisors"가 포함될 수 있습니다. 기본적으로 설정 파일은 이 수퍼바이저를 `supervisor-1`로 정의합니다. 그러나 supervisor의 이름은 원하는 대로 지정할 수 있습니다. 각 supervisor는 기본적으로 작업자 프로세스 그룹을 "감독"할 책임이 있으며 대기열 전체에서 작업자 프로세스의 균형을 조정합니다.
 
@@ -148,15 +148,15 @@ Horizon의 기본 설정 파일 내에서 `defaults` 설정 옵션을 확인할 
 ### Balancing Strategies
 ### 밸런싱 전략
 
-Unlike Laravel's default queue system, Horizon allows you to choose from three worker balancing strategies: `simple`, `auto`, and `false`. The `simple` strategy, which is the configuration file's default, splits incoming jobs evenly between worker processes:
+Unlike Laravel's default queue system, Horizon allows you to choose from three worker balancing strategies: `simple`, `auto`, and `false`. The `simple` strategy splits incoming jobs evenly between worker processes:
 
-라라벨의 기본 대기열 시스템과 달리 Horizon에서는 `simple`, `auto` 및 `false`의 세 가지 작업자 밸런싱 전략 중에서 선택할 수 있습니다. 설정 파일의 기본값인 `simple` 전략은 들어오는 작업을 작업자 프로세스 간에 균등하게 분할합니다.
+라라벨의 기본 대기열 시스템과 달리 Horizon에서는 `simple`, `auto` 및 `false`의 세 가지 작업자 밸런싱 전략 중에서 선택할 수 있습니다. `simple` 전략은 들어오는 작업을 작업자 프로세스 간에 균등하게 분할합니다.
 
     'balance' => 'simple',
 
-The `auto` strategy adjusts the number of worker processes per queue based on the current workload of the queue. For example, if your `notifications` queue has 1,000 pending jobs while your `render` queue is empty, Horizon will allocate more workers to your `notifications` queue until the queue is empty.
+The `auto` strategy, which is the configuration file's default, adjusts the number of worker processes per queue based on the current workload of the queue. For example, if your `notifications` queue has 1,000 pending jobs while your `render` queue is empty, Horizon will allocate more workers to your `notifications` queue until the queue is empty.
 
-`auto` 전략은 대기열의 현재 작업 부하를 기반으로 대기열당 작업자 프로세스 수를 조정합니다. 예를 들어 `notifications` 대기열에 1,000개의 보류 중인 작업이 있고 `render` 대기열은 비어 있는 경우 Horizon은 대기열이 비어 있을 때까지 `notifications` 대기열에 더 많은 작업자를 할당합니다.
+설정 파일의 기본값인 `auto` 전략은 대기열의 현재 작업 부하를 기반으로 대기열당 작업자 프로세스 수를 조정합니다. 예를 들어 `notifications` 대기열에 1,000개의 보류 중인 작업이 있고 `render` 대기열은 비어 있는 경우 Horizon은 대기열이 비어 있을 때까지 `notifications` 대기열에 더 많은 작업자를 할당합니다.
 
 When using the `auto` strategy, you may define the `minProcesses` and `maxProcesses` configuration options to control the minimum and the maximum number of worker processes Horizon should scale up and down to:
 
@@ -168,6 +168,7 @@ When using the `auto` strategy, you may define the `minProcesses` and `maxProces
                 'connection' => 'redis',
                 'queue' => ['default'],
                 'balance' => 'auto',
+                'autoScalingStrategy' => 'time',
                 'minProcesses' => 1,
                 'maxProcesses' => 10,
                 'balanceMaxShift' => 1,
@@ -176,6 +177,10 @@ When using the `auto` strategy, you may define the `minProcesses` and `maxProces
             ],
         ],
     ],
+
+The `autoScalingStrategy` configuration value determines if Horizon will assign more worker processes to queues based on the total amount of time it will take to clear the queue (`time` strategy) or by the total number of jobs on the queue (`size` strategy).
+
+`autoScalingStrategy` 설정 값은 Horizon이 queue-큐를 비우는 데 걸리는 총 시간(`time` 전략) 또는 queue-큐의 총 작업 수(`size` 전략)에 따라 더 많은 worker-작업자 프로세스를 queue-큐에 할당할지 여부를 결정합니다.
 
 The `balanceMaxShift` and `balanceCooldown` configuration values determine how quickly Horizon will scale to meet worker demand. In the example above, a maximum of one new process will be created or destroyed every three seconds. You are free to tweak these values as necessary based on your application's needs.
 
@@ -197,12 +202,10 @@ Horizon은 `/horizon` URI에서 대시보드를 노출합니다. 기본적으로
      * Register the Horizon gate.
      *
      * This gate determines who can access Horizon in non-local environments.
-     *
-     * @return void
      */
-    protected function gate()
+    protected function gate(): void
     {
-        Gate::define('viewHorizon', function ($user) {
+        Gate::define('viewHorizon', function (User $user) {
             return in_array($user->email, [
                 'taylor@laravel.com',
             ]);
@@ -213,9 +216,9 @@ Horizon은 `/horizon` URI에서 대시보드를 노출합니다. 기본적으로
 #### Alternative Authentication Strategies
 #### 대체 인증 전략
 
-Remember that Laravel automatically injects the authenticated user into the gate closure. If your application is providing Horizon security via another method, such as IP restrictions, then your Horizon users may not need to "login". Therefore, you will need to change `function ($user)` closure signature above to `function ($user = null)` in order to force Laravel to not require authentication.
+Remember that Laravel automatically injects the authenticated user into the gate closure. If your application is providing Horizon security via another method, such as IP restrictions, then your Horizon users may not need to "login". Therefore, you will need to change `function (User $user)` closure signature above to `function (User $user = null)` in order to force Laravel to not require authentication.
 
-라라벨은 인증된 사용자를 자동으로 게이트 클로저에 주입한다는 것을 기억하십시오. 애플리케이션이 IP 제한과 같은 다른 방법을 통해 Horizon 보안을 제공하는 경우, Horizon 사용자는 "로그인"할 필요가 없습니다. 따라서 라라벨이 인증을 요구하지 않도록 하려면 위 `function($user)` 클로저를 `function($user = null)`으로 변경해야 합니다.
+라라벨은 인증된 사용자를 자동으로 게이트 클로저에 주입한다는 것을 기억하십시오. 애플리케이션이 IP 제한과 같은 다른 방법을 통해 Horizon 보안을 제공하는 경우, Horizon 사용자는 "로그인"할 필요가 없습니다. 따라서 라라벨이 인증을 요구하지 않도록 하려면 위 `function(User $user)` 클로저를 `function(User $user = null)`으로 변경해야 합니다.
 
 <a name="silenced-jobs"></a>
 ### Silenced Jobs
@@ -254,15 +257,15 @@ Horizon의 새로운 메이저 버전으로 업그레이드할 때, [업그레�
 php artisan horizon:publish
 ```
 
-To keep the assets up-to-date and avoid issues in future updates, you may add the `horizon:publish` command to the `post-update-cmd` scripts in your application's `composer.json` file:
+To keep the assets up-to-date and avoid issues in future updates, you may add the `vendor:publish --tag=laravel-assets` command to the `post-update-cmd` scripts in your application's `composer.json` file:
 
-자산을 최신 상태로 유지하고 향후 업데이트에서 문제를 방지하려면, 애플리케이션의 `composer.json` 파일에 있는 `post-update-cmd` 스크립트에 `horizon:publish` 명령을 추가할 수 있습니다.
+자산을 최신 상태로 유지하고 향후 업데이트에서 문제를 방지하려면, 애플리케이션의 `composer.json` 파일에 있는 `post-update-cmd` 스크립트에 `vendor:publish --tag=laravel-assets` 명령을 추가할 수 있습니다.
 
 ```json
 {
     "scripts": {
         "post-update-cmd": [
-            "@php artisan horizon:publish --ansi"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ]
     }
 }
@@ -426,31 +429,18 @@ Horizon을 사용하면 메일링, 브로드캐스트 이벤트, 알림 및 대�
         use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
         /**
-         * The video instance.
-         *
-         * @var \App\Models\Video
-         */
-        public $video;
-
-        /**
          * Create a new job instance.
-         *
-         * @param  \App\Models\Video  $video
-         * @return void
          */
-        public function __construct(Video $video)
-        {
-            $this->video = $video;
-        }
+        public function __construct(
+            public Video $video,
+        ) {}
 
         /**
          * Execute the job.
-         *
-         * @return void
          */
-        public function handle()
+        public function handle(): void
         {
-            //
+            // ...
         }
     }
 
@@ -478,9 +468,9 @@ queueable objects에 수동으로 태그를 정하고 싶은 경우 클래스의
         /**
          * Get the tags that should be assigned to the job.
          *
-         * @return array
+         * @return array<int, string>
          */
-        public function tags()
+        public function tags(): array
         {
             return ['render', 'video:'.$this->video->id];
         }
@@ -502,10 +492,8 @@ If you would like to be notified when one of your queues has a long wait time, y
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         parent::boot();
 
@@ -537,11 +525,8 @@ Horizon에는 작업 및 대기열 대기 시간 및 처리량에 대한 정보�
 
     /**
      * Define the application's command schedule.
-     *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-     * @return void
      */
-    protected function schedule(Schedule $schedule)
+    protected function schedule(Schedule $schedule): void
     {
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
     }

@@ -2,11 +2,11 @@
 # HTTP 클라이언트
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Making Requests](#making-requests)
 - [Request 만들기](#making-requests)
     - [Request Data](#request-data)
-    - [Request 데이터](#request-data)
+    - [Request-요청 데이터](#request-data)
     - [Headers](#headers)
     - [헤더](#headers)
     - [Authentication](#authentication)
@@ -20,25 +20,25 @@
     - [Guzzle Middleware](#guzzle-middleware)
     - [Guzzle 미들웨어](#guzzle-middleware)
     - [Guzzle Options](#guzzle-options)
-    - [Guzzle Options](#guzzle-options)
+    - [Guzzle 옵션](#guzzle-options)
 - [Concurrent Requests](#concurrent-requests)
-- [동시 Request](#concurrent-requests)
+- [동시 Request-요청](#concurrent-requests)
 - [Macros](#macros)
 - [매크로](#macros)
 - [Testing](#testing)
-- [Testing](#testing)
+- [테스팅](#testing)
     - [Faking Responses](#faking-responses)
-    - [응답 속이기](#faking-responses)
+    - [Response-응답 속이기](#faking-responses)
     - [Inspecting Requests](#inspecting-requests)
-    - [Request 검사하기](#inspecting-requests)
+    - [Request-요청 검사하기](#inspecting-requests)
     - [Preventing Stray Requests](#preventing-stray-requests)
-    - [스트레이 리퀘스트 방지](#preventing-stray-requests)
+    - [스트레이 Request-요청 방지](#preventing-stray-requests)
 - [Events](#events)
 - [이벤트](#events)
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 Laravel provides an expressive, minimal API around the [Guzzle HTTP client](http://docs.guzzlephp.org/en/stable/), allowing you to quickly make outgoing HTTP requests to communicate with other web applications. Laravel's wrapper around Guzzle is focused on its most common use cases and a wonderful developer experience.
 
@@ -69,15 +69,13 @@ The `get` method returns an instance of `Illuminate\Http\Client\Response`, which
 `get` 메소드는 응답을 검사하는 데 사용할 수 있는 다양한 메소드를 제공하는 `Illuminate\Http\Client\Response`의 인스턴스를 반환합니다.
 
     $response->body() : string;
-    $response->json($key = null) : array|mixed;
+    $response->json($key = null, $default = null) : array|mixed;
     $response->object() : object;
     $response->collect($key = null) : Illuminate\Support\Collection;
     $response->status() : int;
-    $response->ok() : bool;
     $response->successful() : bool;
     $response->redirect(): bool;
     $response->failed() : bool;
-    $response->serverError() : bool;
     $response->clientError() : bool;
     $response->header($header) : string;
     $response->headers() : array;
@@ -87,6 +85,43 @@ The `Illuminate\Http\Client\Response` object also implements the PHP `ArrayAcces
 `Illuminate\Http\Client\Response` 객체는 PHP `ArrayAccess` 인터페이스도 구현하고 있기 때문에 응답에서 JSON 응답 데이터에 바로 접근할 수 있습니다.
 
     return Http::get('http://example.com/users/1')['name'];
+
+In addition to the response methods listed above, the following methods may be used to determine if the response has a given status code:
+
+위의 목록에 표시된 메서드 이외에도 다음의 메서드를 사용하여 응답에 주어진 상태코드가 있는지 확인할 수 있습니다.
+
+    $response->ok() : bool;                  // 200 OK
+    $response->created() : bool;             // 201 Created
+    $response->accepted() : bool;            // 202 Accepted
+    $response->noContent() : bool;           // 204 No Content
+    $response->movedPermanently() : bool;    // 301 Moved Permanently
+    $response->found() : bool;               // 302 Found
+    $response->badRequest() : bool;          // 400 Bad Request
+    $response->unauthorized() : bool;        // 401 Unauthorized
+    $response->paymentRequired() : bool;     // 402 Payment Required
+    $response->forbidden() : bool;           // 403 Forbidden
+    $response->notFound() : bool;            // 404 Not Found
+    $response->requestTimeout() : bool;      // 408 Request Timeout
+    $response->conflict() : bool;            // 409 Conflict
+    $response->unprocessableEntity() : bool; // 422 Unprocessable Entity
+    $response->tooManyRequests() : bool;     // 429 Too Many Requests
+    $response->serverError() : bool;         // 500 Internal Server Error
+
+<a name="uri-templates"></a>
+#### URI Templates
+
+The HTTP client also allows you to construct request URLs using the [URI template specification](https://www.rfc-editor.org/rfc/rfc6570). To define the URL parameters that can be expanded by your URI template, you may use the `withUrlParameters` method:
+
+HTTP 클라이언트를 사용하면 [URI 템플릿 스펙](https://www.rfc-editor.org/rfc/rfc6570)을 사용해 HTTP 요청 URL을 생성할 수도 있습니다. URI 템플릿으로 확장할 수 있는 URL 파라미터를 정의하려면 다음과 같이 할 수 있습니다. 
+
+```php
+Http::withUrlParameters([
+    'endpoint' => 'https://laravel.com',
+    'page' => 'docs',
+    'version' => '9.x',
+    'topic' => 'validation',
+])->get('{+endpoint}/{page}/{version}/{topic}');
+```
 
 <a name="dumping-requests"></a>
 #### Dumping Requests
@@ -100,7 +135,7 @@ If you would like to dump the outgoing request instance before it is sent and te
 
 <a name="request-data"></a>
 ### Request Data
-### Request 데이터
+### Request-요청 데이터
 
 Of course, it is common when making `POST`, `PUT`, and `PATCH` requests to send additional data with your request, so these methods accept an array of data as their second argument. By default, data will be sent using the `application/json` content type:
 
@@ -115,7 +150,7 @@ Of course, it is common when making `POST`, `PUT`, and `PATCH` requests to send 
 
 <a name="get-request-query-parameters"></a>
 #### GET Request Query Parameters
-#### GET 리퀘스트 쿼리 파라메터
+#### GET Request-요청 쿼리 파라미터
 
 When making `GET` requests, you may either append a query string to the URL directly or pass an array of key / value pairs as the second argument to the `get` method:
 
@@ -126,9 +161,18 @@ When making `GET` requests, you may either append a query string to the URL dire
         'page' => 1,
     ]);
 
+Alternatively, the `withQueryParameters` method may be used:
+
+대신에 `withQueryParameters` 메서드를 사용할수도 있습니다.
+
+    Http::retry(3, 100)->withQueryParameters([
+        'name' => 'Taylor',
+        'page' => 1,
+    ])->get('http://example.com/users')
+
 <a name="sending-form-url-encoded-requests"></a>
 #### Sending Form URL Encoded Requests
-#### 폼 URL 인코디드 Request 전송하기
+#### 폼 URL 인코디드 Request-요청 전송하기
 
 If you would like to send data using the `application/x-www-form-urlencoded` content type, you should call the `asForm` method before making your request:
 
@@ -141,11 +185,11 @@ If you would like to send data using the `application/x-www-form-urlencoded` con
 
 <a name="sending-a-raw-request-body"></a>
 #### Sending A Raw Request Body
-#### Raw Body Request 보내기
+#### Raw Body Request-요청 보내기
 
 You may use the `withBody` method if you would like to provide a raw request body when making a request. The content type may be provided via the method's second argument:
 
-Request할 때 raw request body를 발송하려면 `withBody` 메서드를 사용할 수 있습니다. 콘텐츠 유형은 메소드의 두 번째 인수를 통해 지정할 수 있습니다.
+Request-요청을 전송 할 때 raw request body를 발송하려면 `withBody` 메서드를 사용할 수 있습니다. 콘텐츠 유형은 메소드의 두 번째 인수를 통해 지정할 수 있습니다.
 
     $response = Http::withBody(
         base64_encode($photo), 'image/jpeg'
@@ -153,11 +197,11 @@ Request할 때 raw request body를 발송하려면 `withBody` 메서드를 사�
 
 <a name="multi-part-requests"></a>
 #### Multi-Part Requests
-#### 멀티-파트 Request
+#### 멀티-파트 Request-요청
 
 If you would like to send files as multi-part requests, you should call the `attach` method before making your request. This method accepts the name of the file and its contents. If needed, you may provide a third argument which will be considered the file's filename:
 
-파일을 멀티-파트 Request로 보내고 싶으면 Request를 만들기 전에 `attach` 메서드를 호출해야 합니다. 이 메서드는 파일의 이름과 내용을 인자로 받습니다. 필요하면 세 번째 인자로 파일명을 넘겨줄 수도 있습니다.
+파일을 멀티-파트 Request-요청으로 보내고 싶으면 Request-요청를 만들기 전에 `attach` 메서드를 호출해야 합니다. 이 메서드는 파일의 이름과 내용을 인자로 받습니다. 필요하면 세 번째 인자로 파일명을 넘겨줄 수도 있습니다.
 
     $response = Http::attach(
         'attachment', file_get_contents('photo.jpg'), 'photo.jpg'
@@ -200,6 +244,20 @@ For convenience, you may use the `acceptJson` method to quickly specify that you
 
     $response = Http::acceptJson()->get('http://example.com/users');
 
+The `withHeaders` method merges new headers into the request's existing headers. If needed, you may replace all of the headers entirely using the `replaceHeaders` method:
+
+`withHeaders` 메서드는 request-요청에 존재하는 헤더값과 새로운 헤더값을 병합합니다. 필요한 경우 `replaceHeaders` 메서드를 사용하여 전체 헤더 값을 교체할 수도 있습니다. 
+
+```php
+$response = Http::withHeaders([
+    'X-Original' => 'foo',
+])->replaceHeaders([
+    'X-Replacement' => 'bar',
+])->post('http://example.com/users', [
+    'name' => 'Taylor',
+]);
+```
+
 <a name="authentication"></a>
 ### Authentication
 ### 인증
@@ -228,9 +286,9 @@ Request 헤더에 `Authorization` bearer 토큰을 추가하고 싶으면 `withT
 ### Timeout
 ### 시간초과
 
-The `timeout` method may be used to specify the maximum number of seconds to wait for a response:
+The `timeout` method may be used to specify the maximum number of seconds to wait for a response. By default, the HTTP client will timeout after 30 seconds:
 
-`timeout` 메소드는 응답을 기다리는 최대 시간 (초)을 지정하는 데 사용될 수 있습니다.
+`timeout` 메소드는 응답을 기다리는 최대 시간 (초)을 지정하는 데 사용될 수 있습니다. HTTP 클라이언트가 타임아웃 기본값은 30초 입니다. 
 
     $response = Http::timeout(3)->get(/* ... */);
 
@@ -259,7 +317,10 @@ If needed, you may pass a third argument to the `retry` method. The third argume
 
 필요한 경우 `retry` 메서드에 세 번째 인수를 전달할 수 있습니다. 세 번째 인수는 재시도가 실제로 시도되어야 하는지 여부를 결정하는 callable이어야 합니다. 예를 들어, 초기 Request에서 `ConnectionException`이 발생한 경우에만 Request를 재시도할 수 있습니다.
 
-    $response = Http::retry(3, 100, function ($exception, $request) {
+    use Exception;
+    use Illuminate\Http\Client\PendingRequest;
+
+    $response = Http::retry(3, 100, function (Exception $exception, PendingRequest $request) {
         return $exception instanceof ConnectionException;
     })->post(/* ... */);
 
@@ -267,7 +328,11 @@ If a request attempt fails, you may wish to make a change to the request before 
 
 요청이 실패하는 경우 새 시도를 하기 전에 변화를 주고 싶을 수 있습니다. `retry` 메서드에 제공한 콜러블에 제공한 요청 인자를 수정하여 이를 달성할 수 있습니다. 예를 들어, 첫 번째 시도가 인증 에러를 반환하면 새 인증 토큰으로 재시도 할 수 있습니다.
 
-    $response = Http::withToken($this->getToken())->retry(2, 0, function ($exception, $request) {
+    use Exception;
+    use Illuminate\Http\Client\PendingRequest;
+    use Illuminate\Http\Client\RequestException;
+
+    $response = Http::withToken($this->getToken())->retry(2, 0, function (Exception $exception, PendingRequest $request) {
         if (! $exception instanceof RequestException || $exception->response->status() !== 401) {
             return false;
         }
@@ -325,6 +390,8 @@ If you have a response instance and would like to throw an instance of `Illumina
 
 응답이 클라이언트나 서버 에러일 경우 `Illuminate\Http\Client\RequestException` 인스턴스를 던지고 싶으면 `throw` 메서드를 사용하면 됩니다.
 
+    use Illuminate\Http\Client\Response;
+
     $response = Http::post(/* ... */);
 
     // Throw an exception if a client or server error occurred...
@@ -334,10 +401,10 @@ If you have a response instance and would like to throw an instance of `Illumina
     // Throw an exception if an error occurred and the given condition is true...
     // 오류가 발생하고 조건에 해당하는 경우 예외를 던진다...
     $response->throwIf($condition);
-    
+
     // Throw an exception if an error occurred and the given closure resolves to true...
     // 오류가 발생하고 클로저가 true를 반환하는 경우 예외를 던진다...
-    $response->throwIf(fn ($response) => true);
+    $response->throwIf(fn (Response $response) => true);
 
     // Throw an exception if an error occurred and the given condition is false...
     // 오류가 발생하고 조건에 해당하지 않는 경우 예외를 던진다...
@@ -345,7 +412,15 @@ If you have a response instance and would like to throw an instance of `Illumina
 
     // Throw an exception if an error occurred and the given closure resolves to false...
     // 오류가 발생하고 클로저가 false를 반환하는 경우 예외를 던진다...
-    $response->throwUnless(fn ($response) => false);
+    $response->throwUnless(fn (Response $response) => false);
+
+    // Throw an exception if the response has a specific status code...
+    // response-응답이 지정된 상태코드를 가진다면 예외를 던진다...
+    $response->throwIfStatus(403);
+
+    // Throw an exception unless the response has a specific status code...
+    // response-응답이 지정된 상태코드가 아니라면 예외를 던진다...
+    $response->throwUnlessStatus(200);
 
     return $response['user']['id'];
 
@@ -363,51 +438,70 @@ If you would like to perform some additional logic before the exception is throw
 
 예외가 발생하기 전에 몇 가지 추가 로직을 수행하려면 `throw` 메소드에 클로저를 전달할 수 있습니다. 클로저가 호출된 후 예외가 자동으로 throw되므로 클로저 내에서 예외를 다시 throw할 필요가 없습니다.
 
-    return Http::post(/* ... */)->throw(function ($response, $e) {
-        //
+    use Illuminate\Http\Client\Response;
+    use Illuminate\Http\Client\RequestException;
+
+    return Http::post(/* ... */)->throw(function (Response $response, RequestException $e) {
+        // ...
     })->json();
 
 <a name="guzzle-middleware"></a>
 ### Guzzle Middleware
 ### Guzzle 미들웨어
 
-Since Laravel's HTTP client is powered by Guzzle, you may take advantage of [Guzzle Middleware](https://docs.guzzlephp.org/en/stable/handlers-and-middleware.html) to manipulate the outgoing request or inspect the incoming response. To manipulate the outgoing request, register a Guzzle middleware via the `withMiddleware` method in combination with Guzzle's `mapRequest` middleware factory:
+Since Laravel's HTTP client is powered by Guzzle, you may take advantage of [Guzzle Middleware](https://docs.guzzlephp.org/en/stable/handlers-and-middleware.html) to manipulate the outgoing request or inspect the incoming response. To manipulate the outgoing request, register a Guzzle middleware via the `withRequestMiddleware` method:
 
-라라벨의 HTTP 클라이언트가 Guzzle에 기반하기 때문에 밖으로 나가는 요청을 조작하거나 들어오는 요청을 검사하는데 [Guzzle 미들웨어](https://docs.guzzlephp.org/en/stable/handlers-and-middleware.html)을 활용할 수 있습니다. 밖으로 나가는 요청을 조작하려면 Guzzle의 `mapRequest` 미들웨어 팩토리와 함께 `withMiddleware` 메서드를 사용해 Guzzle 미들웨어를 등록하세요.
+라라벨의 HTTP 클라이언트가 Guzzle에 기반하기 때문에 밖으로 나가는 요청을 조작하거나 들어오는 요청을 검사하는데 [Guzzle 미들웨어](https://docs.guzzlephp.org/en/stable/handlers-and-middleware.html)을 활용할 수 있습니다. 밖으로 나가는 요청을 조작하려면 `withRequestMiddleware` 메서드를 사용해 Guzzle 미들웨어를 등록하세요.
 
-    use GuzzleHttp\Middleware;
     use Illuminate\Support\Facades\Http;
     use Psr\Http\Message\RequestInterface;
 
-    $response = Http::withMiddleware(
-        Middleware::mapRequest(function (RequestInterface $request) {
-            $request = $request->withHeader('X-Example', 'Value');
-            
-            return $request;
-        })
+    $response = Http::withRequestMiddleware(
+        function (RequestInterface $request) {
+            return $request->withHeader('X-Example', 'Value');
+        }
     )->get('http://example.com');
 
-Likewise, you can inspect the incoming HTTP response by registering a middleware via the `withMiddleware` method in combination with Guzzle's `mapResponse` middleware factory:
+Likewise, you can inspect the incoming HTTP response by registering a middleware via the `withResponseMiddleware` method:
 
-마찬가지로 들어오는 HTTP 응답을 `mapResponse` 미들웨어 팩토리와 함께 `withMiddleware` 메서드를 통해 미들웨어를 등록하여 검사할 수 있습니다.
+마찬가지로 들어오는 HTTP 응답을 `withResponseMiddleware` 메서드를 통해 미들웨어를 등록하여 검사할 수 있습니다.
 
-    use GuzzleHttp\Middleware;
     use Illuminate\Support\Facades\Http;
     use Psr\Http\Message\ResponseInterface;
 
-    $response = Http::withMiddleware(
-        Middleware::mapResponse(function (ResponseInterface $response) {
+    $response = Http::withResponseMiddleware(
+        function (ResponseInterface $response) {
             $header = $response->getHeader('X-Example');
 
             // ...
-            
+
             return $response;
-        })
+        }
     )->get('http://example.com');
+
+<a name="global-middleware"></a>
+#### Global Middleware
+#### 글로벌 미들웨어
+
+Sometimes, you may want to register a middleware that applies to every outgoing request and incoming response. To accomplish this, you may use the `globalRequestMiddleware` and `globalResponseMiddleware` methods. Typically, these methods should be invoked in the `boot` method of your application's `AppServiceProvider`:
+
+때로는 모든 request-요청과 response-응답에 적용되는 미들웨어를 등록하고 싶을 수 있습니다. 이를 위해 `globalRequestMiddleware` 및 `globalResponseMiddleware` 메서드를 사용할 수 있습니다. 일반적으로 이러한 메서드는 애플리케이션의 `AppServiceProvider`의 `boot` 메서드에서 호출해야 합니다.
+
+```php
+use Illuminate\Support\Facades\Http;
+
+Http::globalRequestMiddleware(fn ($request) => $request->withHeader(
+    'User-Agent', 'Example Application/1.0'
+));
+
+Http::globalResponseMiddleware(fn ($response) => $response->withHeader(
+    'X-Finished-At', now()->toDateTimeString()
+));
+```
 
 <a name="guzzle-options"></a>
 ### Guzzle Options
-### Guzzle Options
+### Guzzle 옵션
 
 You may specify additional [Guzzle request options](http://docs.guzzlephp.org/en/stable/request-options.html) using the `withOptions` method. The `withOptions` method accepts an array of key / value pairs:
 
@@ -419,11 +513,11 @@ You may specify additional [Guzzle request options](http://docs.guzzlephp.org/en
 
 <a name="concurrent-requests"></a>
 ## Concurrent Requests
-## 동시 Request
+## 동시 Request-요청
 
 Sometimes, you may wish to make multiple HTTP requests concurrently. In other words, you want several requests to be dispatched at the same time instead of issuing the requests sequentially. This can lead to substantial performance improvements when interacting with slow HTTP APIs.
 
-여러 HTTP Request를 동시에 보내고 싶을 수도 있습니다. 즉, Request를 순차적으로 보내는 대신 여러 Request를 동시에 보내려고 하는 것입니다. 이는 느린 HTTP API와 상호 작용할 때 높은 성능 향상으로 이어질 수 있습니다.
+여러 HTTP Request-요청을 동시에 보내고 싶을 수도 있습니다. 즉, Request를 순차적으로 보내는 대신 여러 Request를 동시에 보내려고 하는 것입니다. 이는 느린 HTTP API와 상호 작용할 때 높은 성능 향상으로 이어질 수 있습니다.
 
 Thankfully, you may accomplish this using the `pool` method. The `pool` method accepts a closure which receives an `Illuminate\Http\Client\Pool` instance, allowing you to easily add requests to the request pool for dispatching:
 
@@ -457,6 +551,29 @@ As you can see, each response instance can be accessed based on the order it was
 
     return $responses['first']->ok();
 
+<a name="customizing-concurrent-requests"></a>
+#### Customizing Concurrent Requests
+#### 동시 Request-요청 커스터마이징
+
+The `pool` method cannot be chained with other HTTP client methods such as the `withHeaders` or `middleware` methods. If you want to apply custom headers or middleware to pooled requests, you should configure those options on each request in the pool:
+
+`pool` 메서드는 `withHeaders` 또는 `middleware` 메서드와 같은 다른 HTTP 클라이언트 메서드와체이닝할 수 없습니다. 풀링된 요청에 커스텀 헤더 또는 미들웨어를 적용하려면 풀 안에 있는 각각의 요청에 개별적으로 옵션을 설정해야합니다.
+
+```php
+use Illuminate\Http\Client\Pool;
+use Illuminate\Support\Facades\Http;
+
+$headers = [
+    'X-Example' => 'example',
+];
+
+$responses = Http::pool(fn (Pool $pool) => [
+    $pool->withHeaders($headers)->get('http://laravel.test/test'),
+    $pool->withHeaders($headers)->get('http://laravel.test/test'),
+    $pool->withHeaders($headers)->get('http://laravel.test/test'),
+]);
+```
+
 <a name="macros"></a>
 ## Macros
 ## 매크로
@@ -470,10 +587,8 @@ use Illuminate\Support\Facades\Http;
 
 /**
  * Bootstrap any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     Http::macro('github', function () {
         return Http::withHeaders([
@@ -662,7 +777,7 @@ If needed, you may assert that a specific request was not sent using the `assert
     Http::post('http://example.com/users', [
         'name' => 'Taylor',
         'role' => 'Developer',
-    ]); 
+    ]);
 
     Http::assertNotSent(function (Request $request) {
         return $request->url() === 'http://example.com/posts';

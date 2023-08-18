@@ -8,7 +8,7 @@
     - [When Should I Use Fortify?](#when-should-i-use-fortify)
     - [언제 Fortify를 사용해야 합니까?](#when-should-i-use-fortify)
 - [Installation](#installation)
-- [설치](#installation)
+- [설치하기](#installation)
     - [The Fortify Service Provider](#the-fortify-service-provider)
     - [Fortify 서비스 프로바이더](#the-fortify-service-provider)
     - [Fortify Features](#fortify-features)
@@ -56,7 +56,7 @@
 
 [Laravel Fortify](https://github.com/laravel/fortify) is a frontend agnostic authentication backend implementation for Laravel. Fortify registers the routes and controllers needed to implement all of Laravel's authentication features, including login, registration, password reset, email verification, and more. After installing Fortify, you may run the `route:list` Artisan command to see the routes that Fortify has registered.
 
-[Laravel Fortify](https://github.com/laravel/fortify)는 Laravel에서 프론트엔드의 관계 없이 사용할 수 있는 백엔드 인증에 대한 구현입니다. Fortify는 로그인, 등록, 비밀번호 재설정, 이메일 확인 등을 포함하여 Laravel의 모든 인증 기능을 구현하는 데 필요한 경로와 컨트롤러를 등록합니다. Fortify를 설치한 후 `route:list` Artisan 명령을 실행하여 Fortify가 등록한 경로를 볼 수 있습니다.
+[라라벨 Fortify](https://github.com/laravel/fortify)는 Laravel에서 프론트엔드의 관계 없이 사용할 수 있는 백엔드 인증에 대한 구현입니다. Fortify는 로그인, 등록, 비밀번호 재설정, 이메일 확인 등을 포함하여 Laravel의 모든 인증 기능을 구현하는 데 필요한 경로와 컨트롤러를 등록합니다. Fortify를 설치한 후 `route:list` Artisan 명령을 실행하여 Fortify가 등록한 경로를 볼 수 있습니다.
 
 Since Fortify does not provide its own user interface, it is meant to be paired with your own user interface which makes requests to the routes it registers. We will discuss exactly how to make requests to these routes in the remainder of this documentation.
 
@@ -146,7 +146,7 @@ php artisan vendor:publish --provider="Laravel\Fortify\FortifyServiceProvider"
 
 This command will publish Fortify's actions to your `app/Actions` directory, which will be created if it does not exist. In addition, Fortify's configuration file and migrations will be published.
 
-이 명령은 Fortify의 작업을 `app/Actions` 디렉토리에 게시하며, 존재하지 않는 경우 생성됩니다. 또한 Fortify의 구성 파일 및 마이그레이션이 게시됩니다.
+이 명령어를 실행하면 Fortify가 가지고 있던 액션 파일들을 `app/Actions` 디렉토리에 복사합니다. 이에 더해 Fortify 의 설정 파일과 마이그레이션도 복사됩니다. 
 
 Next, you should migrate your database:
 
@@ -220,10 +220,8 @@ All of the authentication view's rendering logic may be customized using the app
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Fortify::loginView(function () {
             return view('auth.login');
@@ -264,10 +262,8 @@ use Laravel\Fortify\Fortify;
 
 /**
  * Bootstrap any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     Fortify::authenticateUsing(function (Request $request) {
         $user = User::where('email', $request->email)->first();
@@ -288,7 +284,7 @@ public function boot()
 
 You may customize the authentication guard used by Fortify within your application's `fortify` configuration file. However, you should ensure that the configured guard is an implementation of `Illuminate\Contracts\Auth\StatefulGuard`. If you are attempting to use Laravel Fortify to authenticate an SPA, you should use Laravel's default `web` guard in combination with [Laravel Sanctum](https://laravel.com/docs/sanctum).
 
-애플리케이션의 `fortify` 구성 파일 내에서 Fortify가 사용하는 인증 가드를 커스터마이즈할 수 있습니다. 그러나 구성된 가드가 `Illuminate\Contracts\Auth\StatefulGuard`의 구현인지 확인해야 합니다. SPA를 인증하기 위해 Laravel Fortify를 사용하려는 경우 [Laravel Sanctum](https://laravel.com/docs/sanctum)과 함께 Laravel의 기본 `web` 가드를 사용해야 합니다.
+애플리케이션의 `fortify` 구성 파일 내에서 Fortify가 사용하는 인증 가드를 커스터마이즈할 수 있습니다. 그러나 구성된 가드가 `Illuminate\Contracts\Auth\StatefulGuard`의 구현인지 확인해야 합니다. SPA를 인증하기 위해 Laravel Fortify를 사용하려는 경우 [라라벨 Sanctum](https://laravel.com/docs/sanctum)과 함께 Laravel의 기본 `web` 가드를 사용해야 합니다.
 
 <a name="customizing-the-authentication-pipeline"></a>
 ### Customizing The Authentication Pipeline
@@ -341,10 +337,8 @@ use Laravel\Fortify\Contracts\LogoutResponse;
 
 /**
  * Register any application services.
- *
- * @return void
  */
-public function register()
+public function register(): void
 {
     $this->app->instance(LogoutResponse::class, new class implements LogoutResponse {
         public function toResponse($request)
@@ -380,7 +374,7 @@ class User extends Authenticatable
 {
     use Notifiable, TwoFactorAuthenticatable;
 }
-```
+ ```
 
 Next, you should build a screen within your application where users can manage their two factor authentication settings. This screen should allow the user to enable and disable two factor authentication, as well as regenerate their two factor authentication recovery codes.
 
@@ -404,9 +398,9 @@ After choosing to enable two factor authentication, the user must still "confirm
 
 ```html
 @if (session('status') == 'two-factor-authentication-enabled')
-<div class="mb-4 font-medium text-sm text-green-600">
-  Please finish configuring two factor authentication below.
-</div>
+    <div class="mb-4 font-medium text-sm">
+        Please finish configuring two factor authentication below.
+    </div>
 @endif
 ```
 
@@ -481,10 +475,8 @@ use Laravel\Fortify\Fortify;
 
 /**
  * Bootstrap any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     Fortify::twoFactorChallengeView(function () {
         return view('auth.two-factor-challenge');
@@ -531,10 +523,8 @@ use Laravel\Fortify\Fortify;
 
 /**
  * Bootstrap any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     Fortify::registerView(function () {
         return view('auth.register');
@@ -589,10 +579,8 @@ use Laravel\Fortify\Fortify;
 
 /**
  * Bootstrap any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     Fortify::requestPasswordResetLinkView(function () {
         return view('auth.forgot-password');
@@ -618,15 +606,19 @@ If the password reset link request was successful, Fortify will redirect the use
 
 비밀번호 재설정 링크 요청이 성공하면 Fortify는 사용자를 다시 `/forgot-password` 엔드포인트로 리디렉션하고 비밀번호 재설정에 사용할 수 있는 보안 링크가 포함된 이메일을 사용자에게 보냅니다. 요청이 XHR 요청인 경우 200 HTTP 응답이 반환됩니다.
 
-After being redirected back to the `/forgot-password` endpoint after a successful request, the `status` session variable may be used to display the status of the password reset link request attempt. The value of this session variable will match one of the translation strings defined within your application's `passwords` [language file](/docs/{{version}}/localization):
+After being redirected back to the `/forgot-password` endpoint after a successful request, the `status` session variable may be used to display the status of the password reset link request attempt.
 
-요청이 성공한 후 `/forgot-password` 엔드포인트로 다시 리디렉션된 후 `status` 세션 변수를 사용하여 비밀번호 재설정 링크 요청 시도의 상태를 표시할 수 있습니다. 이 세션 변수의 값은 애플리케이션의 '비밀번호' [언어 파일](/docs/{{version}}/localization) 내에 정의된 번역 문자열 중 하나와 일치합니다.
+요청이 성공한 후 `/forgot-password` 엔드포인트로 다시 리다이렉션된 후 `status` 세션 변수를 사용하여 비밀번호 재설정 링크 요청 시도의 상태를 표시할 수 있습니다. 
 
-```blade
+The value of the `$status` session variable will match one of the translation strings defined within your application's `passwords` [language file](/docs/{{version}}/localization). If you would like to customize this value and have not published Laravel's language files, you may do so via the `lang:publish` Artisan command:
+
+이 `$status` 세션 변수의 값은 애플리케이션의 '비밀번호' [언어 파일](/docs/{{version}}/localization) 내에 정의된 번역 문자열 중 하나와 일치합니다. 라라벨의 언어 파일을 변경하지 않으면서 이 값을 커스터마이징하고 싶다면 `lang:publish` Artisan 명령어를 사용할 수 있습니다. 
+
+```html
 @if (session('status'))
-<div class="mb-4 font-medium text-sm text-green-600">
-  {{ session('status') }}
-</div>
+    <div class="mb-4 font-medium text-sm text-green-600">
+        {{ session('status') }}
+    </div>
 @endif
 ```
 
@@ -648,15 +640,14 @@ Fortify의 모든 View 렌더링 로직은 `Laravel\Fortify\Fortify` 클래스�
 
 ```php
 use Laravel\Fortify\Fortify;
+use Illuminate\Http\Request;
 
 /**
  * Bootstrap any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
-    Fortify::resetPasswordView(function ($request) {
+    Fortify::resetPasswordView(function (Request $request) {
         return view('auth.reset-password', ['request' => $request]);
     });
 
@@ -680,11 +671,11 @@ If the password reset request was successful, Fortify will redirect back to the 
 
 비밀번호 재설정 요청이 성공하면 Fortify는 사용자가 새 비밀번호로 로그인할 수 있도록 `/login` 경로로 다시 리디렉션합니다. 또한 로그인 화면에 재설정 성공 상태를 표시할 수 있도록 `status` 세션 변수가 설정됩니다.
 
-```html
+```blade
 @if (session('status'))
-<div class="mb-4 font-medium text-sm text-green-600">
-  {{ session('status') }}
-</div>
+    <div class="mb-4 font-medium text-sm text-green-600">
+        {{ session('status') }}
+    </div>
 @endif
 ```
 
@@ -725,10 +716,8 @@ use Laravel\Fortify\Fortify;
 
 /**
  * Bootstrap any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     Fortify::verifyEmailView(function () {
         return view('auth.verify-email');
@@ -801,10 +790,8 @@ use Laravel\Fortify\Fortify;
 
 /**
  * Bootstrap any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     Fortify::confirmPasswordView(function () {
         return view('auth.confirm-password');

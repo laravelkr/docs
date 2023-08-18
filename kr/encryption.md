@@ -40,8 +40,7 @@ You may encrypt a value using the `encryptString` method provided by the `Crypt`
 
     namespace App\Http\Controllers;
 
-    use App\Http\Controllers\Controller;
-    use App\Models\User;
+    use Illuminate\Http\RedirectResponse;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Crypt;
 
@@ -49,15 +48,14 @@ You may encrypt a value using the `encryptString` method provided by the `Crypt`
     {
         /**
          * Store a DigitalOcean API token for the user.
-         *
-         * @param  \Illuminate\Http\Request  $request
-         * @return \Illuminate\Http\Response
          */
-        public function storeSecret(Request $request)
+        public function store(Request $request): RedirectResponse
         {
             $request->user()->fill([
                 'token' => Crypt::encryptString($request->token),
             ])->save();
+
+            return redirect('/secrets');
         }
     }
 
@@ -75,5 +73,5 @@ You may decrypt values using the `decryptString` method provided by the `Crypt` 
     try {
         $decrypted = Crypt::decryptString($encryptedValue);
     } catch (DecryptException $e) {
-        //
+        // ...
     }

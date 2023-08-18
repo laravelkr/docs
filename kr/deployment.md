@@ -13,16 +13,18 @@
 - [최적화](#optimization)
     - [Autoloader Optimization](#autoloader-optimization)
     - [Autoloader 최적화](#autoloader-optimization)
-    - [Optimizing Configuration Loading](#optimizing-configuration-loading)
-    - [설정내역 로딩 최적화](#optimizing-configuration-loading)
-    - [Optimizing Route Loading](#optimizing-route-loading)
-    - [라우트 로딩 최적화](#optimizing-route-loading)
-    - [Optimizing View Loading](#optimizing-view-loading)
-    - [뷰 로딩 최적화](#optimizing-view-loading)
+    - [Caching Configuration](#optimizing-configuration-loading)
+    - [설정내역 캐싱하기](#optimizing-configuration-loading)
+    - [Caching Events](#caching-events)
+    - [이벤트 캐싱](#caching-events)
+    - [Caching Routes](#optimizing-route-loading)
+    - [라우트 캐싱](#optimizing-route-loading)
+    - [Caching Views](#optimizing-view-loading)
+    - [뷰 캐싱](#optimizing-view-loading)
 - [Debug Mode](#debug-mode)
 - [디버그 모드](#debug-mode)
-- [Deploying With Forge / Vapor](#deploying-with-forge-or-vapor)
-- [Forge / Vapor로 배포하기](#deploying-with-forge-or-vapor)
+- [Easy Deployment With Forge / Vapor](#deploying-with-forge-or-vapor)
+- [Forge / Vapor로 쉽게 배포하기](#deploying-with-forge-or-vapor)
 
 <a name="introduction"></a>
 ## Introduction
@@ -40,17 +42,18 @@ The Laravel framework has a few system requirements. You should ensure that your
 
 라라벨 프레임워크는 몇 가지 시스템 요구 사항이 있습니다. 웹 서버에 최소 PHP 버전 및 extension이 다음과 같은지 확인해야 합니다.
 
-- PHP >= 8.0
-- BCMath PHP Extension
+- PHP >= 8.1
 - Ctype PHP Extension
 - cURL PHP Extension
 - DOM PHP Extension
 - Fileinfo PHP Extension
-- JSON PHP Extension
+- Filter PHP Extension
+- Hash PHP Extension
 - Mbstring PHP Extension
 - OpenSSL PHP Extension
 - PCRE PHP Extension
 - PDO PHP Extension
+- Session PHP Extension
 - Tokenizer PHP Extension
 - XML PHP Extension
 
@@ -94,7 +97,7 @@ server {
     error_page 404 /index.php;
 
     location ~ \.php$ {
-        fastcgi_pass unix:/var/run/php/php8.0-fpm.sock;
+        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
         fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
         include fastcgi_params;
     }
@@ -128,12 +131,12 @@ composer install --optimize-autoloader --no-dev
 > 오토로더를 최적화 하는데 더하여, 프로젝트의 소스 컨트롤 저장소에 `composer.lock` 파일을 포함하고 있는지 확인하십시오. `composer.lock` 파일이 존재한다면 프로젝트의 의존성을 보다 빠르게 설치할 수 있습니다.
 
 <a name="optimizing-configuration-loading"></a>
-### Optimizing Configuration Loading
-### 설정내역 로딩 최적화
+### Caching Configuration
+### 설정내역 캐싱
 
 When deploying your application to production, you should make sure that you run the `config:cache` Artisan command during your deployment process:
 
-실 서버에 배포할 때에 배포 프로세스에 `config:cache` 아티즌 명령어를 실행하도록 하십시오.
+실 서버에 배포할 때에 배포 프로세스에 `config:cache` 아티즌 명령어를 실행하십시오.
 
 ```shell
 php artisan config:cache
@@ -149,9 +152,21 @@ This command will combine all of Laravel's configuration files into a single, ca
 > **Warning**  
 > 배포 과정에서 `config:cache` 명령을 실행하면 설정 파일 내에서 `env` 함수 만 호출해야합니다. 설정이 캐시되면 `.env` 파일이 로드되지 않고 `.env`의 변수에 대한 `env` 함수의 모든 호출은 `null`을 반환합니다.
 
+<a name="caching-events"></a>
+### Caching Events
+### 이벤트 캐싱
+
+If your application is utilizing [event discovery](/docs/{{version}}/events#event-discovery), you should cache your application's event to listener mappings during your deployment process. This can be accomplished by invoking the `event:cache` Artisan command during deployment:
+
+애플리케이션이 [이벤트 디스커버리]()를 사용중이라면, 배포 프로세스에서 애플리케이션 이벤트와 리스너의 매핑을 캐싱하는 것이 좋습니다. 이렇게 하려면 배포 프로세스에서 `event:cache` Artisan 명령어를 사용하면 됩니다. 
+
+```shell
+php artisan event:cache
+```
+
 <a name="optimizing-route-loading"></a>
-### Optimizing Route Loading
-### 라우트 로딩 최적화
+### Caching Routes
+### 라우트 캐싱
 
 If you are building a large application with many routes, you should make sure that you are running the `route:cache` Artisan command during your deployment process:
 
@@ -166,8 +181,8 @@ This command reduces all of your route registrations into a single method call w
 이 명령어는 라라벨의 전체 라우트 등록을 하나의 캐시 파일로 만들어 라우트를 등록하는 속도를 줄여줍니다.
 
 <a name="optimizing-view-loading"></a>
-### Optimizing View Loading
-### 뷰 로딩 최적화
+### Caching Views
+### 뷰 캐싱
 
 When deploying your application to production, you should make sure that you run the `view:cache` Artisan command during your deployment process:
 
@@ -194,12 +209,12 @@ config/app.php 설정 파일의 디버그 옵션에 따라 사용자에게 실�
 **프로덕션 환경에서 이 값은 항상 `false`여야 합니다. 프로덕션에서 `APP_DEBUG` 변수가 `true`로 설정되면 민감한 설정 값이 애플리케이션의 최종 사용자에게 노출될 위험이 있습니다.**
 
 <a name="deploying-with-forge-or-vapor"></a>
-## Deploying With Forge / Vapor
-## Forge / Vapor로 배포하기
+## Easy Deployment With Forge / Vapor
+## Forge / Vapor로 쉽게 배포하기
 
 <a name="laravel-forge"></a>
 #### Laravel Forge
-#### Laravel Forge
+#### 라라벨 Forge
 
 If you aren't quite ready to manage your own server configuration or aren't comfortable configuring all of the various services needed to run a robust Laravel application, [Laravel Forge](https://forge.laravel.com) is a wonderful alternative.
 
@@ -209,15 +224,15 @@ Laravel Forge can create servers on various infrastructure providers such as Dig
 
 라라벨 Forge 는 DigitalOcean, Linode, AWS 와 같은 다양한 인프라를 제공하는 서비스 위에서 서버를 구성할 수 있습니다. 또한 Forge는 Nginx, MySQL, Redis, Memcached, Beanstalk 와 같은 라라벨 애플리케이션을 구축하는데 필요한 모든 툴들을 설치하고 관리해줍니다.
 
-> **Note**  
+> **Note**
 > Want a full guide to deploying with Laravel Forge? Check out the [Laravel Bootcamp](https://bootcamp.laravel.com/deploying) and the Forge [video series available on Laracasts](https://laracasts.com/series/learn-laravel-forge-2022-edition).
 
 > **Note**  
-> 라라벨 포지로 개발하는 방법에 대한 전체 가이드가 필요한가요? [라라벨 부트캠프](https://bootcamp.laravel.com/deploying)와 [포지 관련 라라캐스트 비디오 시리즈](https://laracasts.com/series/learn-laravel-forge-2022-edition)를 확인해보세요.
+> 라라벨 Forge로 개발하는 방법에 대한 전체 가이드가 필요한가요? [라라벨 부트캠프](https://bootcamp.laravel.com/deploying)와 [Forge 관련 라라캐스트 비디오 시리즈](https://laracasts.com/series/learn-laravel-forge-2022-edition)를 확인해보세요.
 
 <a name="laravel-vapor"></a>
 #### Laravel Vapor
-#### Laravel Vapor
+#### 라라벨 Vapor
 
 If you would like a totally serverless, auto-scaling deployment platform tuned for Laravel, check out [Laravel Vapor](https://vapor.laravel.com). Laravel Vapor is a serverless deployment platform for Laravel, powered by AWS. Launch your Laravel infrastructure on Vapor and fall in love with the scalable simplicity of serverless. Laravel Vapor is fine-tuned by Laravel's creators to work seamlessly with the framework so you can keep writing your Laravel applications exactly like you're used to.
 

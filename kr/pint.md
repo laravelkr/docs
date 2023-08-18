@@ -1,5 +1,5 @@
 # Laravel Pint
-# 라라벨 파인트
+# 라라벨 Pint
 
 - [Introduction](#introduction)
 - [소개](#introduction)

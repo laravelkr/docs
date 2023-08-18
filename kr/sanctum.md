@@ -50,7 +50,7 @@
 
 [Laravel Sanctum](https://github.com/laravel/sanctum) provides a featherweight authentication system for SPAs (single page applications), mobile applications, and simple, token based APIs. Sanctum allows each user of your application to generate multiple API tokens for their account. These tokens may be granted abilities / scopes which specify which actions the tokens are allowed to perform.
 
-[라라벨 Sanctum](https://github.com/laravel/sanctum) 은 SPAs(싱글 페이지 애플리케이션), 모바일 애플리케이션을 위한 인증 시스템과 간단한 토큰 기반의 API를 위한 인증 시스텡을 제공합니다. 이들 인증 시스템은 OAuth 등의 복잡한 인증 기법과 대비되는 가벼운 패더급 인증 기법입니다. Sanctum을 사용하면 애플리케이션의 각 사용자가 자신의 계정에 대해 여러 개의 API 토큰을 생성 할 수 있습니다. 이 토큰에는 애플리케이션 내부 동작을 수행하는 작업에 대한 권한을 지정할 수 있는 abilities-어빌리티 / scopes-스코프가 부여될 수 있습니다.
+[라라벨 Sanctum](https://github.com/laravel/sanctum) 은 SPAs(싱글 페이지 애플리케이션), 모바일 애플리케이션을 위한 인증 시스템과 간단한 토큰 기반의 API를 위한 인증 시스템을 제공합니다. 이들 인증 시스템은 OAuth 등의 복잡한 인증 기법과 대비되는 가벼운 패더급 인증 기법입니다. Sanctum을 사용하면 애플리케이션의 각 사용자가 자신의 계정에 대해 여러 개의 API 토큰을 생성 할 수 있습니다. 이 토큰에는 애플리케이션 내부 동작을 수행하는 작업에 대한 권한을 지정할 수 있는 abilities-어빌리티 / scopes-스코프가 부여될 수 있습니다.
 
 <a name="how-it-works"></a>
 ### How It Works

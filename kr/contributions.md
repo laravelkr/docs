@@ -16,6 +16,8 @@
 - [Coding Style](#coding-style)
 - [코딩 스타일](#coding-style)
     - [PHPDoc](#phpdoc)
+    - [PHPDoc](#phpdoc)
+    - [StyleCI](#styleci)
     - [StyleCI](#styleci)
 - [Code of Conduct](#code-of-conduct)
 - [행동 지침](#code-of-conduct)
@@ -32,9 +34,9 @@ However, if you file a bug report, your issue should contain a title and a clear
 
 버그 리포트를 작성하는 경우, 이슈는 제목과 이슈에 대한 명확한 설명을 포함해야 합니다. 또한 해당 이슈에 대한 가능한 많은 관련 정보와 데모 코드 샘플을 포함해야 합니다. 버그 리포트의 목적은 여러분 자신과 다른 사람들이 쉽게 버그를 재현하고, 수정할 수 있게 하는 것입니다.
 
-Remember, bug reports are created in the hope that others with the same problem will be able to collaborate with you on solving it. Do not expect that the bug report will automatically see any activity or that others will jump to fix it. Creating a bug report serves to help yourself and others start on the path of fixing the problem. If you want to chip in, you can help out by fixing [any bugs listed in our issue trackers](https://github.com/issues?q=is%3Aopen+is%3Aissue+label%3Abug+user%3Alaravel+-repo%3Alaravel%2Fnova-issues).
+Remember, bug reports are created in the hope that others with the same problem will be able to collaborate with you on solving it. Do not expect that the bug report will automatically see any activity or that others will jump to fix it. Creating a bug report serves to help yourself and others start on the path of fixing the problem. If you want to chip in, you can help out by fixing [any bugs listed in our issue trackers](https://github.com/issues?q=is%3Aopen+is%3Aissue+label%3Abug+user%3Alaravel). You must be authenticated with GitHub to view all of Laravel's issues.
 
-버그 리포트를 통해 같은 문제를 겪고 있는 다른 사람들과 협력해서 그 문제를 해결할 수 있다는 것을 명심하세요. 버그 리포트가 자동으로 어떤 활동을 만들어 내거나, 다른 이들이 버그을 고칠 것이라는 기대를 하지 마십시오. 버그 리포트 제출은 여러분 자신과 다른 사람이 문제를 해결할 수 있는 길에 들어설 수 있도록 하는 것입니다. 문제를 해결하려면 [이슈 트래커에 나열된 모든 버그](https://github.com/issues?q=is%3Aopen+is%3Aissue+label%3Abug+user%3Alaravel+-repo%3Alaravel%2Fnova-issues) 를 수정하여 도움을 줄 수 있습니다.
+버그 리포트를 통해 같은 문제를 겪고 있는 다른 사람들과 협력해서 그 문제를 해결할 수 있다는 것을 명심하세요. 버그 리포트가 자동으로 어떤 활동을 만들어 내거나, 다른 이들이 버그을 고칠 것이라는 기대를 하지 마십시오. 버그 리포트 제출은 여러분 자신과 다른 사람이 문제를 해결할 수 있는 길에 들어설 수 있도록 하는 것입니다. 문제를 해결하려면 [이슈 트래커에 나열된 모든 버그](https://github.com/issues?q=is%3Aopen+is%3Aissue+label%3Abug+user%3Alaravel) 를 수정하여 도움을 줄 수 있습니다. 라라벨 이슈를 확인하려면 Github 인증이 필요합니다.
 
 The Laravel source code is managed on GitHub, and there are repositories for each of the Laravel projects:
 
@@ -47,30 +49,33 @@ The Laravel source code is managed on GitHub, and there are repositories for eac
 - [Laravel Documentation](https://github.com/laravel/docs)
 - [라라벨 매뉴얼](https://github.com/laravel/docs)
 - [Laravel Dusk](https://github.com/laravel/dusk)
-- [라라벨 더스크(Dusk)](https://github.com/laravel/dusk)
+- [라라벨 Dusk](https://github.com/laravel/dusk)
 - [Laravel Cashier Stripe](https://github.com/laravel/cashier)
-- [라라벨 캐셔 Stripe](https://github.com/laravel/cashier)
+- [라라벨 Cashier Stripe](https://github.com/laravel/cashier)
 - [Laravel Cashier Paddle](https://github.com/laravel/cashier-paddle)
-- [라라벨 캐셔 Paddle](https://github.com/laravel/cashier-paddle)
+- [라라벨 Cashier Paddle](https://github.com/laravel/cashier-paddle)
 - [Laravel Echo](https://github.com/laravel/echo)
-- [라라벨 에코(Echo)](https://github.com/laravel/echo)
+- [라라벨 Echo](https://github.com/laravel/echo)
 - [Laravel Envoy](https://github.com/laravel/envoy)
 - [라라벨 Envoy](https://github.com/laravel/envoy)
 - [Laravel Framework](https://github.com/laravel/framework)
 - [라라벨 프레임워크](https://github.com/laravel/framework)
 - [Laravel Homestead](https://github.com/laravel/homestead)
-- [라라벨 홈스테드](https://github.com/laravel/homestead)
+- [라라벨 Homestead](https://github.com/laravel/homestead)
 - [Laravel Homestead Build Scripts](https://github.com/laravel/settler)
-- [라라벨 홈스테드 빌드스크립트](https://github.com/laravel/settler)
+- [라라벨 Homestead 빌드스크립트](https://github.com/laravel/settler)
 - [Laravel Horizon](https://github.com/laravel/horizon)
+- [라라벨 Horizon](https://github.com/laravel/horizon)
 - [Laravel Jetstream](https://github.com/laravel/jetstream)
-- [Laravel 제트스트림(Jetstream)](https://github.com/laravel/jetstream)
+- [라라벨 Jetstream](https://github.com/laravel/jetstream)
 - [Laravel Passport](https://github.com/laravel/passport)
+- [라라벨 Passport](https://github.com/laravel/passport)
 - [Laravel Pint](https://github.com/laravel/pint)
+- [라라벨 Pint](https://github.com/laravel/pint)
 - [Laravel Sanctum](https://github.com/laravel/sanctum)
-- [라라벨 생텀(Sanctum)](https://github.com/laravel/sanctum)
+- [라라벨 Sanctum](https://github.com/laravel/sanctum)
 - [Laravel Scout](https://github.com/laravel/scout)
-- [라라벨 스카웃(Scout)](https://github.com/laravel/scout)
+- [라라벨 Scout](https://github.com/laravel/scout)
 - [Laravel Socialite](https://github.com/laravel/socialite)
 - [라라벨 Socialite](https://github.com/laravel/socialite)
 - [Laravel Telescope](https://github.com/laravel/telescope)
@@ -84,7 +89,7 @@ The Laravel source code is managed on GitHub, and there are repositories for eac
 
 Laravel's GitHub issue trackers are not intended to provide Laravel help or support. Instead, use one of the following channels:
 
-Laravel의 GitHub 이슈 트래커는 Laravel 도움말이나 지원을 제공하기위한 것이 아닙니다. 대신 다음 채널 중 하나를 사용하십시오.
+라라벨에 대한 도움이나 지원이 필요한 경우 라라벨의 GitHub 이슈 트래커를 사용하지 마십시오. 그대신 다음 채널 중 하나를 사용하세요.
 
 - [GitHub Discussions](https://github.com/laravel/framework/discussions)
 - [GitHub Discussions](https://github.com/laravel/framework/discussions)
@@ -98,16 +103,16 @@ Laravel의 GitHub 이슈 트래커는 Laravel 도움말이나 지원을 제공�
 - [Discord](https://discord.gg/laravel)
 - [Larachat](https://larachat.co)
 - [Larachat](https://larachat.co)
-- [IRC](https://webchat.freenode.net/?nick=artisan&channels=%23laravel&prompt=1)
-- [IRC](https://webchat.freenode.net/?nick=artisan&channels=%23laravel&prompt=1)
+- [IRC](https://web.libera.chat/?nick=artisan&channels=#laravel)
+- [IRC](https://web.libera.chat/?nick=artisan&channels=#laravel)
 
 <a name="core-development-discussion"></a>
 ## Core Development Discussion
 ## 코어 개발에 대한 논의
 
-You may propose new features or improvements of existing Laravel behavior in the Laravel Ideas [issue board](https://github.com/laravel/framework/discussions). If you propose a new feature, please be willing to implement at least some of the code that would be needed to complete the feature.
+You may propose new features or improvements of existing Laravel behavior in the Laravel framework repository's [GitHub discussion board](https://github.com/laravel/framework/discussions). If you propose a new feature, please be willing to implement at least some of the code that would be needed to complete the feature.
 
-새로운 기능이나 라라벨의 동작에 대한 개선을 제안하고자 하는 경우는 라라벨 아이디어 [이슈 보드](https://github.com/laravel/framework/discussions)에 제안하십시오. 새로운 기능을 제안하는 경우 자발적으로 기능을 구동시키는 데 필요한 코드를 최소한으로 구현하시기 바랍니다.
+새로운 기능이나 라라벨의 동작에 대한 개선을 제안하고자 하는 경우는 라라벨 프레임워크 저장소의 framework repository's [GitHub 토론 공간](https://github.com/laravel/framework/discussions)에 제안하십시오. 새로운 기능을 제안하는 경우 자발적으로 기능을 구동시키는 데 필요한 코드를 최소한으로 구현하시기 바랍니다.
 
 Informal discussion regarding bugs, new features, and implementation of existing features takes place in the `#internals` channel of the [Laravel Discord server](https://discord.gg/laravel). Taylor Otwell, the maintainer of Laravel, is typically present in the channel on weekdays from 8am-5pm (UTC-06:00 or America/Chicago), and sporadically present in the channel at other times.
 
@@ -117,13 +122,13 @@ Informal discussion regarding bugs, new features, and implementation of existing
 ## Which Branch?
 ## 브랜치 선택
 
-**All** bug fixes should be sent to the latest version that supports bug fixes (currently `9.x`). Bug fixes should **never** be sent to the `master` branch unless they fix features that exist only in the upcoming release.
+**All** bug fixes should be sent to the latest version that supports bug fixes (currently `10.x`). Bug fixes should **never** be sent to the `master` branch unless they fix features that exist only in the upcoming release.
 
-**모든** 버그 수정은 버그 수정을 지원하는 최신버전(현재는 9.x)에 보내져야 합니다. 다음 릴리스에만 존재하는 기능에 대한 수정사항이 아니라면 버그 수정사항을 `master` 브랜치에 **절대** 보내지 마십시오.
+**모든** 버그 수정은 버그 수정을 지원하는 최신버전(현재는 10.x)에 보내져야 합니다. 다음 릴리스에만 존재하는 기능에 대한 수정사항이 아니라면 버그 수정사항을 `master` 브랜치에 **절대** 보내지 마십시오.
 
-**Minor** features that are **fully backward compatible** with the current release may be sent to the latest stable branch (currently `9.x`).
+**Minor** features that are **fully backward compatible** with the current release may be sent to the latest stable branch (currently `10.x`).
 
-현재 라라벨 릴리스와 **완전한 호환성** 을 가진 **마이너** 기능은 최신 안정 브랜치로(현재 `9.x` ) 보내 주시기 바랍니다.
+현재 라라벨 릴리스와 **완전한 호환성** 을 가진 **마이너** 기능은 최신 안정 브랜치로(현재 `10.x` ) 보내 주시기 바랍니다.
 
 **Major** new features or features with breaking changes should always be sent to the `master` branch, which contains the upcoming release.
 
@@ -137,9 +142,9 @@ If you are unsure if your feature qualifies as a major or minor, please ask Tayl
 ## Compiled Assets
 ## 컴파일된 Assets
 
-If you are submitting a change that will affect a compiled file, such as most of the files in `resources/sass` or `resources/js` of the `laravel/laravel` repository, do not commit the compiled files. Due to their large size, they cannot realistically be reviewed by a maintainer. This could be exploited as a way to inject malicious code into Laravel. In order to defensively prevent this, all compiled files will be generated and committed by Laravel maintainers.
+If you are submitting a change that will affect a compiled file, such as most of the files in `resources/css` or `resources/js` of the `laravel/laravel` repository, do not commit the compiled files. Due to their large size, they cannot realistically be reviewed by a maintainer. This could be exploited as a way to inject malicious code into Laravel. In order to defensively prevent this, all compiled files will be generated and committed by Laravel maintainers.
 
-`laravel/laravel` 저장소의 `resources/sass` 또는 `resources/js` 에있는 대부분의 파일과 같이 컴파일 된 Asset 파일에 영향을 주는 변경 사항을 제출하는 경우 컴파일 된 파일을 커밋하지 마십시오. 이 파일들은 크기가 크기 때문에 메인테이너가 실제로 검토 할 수 없습니다. 이러한 방법은 악성 코드를 라라벨에 삽입하는 방법으로 악용 될 소지가 있습니다. 이를 방지하기 위해 컴파일 된 모든 파일은 라라벨 관리자에 의해 생성되고 커밋됩니다.
+`laravel/laravel` 저장소의 `resources/css` 또는 `resources/js` 에있는 대부분의 파일과 같이 컴파일 된 Asset 파일에 영향을 주는 변경 사항을 제출하는 경우 컴파일 된 파일을 커밋하지 마십시오. 이 파일들은 크기가 크기 때문에 메인테이너가 실제로 검토 할 수 없습니다. 이러한 방법은 악성 코드를 라라벨에 삽입하는 방법으로 악용 될 소지가 있습니다. 이를 방지하기 위해 컴파일 된 모든 파일은 라라벨 관리자에 의해 생성되고 커밋됩니다.
 
 <a name="security-vulnerabilities"></a>
 ## Security Vulnerabilities
@@ -177,7 +182,35 @@ Below is an example of a valid Laravel documentation block. Note that the `@para
      */
     public function bind($abstract, $concrete = null, $shared = false)
     {
+        // ...
+    }
+
+When the `@param` or `@return` attributes are redundant due to the use of native types, they can be removed:
+
+기본 타입이 사용되면 `@param` 또는 `@return` 속성은 중복되므로 제거할 수 있습니다.
+
+    /**
+     * Execute the job.
+     */
+    public function handle(AudioProcessor $processor): void
+    {
         //
+    }
+
+However, when the native type is generic, please specify the generic type through the use of the `@param` or `@return` attributes:
+
+하지만 기본 타입이 제네릭인 경우라면 `@param` 또는 `@return` 속성을 사용하여 제네릭 타입을 지정하십시오.
+
+    /**
+     * Get the attachments for the message.
+     *
+     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     */
+    public function attachments(): array
+    {
+        return [
+            Attachment::fromStorage('/path/to/file'),
+        ];
     }
 
 <a name="styleci"></a>

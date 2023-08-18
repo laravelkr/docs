@@ -60,7 +60,7 @@
 
 [Laravel Sail](https://github.com/laravel/sail) is a light-weight command-line interface for interacting with Laravel's default Docker development environment. Sail provides a great starting point for building a Laravel application using PHP, MySQL, and Redis without requiring prior Docker experience.
 
-[Laravel Sail](https://github.com/laravel/sail)은 Laravel의 기본 Docker 개발 환경과 상호 작용하기 위한 간단한 명령줄 인터페이스입니다. Sail은 도커에 대한 경험이 없더라도 PHP, MySQL 및 Redis를 사용하여 Laravel 애플리케이션을 구축할 수 있는 좋은 출발점을 제공합니다.
+[라라벨 Sail](https://github.com/laravel/sail)은 라라벨의 기본 Docker 개발 환경과 상호 작용하기 위한 간단한 명령줄 인터페이스입니다. Sail은 도커에 대한 경험이 없더라도 PHP, MySQL 및 Redis를 사용하여 라라벨 애플리케이션을 구축할 수 있는 좋은 출발점을 제공합니다.
 
 역자주: 만약 도커가 익숙 하시지 않다면 [Docker Docs](https://docs.docker.com/get-started/overview/) 에서 기본적인 내용을 숙지하시고 시작하시는걸 추천드립니다.
 

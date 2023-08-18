@@ -1,5 +1,5 @@
 # Laravel Octane
-# Laravel Octane
+# 라라벨 Octane
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
@@ -52,7 +52,7 @@
 
 [Laravel Octane](https://github.com/laravel/octane) supercharges your application's performance by serving your application using high-powered application servers, including [Open Swoole](https://swoole.co.uk), [Swoole](https://github.com/swoole/swoole-src), and [RoadRunner](https://roadrunner.dev). Octane boots your application once, keeps it in memory, and then feeds it requests at supersonic speeds.
 
-[Laravel Octane](https://github.com/laravel/octane) 은 [Open Swoole](https://swoole.co.uk), [Swoole](https://github.com/swoole/swoole-src), [RoadRunner](https://roadrunner.dev) 같은 고성능 application 서버를 사용해 애플리케이션의 성능을 향상 시킵니다. Octane은 애플리케이션이 한번 부팅된 후에 메모리에서 유지되는데, 이 요청들은 초고속으로 응답합니다.
+[라라벨 Octane](https://github.com/laravel/octane) 은 [Open Swoole](https://swoole.co.uk), [Swoole](https://github.com/swoole/swoole-src), [RoadRunner](https://roadrunner.dev) 같은 고성능 application 서버를 사용해 애플리케이션의 성능을 향상 시킵니다. Octane은 애플리케이션이 한번 부팅된 후에 메모리에서 유지되는데, 이 요청들은 초고속으로 응답합니다.
 
 <a name="installation"></a>
 ## Installation

@@ -4,6 +4,7 @@
 - [Introduction](#introduction)
 - [시작하기](#introduction)
     - [Contracts Vs. Facades](#contracts-vs-facades)
+    - [Contracts Vs. Facades](#contracts-vs-facades)
 - [When To Use Contracts](#when-to-use-contracts)
 - [Contracts 사용시기](#when-to-use-contracts)
 - [How To Use Contracts](#how-to-use-contracts)
@@ -79,32 +80,18 @@ For example, take a look at this event listener:
     class CacheOrderInformation
     {
         /**
-         * The Redis factory implementation.
-         *
-         * @var \Illuminate\Contracts\Redis\Factory
-         */
-        protected $redis;
-
-        /**
          * Create a new event handler instance.
-         *
-         * @param  \Illuminate\Contracts\Redis\Factory  $redis
-         * @return void
          */
-        public function __construct(Factory $redis)
-        {
-            $this->redis = $redis;
-        }
+        public function __construct(
+            protected Factory $redis,
+        ) {}
 
         /**
          * Handle the event.
-         *
-         * @param  \App\Events\OrderWasPlaced  $event
-         * @return void
          */
-        public function handle(OrderWasPlaced $event)
+        public function handle(OrderWasPlaced $event): void
         {
-            //
+            // ...
         }
     }
 
@@ -168,7 +155,7 @@ This table provides a quick reference to all of the Laravel contracts and their 
 | [Illuminate\Contracts\Pagination\LengthAwarePaginator](https://github.com/illuminate/contracts/blob/{{version}}/Pagination/LengthAwarePaginator.php)   | &nbsp;                    |
 | [Illuminate\Contracts\Pagination\Paginator](https://github.com/illuminate/contracts/blob/{{version}}/Pagination/Paginator.php)                         | &nbsp;                    |
 | [Illuminate\Contracts\Pipeline\Hub](https://github.com/illuminate/contracts/blob/{{version}}/Pipeline/Hub.php)                                         | &nbsp;                    |
-| [Illuminate\Contracts\Pipeline\Pipeline](https://github.com/illuminate/contracts/blob/{{version}}/Pipeline/Pipeline.php)                               | &nbsp;                    |
+| [Illuminate\Contracts\Pipeline\Pipeline](https://github.com/illuminate/contracts/blob/{{version}}/Pipeline/Pipeline.php)                               | `Pipeline`;                    |
 | [Illuminate\Contracts\Queue\EntityResolver](https://github.com/illuminate/contracts/blob/{{version}}/Queue/EntityResolver.php)                         | &nbsp;                    |
 | [Illuminate\Contracts\Queue\Factory](https://github.com/illuminate/contracts/blob/{{version}}/Queue/Factory.php)                                       | `Queue`                   |
 | [Illuminate\Contracts\Queue\Job](https://github.com/illuminate/contracts/blob/{{version}}/Queue/Job.php)                                               | &nbsp;                    |
@@ -200,4 +187,4 @@ This table provides a quick reference to all of the Laravel contracts and their 
 | [Illuminate\Contracts\Validation\Validator](https://github.com/illuminate/contracts/blob/{{version}}/Validation/Validator.php)                         | `Validator::make()`       |
 | [Illuminate\Contracts\View\Engine](https://github.com/illuminate/contracts/blob/{{version}}/View/Engine.php)                                           | &nbsp;                    |
 | [Illuminate\Contracts\View\Factory](https://github.com/illuminate/contracts/blob/{{version}}/View/Factory.php)                                         | `View`                    |
-| [Illuminate\Contracts\View\View](https://github.com/illuminate/contracts/blob/{{version}}/View/View.php) 
+| [Illuminate\Contracts\View\View](https://github.com/illuminate/contracts/blob/{{version}}/View/View.php)                                               | `View::make()`            |

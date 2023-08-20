@@ -166,9 +166,9 @@ After running the `passport:install` command, add the `Laravel\Passport\HasApiTo
         use HasApiTokens, HasFactory, Notifiable;
     }
 
-Finally, in your application's `config/auth.php` configuration file, you should define an `api` authentication guard and set the `driver` option of the `api` authentication guard to `passport`. This will instruct your application to use Passport's `TokenGuard` when authenticating incoming API requests:
+Finally, in your application's `config/auth.php` configuration file, you should define an `api` authentication guard and set the `driver` option to `passport`. This will instruct your application to use Passport's `TokenGuard` when authenticating incoming API requests:
 
-마지막으로, 애플리케이션의 `config/auth.php` 설정 파일에서 `api` 인증 가드를 정의하고 guard `api` 인증 `driver` 옵션을 `passport` 로 변경해야 합니다. 이렇게 하면, 인증 API request이 유입될 때 애플리케이션이 Passport의 `TokenGuard` 를 사용합니다.
+마지막으로, 애플리케이션의 `config/auth.php` 설정 파일에서 `api` 인증 가드를 정의하고 `driver` 옵션을 `passport` 로 변경해야 합니다. 이렇게 하면, 인증 API request이 유입될 때 애플리케이션이 Passport의 `TokenGuard` 를 사용합니다.
 
     'guards' => [
         'web' => [
@@ -212,13 +212,9 @@ If necessary, you may define the path where Passport's keys should be loaded fro
 
     /**
      * Register any authentication / authorization services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        $this->registerPolicies();
-
         Passport::loadKeysFrom(__DIR__.'/../secrets/oauth');
     }
 
@@ -298,13 +294,9 @@ By default, Passport issues long-lived access tokens that expire after one year.
 
     /**
      * Register any authentication / authorization services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        $this->registerPolicies();
-
         Passport::tokensExpireIn(now()->addDays(15));
         Passport::refreshTokensExpireIn(now()->addDays(30));
         Passport::personalAccessTokensExpireIn(now()->addMonths(6));
@@ -343,13 +335,9 @@ After defining your model, you may instruct Passport to use your custom model vi
 
     /**
      * Register any authentication / authorization services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        $this->registerPolicies();
-
         Passport::useTokenModel(Token::class);
         Passport::useRefreshTokenModel(RefreshToken::class);
         Passport::useAuthCodeModel(AuthCode::class);
@@ -369,10 +357,8 @@ Sometimes you may wish to customize the routes defined by Passport. To achieve t
 
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         Passport::ignoreRoutes();
     }
@@ -384,7 +370,7 @@ Then, you may copy the routes defined by Passport in [its routes file](https://g
     Route::group([
         'as' => 'passport.',
         'prefix' => config('passport.path', 'oauth'),
-        'namespace' => 'Laravel\Passport\Http\Controllers',
+        'namespace' => '\Laravel\Passport\Http\Controllers',
     ], function () {
         // Passport routes...
     });
@@ -521,7 +507,7 @@ This route is used to delete clients:
 ```js
 axios.delete('/oauth/clients/' + clientId)
     .then(response => {
-        //
+        // ...
     });
 ```
 
@@ -568,7 +554,7 @@ If no `prompt` value is provided, the user will be prompted for authorization on
 `promt` 값을 비워두면 리퀘스트 범위에 대해 현재 소비중인 애플리케이션이 이전에 권한을 획득하지 않았을 때만 권한을 확인합니다.
 
 > **Note**  
-> Remember, the `/oauth/authorize` route is already defined by the Passport. You do not need to manually define this route.
+> Remember, the `/oauth/authorize` route is already defined by Passport. You do not need to manually define this route.
 
 > **Note**  
 > `/oauth/authorize` 라우트는 Passport에 이미 정의되어 있습니다. 이 라우트를 수동으로 등록할 필요가 없습니다.
@@ -603,10 +589,8 @@ Sometimes you may wish to skip the authorization prompt, such as when authorizin
     {
         /**
          * Determine if the client should skip the authorization prompt.
-         *
-         * @return bool
          */
-        public function skipsAuthorization()
+        public function skipsAuthorization(): bool
         {
             return $this->firstParty();
         }
@@ -628,7 +612,8 @@ If the user approves the authorization request, they will be redirected back to 
 
         throw_unless(
             strlen($state) > 0 && $state === $request->state,
-            InvalidArgumentException::class
+            InvalidArgumentException::class,
+            'Invalid state value.'
         );
 
         $response = Http::asForm()->post('http://passport-app.test/oauth/token', [
@@ -647,7 +632,7 @@ This `/oauth/token` route will return a JSON response containing `access_token`,
 `/oauth/token` 라우트는 `access_token`, `refresh_token`, 그리고 `expires_in`을 포함하는 JSON 응답-response를 반환합니다. `expires_in` 속성은 엑세스 토큰이 만료되기까지의 (초)를 가지고 있습니다.
 
 > **Note**  
-> Like the `/oauth/authorize` route, the `/oauth/token` route is defined for you by the `Passport::routes` method. There is no need to manually define this route.
+> Like the `/oauth/authorize` route, the `/oauth/token` route is defined for you by Passport. There is no need to manually define this route.
 
 > **Note**  
 > `/oauth/authorize` 라우트와 같이 `/oauth/token` 라우트는 Passport에 정의됩니다. 이 라우트를 수동으로 등록할 필요가 없습니다.
@@ -743,6 +728,9 @@ When tokens have been revoked or expired, you might want to purge them from the 
 # Purge revoked and expired tokens and auth codes...
 php artisan passport:purge
 
+# Only purge tokens expired for more than 6 hours...
+php artisan passport:purge --hours=6
+
 # Only purge revoked tokens and auth codes...
 php artisan passport:purge --revoked
 
@@ -756,11 +744,8 @@ You may also configure a [scheduled job](/docs/{{version}}/scheduling) in your a
 
     /**
      * Define the application's command schedule.
-     *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-     * @return void
      */
-    protected function schedule(Schedule $schedule)
+    protected function schedule(Schedule $schedule): void
     {
         $schedule->command('passport:purge')->hourly();
     }
@@ -839,6 +824,7 @@ Once a client has been created, you may use the client ID and the generated code
             'state' => $state,
             'code_challenge' => $codeChallenge,
             'code_challenge_method' => 'S256',
+            // 'prompt' => '', // "none", "consent", or "login"
         ]);
 
         return redirect('http://passport-app.test/oauth/authorize?'.$query);
@@ -875,7 +861,6 @@ state 파라메터가 일치하면 사용자는 애플리케이션에 `POST` 요
             'redirect_uri' => 'http://third-party-app.com/callback',
             'code_verifier' => $codeVerifier,
             'code' => $request->code,
-            // 'prompt' => '', // "none", "consent", or "login"
         ]);
 
         return $response->json();
@@ -911,7 +896,7 @@ php artisan passport:client --password
 ### Requesting Tokens
 ### 토큰 요청하기
 
-Once you have created a password grant client, you may request an access token by issuing a `POST` request to the `/oauth/token` route with the user's email address and password. Remember, this route is already registered by the Passport so there is no need to define it manually. If the request is successful, you will receive an `access_token` and `refresh_token` in the JSON response from the server:
+Once you have created a password grant client, you may request an access token by issuing a `POST` request to the `/oauth/token` route with the user's email address and password. Remember, this route is already registered by Passport so there is no need to define it manually. If the request is successful, you will receive an `access_token` and `refresh_token` in the JSON response from the server:
 
 패스워드 grant 클라이언트가 생성되면, 사용자의 이메일과 패스워드와 함께 `/oauth/token` 라우트에 엑세스 토큰 발급 `POST` request-요청을 보낼 수 있습니다. 기억할점은, 이 라우트는 Passport에 의해서 이미 등록되어 있기 때문에, 직접 라우트를 등록할 필요가 없다는 것입니다. 요청-request가 성공적이라면, 서버로 부터 `access_token` 과 `refresh_token` 가 담긴 JSON 응답-response를 받습니다.
 
@@ -983,11 +968,8 @@ When authenticating using the password grant, Passport will use the `email` attr
 
         /**
          * Find the user instance for the given username.
-         *
-         * @param  string  $username
-         * @return \App\Models\User
          */
-        public function findForPassport($username)
+        public function findForPassport(string $username): User
         {
             return $this->where('username', $username)->first();
         }
@@ -1016,11 +998,8 @@ When authenticating using the password grant, Passport will use the `password` a
 
         /**
          * Validate the password of the user for the Passport password grant.
-         *
-         * @param  string  $password
-         * @return bool
          */
-        public function validateForPassportPasswordGrant($password)
+        public function validateForPassportPasswordGrant(string $password): bool
         {
             return Hash::check($password, $this->password);
         }
@@ -1042,13 +1021,9 @@ The implicit grant is similar to the authorization code grant; however, the toke
 
     /**
      * Register any authentication / authorization services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        $this->registerPolicies();
-
         Passport::enableImplicitGrant();
     }
 
@@ -1074,7 +1049,7 @@ grant가 활성화 되면, 개발자는 클라이언트 ID를 사용하여 애�
     });
 
 > **Note**  
-> Remember, the `/oauth/authorize` route is already defined by the Passport. You do not need to manually define this route.
+> Remember, the `/oauth/authorize` route is already defined by Passport. You do not need to manually define this route.
 
 > **Note**  
 > `/oauth/authorize` 라우트는 Passport에 의해서 정의된다는 것을 기억하십시오. 이 라우트를 수동으로 등록할 필요가 없습니다.
@@ -1095,13 +1070,13 @@ Before your application can issue tokens via the client credentials grant, you w
 php artisan passport:client --client
 ```
 
-Next, to use this grant type, you need to add the `CheckClientCredentials` middleware to the `$routeMiddleware` property of your `app/Http/Kernel.php` file:
+Next, to use this grant type, you may add the `CheckClientCredentials` middleware to the `$middlewareAliases` property of your application's `app/Http/Kernel.php` file:
 
-다음으로, 이 권한 유형을 사용하려면 `CheckClientCredentials` 미들웨어를 `app/Http/Kernel.php` 파일의 `$routeMiddleware` 프로퍼티에 추가해야합니다.
+다음으로, 이 권한 유형을 사용하려면 `CheckClientCredentials` 미들웨어를 `app/Http/Kernel.php` 파일의 `$middlewareAliases` 프로퍼티에 추가해야합니다.
 
     use Laravel\Passport\Http\Middleware\CheckClientCredentials;
 
-    protected $routeMiddleware = [
+    protected $middlewareAliases = [
         'client' => CheckClientCredentials::class,
     ];
 
@@ -1257,6 +1232,7 @@ axios.post('/oauth/personal-access-tokens', data)
         // List errors on response...
     });
 ```
+
 <a name="delete-oauthpersonal-access-tokenstoken-id"></a>
 #### `DELETE /oauth/personal-access-tokens/{token-id}`
 #### `DELETE /oauth/personal-access-tokens/{token-id}`
@@ -1282,7 +1258,7 @@ Passport includes an [authentication guard](/docs/{{version}}/authentication#add
 Passport는 유입되는 request-요청에 대한 엑세스 토큰을 검증하는 [사용자 승인 guard](/docs/{{version}}/authentication#adding-custom-guards)를 포함하고 있습니다. `api` guard가 `passport` 드라이버를 사용하도록 설정하였다면, 엑세스 토큰 검사가 필요한 라우트에 `auth:api` 미들웨어를 지정하면 됩니다.
 
     Route::get('/user', function () {
-        //
+        // ...
     })->middleware('auth:api');
 
 > **Warning**  
@@ -1314,7 +1290,7 @@ The following route will utilize the `api-customers` guard, which uses the `cust
 다음 `customers` 라우트는 사용자 프로바이더를 사용하는 `api-customers` 가드를 사용하여 들어오는 요청을 인증합니다.
 
     Route::get('/customer', function () {
-        //
+        // ...
     })->middleware('auth:api-customers');
 
 > **Note**  
@@ -1358,13 +1334,9 @@ API의 범위(scope)는 애플리케이션의 `App\Providers\AuthServiceProvider
 
     /**
      * Register any authentication / authorization services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        $this->registerPolicies();
-
         Passport::tokensCan([
             'place-orders' => 'Place orders',
             'check-status' => 'Check order status',
@@ -1391,7 +1363,7 @@ If a client does not request any specific scopes, you may configure your Passpor
         'place-orders',
     ]);
 
-> **Note**  
+> **Note**
 > Passport's default scopes do not apply to personal access tokens that are generated by the user.
 
 > **Note**  
@@ -1434,9 +1406,9 @@ If you are issuing personal access tokens using the `App\Models\User` model's `c
 ### Checking Scopes
 ### Scope 확인하기
 
-Passport includes two middleware that may be used to verify that an incoming request is authenticated with a token that has been granted a given scope. To get started, add the following middleware to the `$routeMiddleware` property of your `app/Http/Kernel.php` file:
+Passport includes two middleware that may be used to verify that an incoming request is authenticated with a token that has been granted a given scope. To get started, add the following middleware to the `$middlewareAliases` property of your `app/Http/Kernel.php` file:
 
-Passport 는 유입되는 request-요청이 주어진 스코프가 승인된 토큰으로 인증되었는지 확인하는 데 사용할 수 있는 두 개의 미들웨어가 포함되어 있습니다. 이를 사용하려면 `app/Http/Kernel.php` 파일의 `$routeMiddleware` 속성에 다음 미들웨어를 추가하세요.
+Passport 는 유입되는 request-요청이 주어진 스코프가 승인된 토큰으로 인증되었는지 확인하는 데 사용할 수 있는 두 개의 미들웨어가 포함되어 있습니다. 이를 사용하려면 `app/Http/Kernel.php` 파일의 `$middlewareAliases` 속성에 다음 미들웨어를 추가하세요.
 
     'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
     'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
@@ -1477,7 +1449,7 @@ Once an access token authenticated request has entered your application, you may
 
     Route::get('/orders', function (Request $request) {
         if ($request->user()->tokenCan('place-orders')) {
-            //
+            // ...
         }
     });
 
@@ -1553,13 +1525,9 @@ If needed, you can customize the `laravel_token` cookie's name using the `Passpo
 
     /**
      * Register any authentication / authorization services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        $this->registerPolicies();
-
         Passport::cookie('custom_name');
     }
 
@@ -1611,7 +1579,7 @@ Passport의 `actingAs` 메소드는 현재 인증된 사용자와 스코프를 �
     use App\Models\User;
     use Laravel\Passport\Passport;
 
-    public function test_servers_can_be_created()
+    public function test_servers_can_be_created(): void
     {
         Passport::actingAs(
             User::factory()->create(),
@@ -1630,7 +1598,7 @@ Passport의 `actingAsClient` 메소드를 사용하여 현재 인증 된 클라�
     use Laravel\Passport\Client;
     use Laravel\Passport\Passport;
 
-    public function test_orders_can_be_retrieved()
+    public function test_orders_can_be_retrieved(): void
     {
         Passport::actingAsClient(
             Client::factory()->create(),

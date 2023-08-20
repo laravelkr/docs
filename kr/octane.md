@@ -50,9 +50,9 @@
 ## Introduction
 ## 시작하기
 
-[Laravel Octane](https://github.com/laravel/octane) supercharges your application's performance by serving your application using high-powered application servers, including [Open Swoole](https://swoole.co.uk), [Swoole](https://github.com/swoole/swoole-src), and [RoadRunner](https://roadrunner.dev). Octane boots your application once, keeps it in memory, and then feeds it requests at supersonic speeds.
+[Laravel Octane](https://github.com/laravel/octane) supercharges your application's performance by serving your application using high-powered application servers, including [Open Swoole](https://openswoole.com/), [Swoole](https://github.com/swoole/swoole-src), and [RoadRunner](https://roadrunner.dev). Octane boots your application once, keeps it in memory, and then feeds it requests at supersonic speeds.
 
-[라라벨 Octane](https://github.com/laravel/octane) 은 [Open Swoole](https://swoole.co.uk), [Swoole](https://github.com/swoole/swoole-src), [RoadRunner](https://roadrunner.dev) 같은 고성능 application 서버를 사용해 애플리케이션의 성능을 향상 시킵니다. Octane은 애플리케이션이 한번 부팅된 후에 메모리에서 유지되는데, 이 요청들은 초고속으로 응답합니다.
+[라라벨 Octane](https://github.com/laravel/octane) 은 [Open Swoole](https://openswoole.com/), [Swoole](https://github.com/swoole/swoole-src), [RoadRunner](https://roadrunner.dev) 같은 고성능 application 서버를 사용해 애플리케이션의 성능을 향상 시킵니다. Octane은 애플리케이션이 한번 부팅된 후에 메모리에서 유지되는데, 이 요청들은 초고속으로 응답합니다.
 
 <a name="installation"></a>
 ## Installation
@@ -79,11 +79,11 @@ php artisan octane:install
 ## Server Prerequisites
 ## 서버 전제 조건
 
+> **Warning**
+> Laravel Octane requires [PHP 8.1+](https://php.net/releases/).
+> 
 > **Warning**  
-> Laravel Octane requires [PHP 8.0+](https://php.net/releases/).
-
-> **Warning**  
-> Laravel Octane [PHP 8.0+](https://php.net/releases/) 을 필요로 합니다.
+> Laravel Octane [PHP 8.1+](https://php.net/releases/) 을 필요로 합니다.
 
 <a name="roadrunner"></a>
 ### RoadRunner
@@ -104,7 +104,7 @@ If you plan to develop your application using [Laravel Sail](/docs/{{version}}/s
 ```shell
 ./vendor/bin/sail up
 
-./vendor/bin/sail composer require laravel/octane spiral/roadrunner
+./vendor/bin/sail composer require laravel/octane spiral/roadrunner-cli spiral/roadrunner-http 
 ```
 
 Next, you should start a Sail shell and use the `rr` executable to retrieve the latest Linux based build of the RoadRunner binary:
@@ -156,11 +156,25 @@ If you plan to use the Swoole application server to serve your Laravel Octane ap
 pecl install swoole
 ```
 
+<a name="openswoole"></a>
+#### Open Swoole
+#### Open Swoole
+
+If you want to use the Open Swoole application server to serve your Laravel Octane application, you must install the Open Swoole PHP extension. Typically, this can be done via PECL:
+
+라라벨 Octane 애플리케이션을 제공하기 위해 Open Swoole 애플리케이션 서버를 사용하려면 Open Swoole PHP extension를 설치해야 합니다. 일반적으로 이 작업은 PECL을 통해 수행할 수 있습니다.
+
+```shell
+pecl install openswoole
+```
+
+Using Laravel Octane with Open Swoole grants the same functionality provided by Swoole, such as concurrent tasks, ticks, and intervals.
+
 <a name="swoole-via-laravel-sail"></a>
 #### Swoole Via Laravel Sail
-#### Laravel Sail을 통한 Swoole
+#### 라라벨 Sail을 통한 Swoole
 
-> **Warning**  
+> **Warning**
 > Before serving an Octane application via Sail, ensure you have the latest version of Laravel Sail and execute `./vendor/bin/sail build --no-cache` within your application's root directory.
 
 > **Warning**  
@@ -240,11 +254,13 @@ By default, applications running via Octane generate links prefixed with `http:/
 ### Serving Your Application Via Nginx
 ### Nginx를 이용한 애플리케이션 제공하기
 
-> {tip} If you aren't quite ready to manage your own server configuration or aren't comfortable configuring all of the various services needed to run a robust Laravel Octane application, check out [Laravel Forge](https://forge.laravel.com).
+> **Note**
+> If you aren't quite ready to manage your own server configuration or aren't comfortable configuring all of the various services needed to run a robust Laravel Octane application, check out [Laravel Forge](https://forge.laravel.com).
 
-> {tip} 자체 서버 설정을 관리할 수 없거나 강력한 Laravel Octane 애플리케이션을 실행하기 위해 필요로 하는 서비스를 구성하기 어렵다면 [Laravel Forge](https://forge.laravel.com)를 체크하세요. 
+> **Note**
+> 자체 서버 설정을 관리할 수 없거나 강력한 Laravel Octane 애플리케이션을 실행하기 위해 필요로 하는 서비스를 구성하기 어렵다면 [Laravel Forge](https://forge.laravel.com)를 체크하세요. 
 
-In production environments, you should serve your Octane application behind a traditional web server such as a Nginx or Apache. Doing so will allow the web server to serve your static assets such as images and stylesheets, as well as manage your SSL certificate termination.
+In production environments, you should serve your Octane application behind a traditional web server such as Nginx or Apache. Doing so will allow the web server to serve your static assets such as images and stylesheets, as well as manage your SSL certificate termination.
 
 Octane 애플리케이션은 production 환경에서 Nginx나 Apache 같은 기존 웹서버 뒤에서 제공되어야 합니다. 그렇게 하면 웹 서버가 이미지나 스타일시트같은 static 자산을 제공하고 SSL 인증서 종료도 관리할 수 있습니다.
 
@@ -318,9 +334,9 @@ Octane 서버가 시작 될 때 메모리에 적재해 둔 것을 불러오기 �
 php artisan octane:start --watch
 ```
 
-Before using this feature, you should ensure that [Node](https://nodejs.org) is installed within your local development environment. In addition, you should install the [Chokidar](https://github.com/paulmillr/chokidar) file-watching library within your project:library:
+Before using this feature, you should ensure that [Node](https://nodejs.org) is installed within your local development environment. In addition, you should install the [Chokidar](https://github.com/paulmillr/chokidar) file-watching library within your project:
 
-이런 기능을 사용하기 전에, [Node](https://nodejs.org)를 local 개발 환경에 설치해 두어야 합니다. 또, 파일 감시를 위해 [Chokidar](https://github.com/paulmillr/chokidar) 를 project:library:내에 설치해야 합니다.
+이런 기능을 사용하기 전에, [Node](https://nodejs.org)를 local 개발 환경에 설치해 두어야 합니다. 또, 파일 감시를 위해 [Chokidar](https://github.com/paulmillr/chokidar) 를 project 안에 설치해야 합니다.
 
 ```shell
 npm install --save-dev chokidar
@@ -354,9 +370,9 @@ php artisan octane:start --workers=4 --task-workers=6
 ### Specifying The Max Request Count
 ### 최대 요청 수 지정하기
 
-To help prevent stray memory leaks, Octane can gracefully restart a worker once it has handled a given number of requests. To instruct Octane to do this, you may use the `--max-requests` option:
+To help prevent stray memory leaks, Octane gracefully restarts any worker once it has handled 500 requests. To adjust this number, you may use the `--max-requests` option:
 
-stray memory 누수를 방지하기 위해서는, Octane은 주어진 몇몇의 요청을 수행하면서도 우아하게 worker를 재시작 할 수도 있습니다. `--max-requests` 옵션을 사용해 Octane이 이런 동작을 처리하도록 지시 할 수 있습니다. 
+불필요한 메모리 누수를 방지하기 위해 Octane은 500개의 요청을 처리하면 모든 워커를 끊김없이 재시작합니다. 이 숫자를 조정하려면 `--max-requests` 옵션을 사용할 수 있습니다.
 
 ```shell
 php artisan octane:start --max-requests=250
@@ -424,15 +440,14 @@ In general, you should avoid injecting the application service container or HTTP
 
 ```php
 use App\Service;
+use Illuminate\Contracts\Foundation\Application;
 
 /**
  * Register any application services.
- *
- * @return void
  */
-public function register()
+public function register(): void
 {
-    $this->app->singleton(Service::class, function ($app) {
+    $this->app->singleton(Service::class, function (Application $app) {
         return new Service($app);
     });
 }
@@ -449,8 +464,9 @@ As a work-around, you could either stop registering the binding as a singleton, 
 ```php
 use App\Service;
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Foundation\Application;
 
-$this->app->bind(Service::class, function ($app) {
+$this->app->bind(Service::class, function (Application $app) {
     return new Service($app);
 });
 
@@ -473,15 +489,14 @@ In general, you should avoid injecting the application service container or HTTP
 
 ```php
 use App\Service;
+use Illuminate\Contracts\Foundation\Application;
 
 /**
  * Register any application services.
- *
- * @return void
  */
-public function register()
+public function register(): void
 {
-    $this->app->singleton(Service::class, function ($app) {
+    $this->app->singleton(Service::class, function (Application $app) {
         return new Service($app['request']);
     });
 }
@@ -498,12 +513,13 @@ As a work-around, you could either stop registering the binding as a singleton, 
 
 ```php
 use App\Service;
+use Illuminate\Contracts\Foundation\Application;
 
-$this->app->bind(Service::class, function ($app) {
+$this->app->bind(Service::class, function (Application $app) {
     return new Service($app['request']);
 });
 
-$this->app->singleton(Service::class, function ($app) {
+$this->app->singleton(Service::class, function (Application $app) {
     return new Service(fn () => $app['request']);
 });
 
@@ -516,7 +532,7 @@ The global `request` helper will always return the request the application is cu
 
 전역 `request` 헬퍼는 항상 애플리케이션이 현재 처리하고 있는 요청을 반환하므로 애플리케이션 내에서 안전하게 사용할 수 있습니다.
 
-> **Warning**  
+> **Warning**
 > It is acceptable to type-hint the `Illuminate\Http\Request` instance on your controller methods and route closures.
 
 > **Warning**  
@@ -532,15 +548,14 @@ In general, you should avoid injecting the configuration repository instance int
 
 ```php
 use App\Service;
+use Illuminate\Contracts\Foundation\Application;
 
 /**
  * Register any application services.
- *
- * @return void
  */
-public function register()
+public function register(): void
 {
-    $this->app->singleton(Service::class, function ($app) {
+    $this->app->singleton(Service::class, function (Application $app) {
         return new Service($app->make('config'));
     });
 }
@@ -557,8 +572,9 @@ As a work-around, you could either stop registering the binding as a singleton, 
 ```php
 use App\Service;
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Foundation\Application;
 
-$this->app->bind(Service::class, function ($app) {
+$this->app->bind(Service::class, function (Application $app) {
     return new Service($app->make('config'));
 });
 
@@ -586,15 +602,14 @@ use Illuminate\Support\Str;
 
 /**
  * Handle an incoming request.
- *
- * @param  \Illuminate\Http\Request  $request
- * @return void
  */
-public function index(Request $request)
+public function index(Request $request): array
 {
     Service::$data[] = Str::random(10);
 
-    // ...
+    return [
+        // ...
+    ];
 }
 ```
 
@@ -606,7 +621,7 @@ While building your application, you should take special care to avoid creating 
 ## Concurrent Tasks
 ## 동시성 Tasks
 
-> **Warning**  
+> **Warning**
 > This feature requires [Swoole](#swoole).
 
 > **Warning**  
@@ -643,7 +658,7 @@ When invoking the `concurrently` method, you should not provide more than 1024 t
 ## Ticks & Intervals
 ## Ticks & Intervals
 
-> **Warning**  
+> **Warning**
 > This feature requires [Swoole](#swoole).
 
 > **Warning**  
@@ -676,7 +691,7 @@ Octane::tick('simple-ticker', fn () => ray('Ticking...'))
 ## The Octane Cache
 ## Octane 캐시
 
-> **Warning**  
+> **Warning**
 > This feature requires [Swoole](#swoole).
 
 > **Warning**  
@@ -694,9 +709,11 @@ This cache driver is powered by [Swoole tables](https://www.swoole.co.uk/docs/mo
 Cache::store('octane')->put('framework', 'Laravel', 30);
 ```
 
-> {tip} The maximum number of entries allowed in the Octane cache may be defined in your application's `octane` configuration file.
+> **Note**
+> The maximum number of entries allowed in the Octane cache may be defined in your application's `octane` configuration file.
 
-> {tip} 애플리케이션의 `octane` 설정 파일에서 Octane 캐시에 허용할 최대 항목의 수를 정의할 수 있습니다. 
+> **Note**
+> 애플리케이션의 `octane` 설정 파일에서 Octane 캐시에 허용할 최대 항목의 수를 정의할 수 있습니다. 
  
 <a name="cache-intervals"></a>
 ### Cache Intervals
@@ -718,7 +735,7 @@ Cache::store('octane')->interval('random', function () {
 ## Tables
 ## Tables
 
-> **Warning**  
+> **Warning**
 > This feature requires [Swoole](#swoole).
 
 > **Warning**  
@@ -756,7 +773,7 @@ Octane::table('example')->set('uuid', [
 return Octane::table('example')->get('uuid');
 ```
 
-> **Warning**  
+> **Warning**
 > The column types supported by Swoole tables are: `string`, `int`, and `float`.
 
 > **Warning**  

@@ -52,7 +52,7 @@
   - [Xdebug Browser Usage](#xdebug-browser-usage)
   - [Xdebug 브라우저 사용방법](#xdebug-browser-usage)
 - [Customization](#sail-customization)
-- [사용자정의](#sail-customization)
+- [커스터마이즈](#sail-customization)
 
 <a name="introduction"></a>
 ## Introduction
@@ -76,9 +76,9 @@ Laravel Sail is supported on macOS, Linux, and Windows (via [WSL2](https://docs.
 ## Installation & Setup
 ## 설치 & 설정
 
-Laravel Sail is automatically installed with all new Laravel applications so you may start using it immediately. To learn how to create a new Laravel application, please consult Laravel's [installation documentation](/docs/{{version}}/installation) for your operating system. During installation, you will be asked to choose which Sail supported services your application will be interacting with.
+Laravel Sail is automatically installed with all new Laravel applications so you may start using it immediately. To learn how to create a new Laravel application, please consult Laravel's [installation documentation](/docs/{{version}}/installation#laravel-and-docker) for your operating system. During installation, you will be asked to choose which Sail supported services your application will be interacting with.
 
-Laravel Sail은 새로은 Laravel 애플리케이션과 함께 자동으로 설치되므로 즉시 사용할 수 있습니다. 새로운 Laravel 애플리케이션을 만드는 방법은 운영 체제에 대한 Laravel의 [설치 설명서](/docs/{{version}}/installation)를 참조하십시오. 설치하는 동안 어플리케이션과 상호 작용할 Sail 지원 서비스를 선택하라는 메시지가 표시됩니다.
+라라벨 Sail은 새로은 라라벨 애플리케이션과 함께 자동으로 설치되므로 즉시 사용할 수 있습니다. 새로운 Laravel 애플리케이션을 만드는 방법은 운영 체제에 대한 라라벨의 [설치 설명서](/docs/{{version}}/installation#laravel-and-docker)를 참조하십시오. 설치하는 동안 어플리케이션과 상호 작용할 Sail 지원 서비스를 선택하라는 메시지가 표시됩니다.
 
 역자주: Sail 기본 도커컨테이너에는 많은것들이 기본으로 포함되어 있습니다. 그 중 필요하거나 필요없는 컨테이너를 구분해서 도커가 빌드되게 하여 어플리케이션 도커를 가볍게 유지하는것을 추천드립니다.
 
@@ -111,6 +111,24 @@ Finally, you may start Sail. To continue learning how to use Sail, please contin
 ./vendor/bin/sail up
 ```
 
+> **Warning**
+> If you are using Docker Desktop for Linux, you should use the `default` Docker context by executing the following command: `docker context use default`.
+
+> **주의**
+> Linux 환경에서 Docker Desktop 을 사용중이라면 `docker context use default` 명령어를 실행하여 `defaut` 도커 컨텍스트를 사용해야합니다. 
+
+<a name="adding-additional-services"></a>
+#### Adding Additional Services
+#### 추가 서비스 더하기
+
+If you would like to add an additional service to your existing Sail installation, you may run the `sail:add` Artisan command:
+
+인스톨된 Sail 에 추가적인 서비스를 더하려면 `sail:add` Artisan 명령어를 사용하면 됩니다.
+
+```shell
+php artisan sail:add
+```
+
 <a name="using-devcontainers"></a>
 #### Using Devcontainers
 #### Devcontainers 를 사용하는 방법
@@ -123,7 +141,7 @@ If you would like to develop within a [Devcontainer](https://code.visualstudio.c
 php artisan sail:install --devcontainer
 ```
 
-<a name="configuring-a-bash-alias"></a>
+<a name="configuring-a-shell-alias"></a>
 ### Configuring A Shell Alias
 ### Shell Alias 설정
 
@@ -258,9 +276,9 @@ docker run --rm \
     composer install --ignore-platform-reqs
 ```
 
-When using the `laravelsail/phpXX-composer` image, you should use the same version of PHP that you plan to use for your application (`74`, `80`, `81`, or `82`).
+When using the `laravelsail/phpXX-composer` image, you should use the same version of PHP that you plan to use for your application (`80`, `81`, or `82`).
 
-`laravelsail/phpXX-composer` (XX 부분에는 `74`, `80`, `81` 또는 `82` 가 들어갑니다) 이미지를 사용중이라면, 어플리케이션이 개발된 PHP 버전과 동일한 버전을 사용해야 합니다.
+`laravelsail/phpXX-composer` (XX 부분에는 `80`, `81` 또는 `82` 가 들어갑니다) 이미지를 사용중이라면, 어플리케이션이 개발된 PHP 버전과 동일한 버전을 사용해야 합니다.
 
 <a name="executing-artisan-commands"></a>
 ### Executing Artisan Commands
@@ -316,9 +334,9 @@ Once you have started your containers, you may connect to the MySQL instance wit
 
 컨테이너를 시작한 후에는 어플리케이션의 `.env` 파일 내에 있는 `DB_HOST` 환경 변수를 `mysql`로 설정하여 프로그램 내 MySQL 인스턴스에 연결할 수 있습니다.
 
-To connect to your application's MySQL database from your local machine, you may use a graphical database management application such as [TablePlus](https://tableplus.com). By default, the MySQL database is accessible at `localhost` port 3306.
+To connect to your application's MySQL database from your local machine, you may use a graphical database management application such as [TablePlus](https://tableplus.com). By default, the MySQL database is accessible at `localhost` port 3306 and the access credentials correspond to the values of your `DB_USERNAME` and `DB_PASSWORD` environment variables. Or, you may connect as the `root` user, which also utilizes the value of your `DB_PASSWORD` environment variable as its password.
 
-로컬 컴퓨터에서 [TablePlus](https://tableplus.com)와 같은 GUI 데이터베이스 관리 어플리케이션을 활용하여 데이터베이스에 연결 할 수 있습니다. 기본적으로 MySQL 데이터베이스는 `localhost` 포트 3306에서 접근할 수 있습니다.
+로컬 컴퓨터에서 [TablePlus](https://tableplus.com)와 같은 GUI 데이터베이스 관리 어플리케이션을 활용하여 데이터베이스에 연결 할 수 있습니다. 기본적으로 MySQL 데이터베이스는 `localhost` 포트 3306에서 접근할 수 있습니다. 접근을 위한 인증정보는 `DB_USERNAME` 과 `DB_PASSWORD` 환경변수를 사용합니다. `root` 사용자로 접근할 때도 `DB_PASSWORD` 환경변수값을 암호로 사용합니다.  
 
 <a name="redis"></a>
 ### Redis
@@ -332,13 +350,13 @@ To connect to your application's Redis database from your local machine, you may
 
 로컬 컴퓨터에서 [TablePlus](https://tableplus.com)와 같은 GUI 데이터베이스 관리 어플리케이션을 활용하여 데이터베이스에 연결 할 수 있습니다. 기본적으로 Redis 는 `localhost` 포트 6379에서 접근할 수 있습니다.
 
-<a name="Meilisearch"></a>
+<a name="meilisearch"></a>
 ### Meilisearch
 ### Meilisearch
 
-If you chose to install the [Meilisearch](https://www.meilisearch.com) service when installing Sail, your application's `docker-compose.yml` file will contain an entry for this powerful search-engine that is [compatible](https://github.com/Meilisearch/Meilisearch-laravel-scout) with [Laravel Scout](/docs/{{version}}/scout). Once you have started your containers, you may connect to the Meilisearch instance within your application by setting your `Meilisearch_HOST` environment variable to `http://Meilisearch:7700`.
+If you chose to install the [Meilisearch](https://www.meilisearch.com) service when installing Sail, your application's `docker-compose.yml` file will contain an entry for this powerful search-engine that is [compatible](https://github.com/meilisearch/meilisearch-laravel-scout) with [Laravel Scout](/docs/{{version}}/scout). Once you have started your containers, you may connect to the Meilisearch instance within your application by setting your `MEILISEARCH_HOST` environment variable to `http://meilisearch:7700`.
 
-Sail을 설치할 때 [Meilisearch](https://www.meilisearch.com) 서비스를 설치하도록 선택한 경우 어플리케이션의 `docker-such.yml` 파일에 [Laravel Scout](/docs/{version}/scout)이 있는 이 강력한 검색 엔진에 대한 항목이 포함됩니다. 컨테이너를 시작한 후에는 `Meilisearch_HOST` 환경 변수를 `http://Meilisearch:7700`으로 설정하여 어플리케이션 내의 Meilisearch 인스턴스에 연결할 수 있습니다.
+Sail을 설치할 때 [Meilisearch](https://www.meilisearch.com) 서비스를 설치하도록 선택한 경우, 애플리케이션의 `docker-compose.yml` 파일에 Meilisearch 검색 엔진에 대한 항목이 포함됩니다. 이 검색엔진은 [라라벨 Scout](/docs/{{version}}/scout)와 [호환](https://github.com/meilisearch/meilisearch-laravel-scout) 됩니다. 컨테이너를 시작하고, `MEILISEARCH_HOST` 환경 변수를 `http://meilisearch:7700`으로 설정하여 애플리케이션 내에서 Meilisearch 인스턴스에 연결할 수 있습니다.
 
 From your local machine, you may access Meilisearch's web based administration panel by navigating to `http://localhost:7700` in your web browser.
 
@@ -426,6 +444,8 @@ By default, Sail will create a dedicated `testing` database so that your tests d
 ```yaml
 selenium:
     image: 'selenium/standalone-chrome'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
     volumes:
         - '/dev/shm:/dev/shm'
     networks:
@@ -462,6 +482,8 @@ If your local machine contains an Apple Silicon chip, your `selenium` service mu
 ```yaml
 selenium:
     image: 'seleniarm/standalone-chromium'
+    extra_hosts:
+        - 'host.docker.internal:host-gateway'
     volumes:
         - '/dev/shm:/dev/shm'
     networks:
@@ -472,19 +494,19 @@ selenium:
 ## Previewing Emails
 ## 이메일 미리보기
 
-Laravel Sail's default `docker-compose.yml` file contains a service entry for [MailHog](https://github.com/mailhog/MailHog). MailHog intercepts emails sent by your application during local development and provides a convenient web interface so that you can preview your email messages in your browser. When using Sail, MailHog's default host is `mailhog` and is available via port 1025:
+Laravel Sail's default `docker-compose.yml` file contains a service entry for [Mailpit](https://github.com/axllent/mailpit). Mailpit intercepts emails sent by your application during local development and provides a convenient web interface so that you can preview your email messages in your browser. When using Sail, Mailpit's default host is `mailpit` and is available via port 1025:
 
-Laravel Sail의 기본 `docker-docker.yml` 파일에는 [MailHog](https://github.com/mailhog/MailHog)의 서비스 항목이 포함되어 있습니다. MailHog는 로컬 개발 중에 보낸 전자 메일을 가로채서 브라우저에서 전자 메일 메시지를 미리 볼 수 있도록 편리한 웹 인터페이스를 제공합니다. Sail을 사용할 때 MailHog의 기본 호스트는 `mailhog`이며 포트 1025를 통해 사용할 수 있습니다.
+Laravel Sail의 기본 `docker-docker.yml` 파일에는 [Mailpit](https://github.com/axllent/mailpit)의 서비스 항목이 포함되어 있습니다. Mailpit는 로컬 개발 중에 보낸 전자 메일을 가로채서 브라우저에서 전자 메일 메시지를 미리 볼 수 있도록 편리한 웹 인터페이스를 제공합니다. Sail을 사용할 때 Mailpit의 기본 호스트는 `mailpit`이며 포트 1025를 통해 사용할 수 있습니다.
 
 ```ini
-MAIL_HOST=mailhog
+MAIL_HOST=mailpit
 MAIL_PORT=1025
 MAIL_ENCRYPTION=null
 ```
 
-When Sail is running, you may access the MailHog web interface at: http://localhost:8025
+When Sail is running, you may access the Mailpit web interface at: http://localhost:8025
 
-Sail 이 실행중 일때 http://localhost:8025 을 통해 MailHog 웹 인터페이스에 접근 할 수 있습니다.
+Sail 이 실행중 일때 http://localhost:8025 을 통해 Mailpit 웹 인터페이스에 접근 할 수 있습니다.
 
 <a name="sail-container-cli"></a>
 ## Container CLI
@@ -512,9 +534,9 @@ sail tinker
 ## PHP Versions
 ## PHP 버전
 
-Sail currently supports serving your application via PHP 8.2, PHP 8.1, PHP 8.0, or PHP 7.4. The default PHP version used by Sail is currently PHP 8.2. To change the PHP version that is used to serve your application, you should update the `build` definition of the `laravel.test` container in your application's `docker-compose.yml` file:
+Sail currently supports serving your application via PHP 8.2, 8.1, or PHP 8.0. The default PHP version used by Sail is currently PHP 8.2. To change the PHP version that is used to serve your application, you should update the `build` definition of the `laravel.test` container in your application's `docker-compose.yml` file:
 
-Sail은 현재 PHP 8.1, PHP 8.0 또는 PHP 7.4을 지원합니다. Sail에서 사용하는 기본 PHP 버전은 현재 PHP 8.2 입니다. 응용 프로그램 서비스에 사용되는 PHP 버전을 변경하려면 어플리케이션의 `docker-compose.yml` 파일에서 `laravel.test` 컨테이너의 `build` 정의를 업데이트해야 합니다.
+Sail은 현재 PHP 8.2, PHP 8.1, PHP 8.0을 지원합니다. Sail에서 사용하는 기본 PHP 버전은 현재 PHP 8.2 입니다. 응용 프로그램 서비스에 사용되는 PHP 버전을 변경하려면 어플리케이션의 `docker-compose.yml` 파일에서 `laravel.test` 컨테이너의 `build` 정의를 업데이트해야 합니다.
 
 ```yaml
 # PHP 8.2
@@ -525,9 +547,6 @@ context: ./vendor/laravel/sail/runtimes/8.1
 
 # PHP 8.0
 context: ./vendor/laravel/sail/runtimes/8.0
-
-# PHP 7.4
-context: ./vendor/laravel/sail/runtimes/7.4
 ```
 
 In addition, you may wish to update your `image` name to reflect the version of PHP being used by your application. This option is also defined in your application's `docker-compose.yml` file:
@@ -604,9 +623,11 @@ If you would like to choose the subdomain for your shared site, you may provide 
 sail share --subdomain=my-sail-site
 ```
 
-> {tip} The `share` command is powered by [Expose](https://github.com/beyondcode/expose), an open source tunneling service by [BeyondCode](https://beyondco.de).
+> **Note**  
+> The `share` command is powered by [Expose](https://github.com/beyondcode/expose), an open source tunneling service by [BeyondCode](https://beyondco.de).
 
-> {tip} `share` 명령어는 오픈소스 터널링 서비스인 [BeyondCode](https://beyondco.de)의 [Expose](https://github.com/beyondcode/expose) 에서 제공됩니다.
+> **Note**
+> `share` 명령어는 오픈소스 터널링 서비스인 [BeyondCode](https://beyondco.de)의 [Expose](https://github.com/beyondcode/expose) 에서 제공됩니다.
 
 <a name="debugging-with-xdebug"></a>
 ## Debugging With Xdebug
@@ -671,13 +692,15 @@ If you're using PhpStorm, please review JetBrain's documentation regarding [zero
 
 PhpStorm 을 사용하고 있다면, JetBrain의 [zero-configuration debugging](https://www.jetbrains.com/help/phpstorm/zero-configuration-debugging.html) 문서를 확인하십시오.
 
-> {note} Laravel Sail relies on `artisan serve` to serve your application. The `artisan serve` command only accepts the `XDEBUG_CONFIG` and `XDEBUG_MODE` variables as of Laravel version 8.53.0. Older versions of Laravel (8.52.0 and below) do not support these variables and will not accept debug connections.
+> **Warning**  
+> Laravel Sail relies on `artisan serve` to serve your application. The `artisan serve` command only accepts the `XDEBUG_CONFIG` and `XDEBUG_MODE` variables as of Laravel version 8.53.0. Older versions of Laravel (8.52.0 and below) do not support these variables and will not accept debug connections.
 
-> {note} Laravel Sail에서 Xdebug 실행은 `artisan serve`에 의존합니다. `artisan serve` 명령에서 `XDEBUG_CONFIG` 와 `XDEBUG_MODE` 변수만 라라벨 8.53.0 이상에서 사용할 수 있습니다. 이전 버전의 Laravel(8.52.0 이하)에서는 이러한 변수를 지원하지 않으며 디버그 연결을 허용하지 않습니다.
+> **Warning**
+> 라라벨 Sail에서 Xdebug 실행은 `artisan serve`에 의존합니다. `artisan serve` 명령에서 `XDEBUG_CONFIG` 와 `XDEBUG_MODE` 변수만 라라벨 8.53.0 이상에서 사용할 수 있습니다. 이전 버전의 Laravel(8.52.0 이하)에서는 이러한 변수를 지원하지 않으며 디버그 연결을 허용하지 않습니다.
 
 <a name="sail-customization"></a>
 ## Customization
-## 사용자정의
+## 커스터마이즈
 
 Since Sail is just Docker, you are free to customize nearly everything about it. To publish Sail's own Dockerfiles, you may execute the `sail:publish` command:
 

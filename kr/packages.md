@@ -17,8 +17,8 @@
     - [마이그레이션 파일들](#migrations)
     - [Routes](#routes)
     - [라우트](#routes)
-    - [Translations](#translations)
-    - [언어 파일](#translations)
+    - [Language Files](#language-files)
+    - [언어 파일](#language-files)
     - [Views](#views)
     - [뷰 파일들](#views)
     - [View Components](#view-components)
@@ -117,9 +117,9 @@ You may disable package discovery for all packages using the `*` character insid
 ## Service Providers
 ## 서비스 프로바이더
 
-[Service providers](/docs/{{version}}/providers) are the connection point between your package and Laravel. A service provider is responsible for binding things into Laravel's [service container](/docs/{{version}}/container) and informing Laravel where to load package resources such as views, configuration, and localization files.
+[Service providers](/docs/{{version}}/providers) are the connection point between your package and Laravel. A service provider is responsible for binding things into Laravel's [service container](/docs/{{version}}/container) and informing Laravel where to load package resources such as views, configuration, and language files.
 
-[서비스 프로바이더](/docs/{{version}}/providers)는 패키지와 라라벨 사이의 연결 지점입니다. 서비스 프로바이더는 라라벨의 [서비스 컨테이너](/docs/{{version}}/container)에 바인딩하고 뷰, 설정 및 현지화 파일과 같은 패키지 리소스를 로드할 위치를 라라벨에 알려줄 책임이 있습니다.
+[서비스 프로바이더](/docs/{{version}}/providers)는 패키지와 라라벨 사이의 연결 지점입니다. 서비스 프로바이더는 라라벨의 [서비스 컨테이너](/docs/{{version}}/container)에 바인딩하고 뷰, 설정 및 언어 파일과 같은 패키지 리소스를 로드할 위치를 라라벨에 알려줄 책임이 있습니다.
 
 A service provider extends the `Illuminate\Support\ServiceProvider` class and contains two methods: `register` and `boot`. The base `ServiceProvider` class is located in the `illuminate/support` Composer package, which you should add to your own package's dependencies. To learn more about the structure and purpose of service providers, check out [their documentation](/docs/{{version}}/providers).
 
@@ -139,10 +139,8 @@ Typically, you will need to publish your package's configuration file to the app
 
     /**
      * Bootstrap any package services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->publishes([
             __DIR__.'/../config/courier.php' => config_path('courier.php'),
@@ -175,10 +173,8 @@ The `mergeConfigFrom` method accepts the path to your package's configuration fi
 
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(
             __DIR__.'/../config/courier.php', 'courier'
@@ -201,10 +197,8 @@ If your package contains routes, you may load them using the `loadRoutesFrom` me
 
     /**
      * Bootstrap any package services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
     }
@@ -219,10 +213,8 @@ If your package contains [database migrations](/docs/{{version}}/migrations), yo
 
     /**
      * Bootstrap any package services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
     }
@@ -231,44 +223,40 @@ Once your package's migrations have been registered, they will automatically be 
 
 패키지의 마이그레이션이 등록되면 `php artisan migrate` 명령이 실행될 때 자동으로 실행됩니다. 애플리케이션의 `database/migrations` 디렉토리로 내보낼 필요가 없습니다.
 
-<a name="translations"></a>
-### Translations
+<a name="language-files"></a>
+### Language Files
 ### 언어 파일
 
-If your package contains [translation files](/docs/{{version}}/localization), you may use the `loadTranslationsFrom` method to inform Laravel how to load them. For example, if your package is named `courier`, you should add the following to your service provider's `boot` method:
+If your package contains [language files](/docs/{{version}}/localization), you may use the `loadTranslationsFrom` method to inform Laravel how to load them. For example, if your package is named `courier`, you should add the following to your service provider's `boot` method:
 
 패키지가 [언어 파일](/docs/{{version}}/localization)을 가지고 있다면, `loadTranslationsFrom` 메소드를 사용하여 라라벨이 이를 로드할 수 있게 할 수 있습니다. 예를 들어 패키지 이름이 `courier` 라면, 다음처럼 서비스 프로바이더의 `boot` 메소드에 다음 라인을 추가해야 합니다.
 
     /**
      * Bootstrap any package services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'courier');
     }
 
-Package translations are referenced using the `package::file.line` syntax convention. So, you may load the `courier` package's `welcome` line from the `messages` file like so:
+Package translation lines are referenced using the `package::file.line` syntax convention. So, you may load the `courier` package's `welcome` line from the `messages` file like so:
 
 패키지의 언어 파일들은 `package::file.line` 문법을 사용하여 편리하게 참조됩니다. 따라서 `courier` 패키지의 `message`파일에서 `welcome` 라인을 다음처럼 로드 할 수 있습니다.
 
     echo trans('courier::messages.welcome');
 
-<a name="publishing-translations"></a>
-#### Publishing Translations
+<a name="publishing-language-files"></a>
+#### Publishing Language Files
 #### 언어 파일 퍼블리싱하기
 
-If you would like to publish your package's translations to the application's `lang/vendor` directory, you may use the service provider's `publishes` method. The `publishes` method accepts an array of package paths and their desired publish locations. For example, to publish the translation files for the `courier` package, you may do the following:
+If you would like to publish your package's language files to the application's `lang/vendor` directory, you may use the service provider's `publishes` method. The `publishes` method accepts an array of package paths and their desired publish locations. For example, to publish the language files files for the `courier` package, you may do the following:
 
 패키지의 언어파일을 애플리케이션의 `lang/vendor` 디렉토리로 퍼블리싱하려면 서비스 프로바이더의 `publishes` 메소드를 사용하면 됩니다. `publishes` 메소드는 패키지 경로와 퍼블리싱 되기를 바라는 위치를 나타내는 배열을 인자로 전달 받습니다. 예를 들어 `courier` 패키지의 언어 파일을 퍼블리싱 하려면, 다음과 같이 할 수 있습니다.
 
     /**
      * Bootstrap any package services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'courier');
 
@@ -277,7 +265,7 @@ If you would like to publish your package's translations to the application's `l
         ]);
     }
 
-Now, when users of your package execute Laravel's `vendor:publish` Artisan command, your package's translations will be published to the specified publish location.
+Now, when users of your package execute Laravel's `vendor:publish` Artisan command, your package's language files will be published to the specified publish location.
 
 이제 라라벨의 `vendor:publish` 아티즌 명령어가 실행될 때 패키지의 언어 파일들은 지정된 퍼블리싱 위치로 복사될 것입니다.
 
@@ -291,10 +279,8 @@ To register your package's [views](/docs/{{version}}/views) with Laravel, you ne
 
     /**
      * Bootstrap any package services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'courier');
     }
@@ -325,10 +311,8 @@ If you would like to make your views available for publishing to the application
 
     /**
      * Bootstrap the package services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'courier');
 
@@ -354,10 +338,8 @@ If you are building a package that utilizes Blade components or placing componen
 
     /**
      * Bootstrap your package's services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Blade::component('package-alert', AlertComponent::class);
     }
@@ -382,10 +364,8 @@ Alternatively, you may use the `componentNamespace` method to autoload component
 
     /**
      * Bootstrap your package's services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Blade::componentNamespace('Nightshade\\Views\\Components', 'nightshade');
     }
@@ -407,7 +387,7 @@ Blade will automatically detect the class that's linked to this component by pas
 #### Anonymous Components
 #### 익명 컴포넌트
 
-If your package contains anonymous components, they must be placed within a `components` directory of your package's "views" directory (as specified by [`loadViewsFrom` method](#views)). Then, you may render them by prefixing the component name with the package's view namespace:
+If your package contains anonymous components, they must be placed within a `components` directory of your package's "views" directory (as specified by the [`loadViewsFrom` method](#views)). Then, you may render them by prefixing the component name with the package's view namespace:
 
 패키지에 익명의 컴포넌트가 포함 된 경우 패키지의 "views"디렉토리 ([`loadViewsFrom` method](#views)에 지정한대로)의 `components` 디렉토리에 배치해야합니다. 그런 다음 컴포넌트 이름 앞에 패키지의 뷰 네임스페이스를 추가하여 렌더링 할 수 있습니다.
 
@@ -427,10 +407,8 @@ Laravel's built-in `about` Artisan command provides a synopsis of the applicatio
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         AboutCommand::add('My Package', fn () => ['Version' => '1.0.0']);
     }
@@ -448,10 +426,8 @@ To register your package's Artisan commands with Laravel, you may use the `comma
 
     /**
      * Bootstrap any package services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
@@ -471,10 +447,8 @@ Your package may have assets such as JavaScript, CSS, and images. To publish the
 
     /**
      * Bootstrap any package services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->publishes([
             __DIR__.'/../public' => public_path('vendor/courier'),
@@ -499,10 +473,8 @@ You may want to publish groups of package assets and resources separately. For i
 
     /**
      * Bootstrap any package services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->publishes([
             __DIR__.'/../config/package.php' => config_path('package.php')

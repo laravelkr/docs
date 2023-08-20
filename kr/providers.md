@@ -73,18 +73,17 @@ Let's take a look at a basic service provider. Within any of your service provid
     namespace App\Providers;
 
     use App\Services\Riak\Connection;
+    use Illuminate\Contracts\Foundation\Application;
     use Illuminate\Support\ServiceProvider;
 
     class RiakServiceProvider extends ServiceProvider
     {
         /**
          * Register any application services.
-         *
-         * @return void
          */
-        public function register()
+        public function register(): void
         {
-            $this->app->singleton(Connection::class, function ($app) {
+            $this->app->singleton(Connection::class, function (Application $app) {
                 return new Connection(config('riak'));
             });
         }
@@ -154,13 +153,11 @@ So, what if we need to register a [view composer](/docs/{{version}}/views#view-c
     {
         /**
          * Bootstrap any application services.
-         *
-         * @return void
          */
-        public function boot()
+        public function boot(): void
         {
             View::composer('view', function () {
-                //
+                // ...
             });
         }
     }
@@ -177,14 +174,11 @@ You may type-hint dependencies for your service provider's `boot` method. The [s
 
     /**
      * Bootstrap any application services.
-     *
-     * @param  \Illuminate\Contracts\Routing\ResponseFactory  $response
-     * @return void
      */
-    public function boot(ResponseFactory $response)
+    public function boot(ResponseFactory $response): void
     {
-        $response->macro('serialized', function ($value) {
-            //
+        $response->macro('serialized', function (mixed $value) {
+            // ...
         });
     }
 
@@ -192,19 +186,19 @@ You may type-hint dependencies for your service provider's `boot` method. The [s
 ## Registering Providers
 ## 프로바이더 등록하기
 
-All service providers are registered in the `config/app.php` configuration file. This file contains a `providers` array where you can list the class names of your service providers. By default, a set of Laravel core service providers are listed in this array. These providers bootstrap the core Laravel components, such as the mailer, queue, cache, and others.
+All service providers are registered in the `config/app.php` configuration file. This file contains a `providers` array where you can list the class names of your service providers. By default, a set of Laravel core service providers are registered in this array. The default providers bootstrap the core Laravel components, such as the mailer, queue, cache, and others.
 
-모든 서비스 프로바이더들은 `config/app.php` 설정 파일에 등록되어 있습니다. 이 파일에는 서비스 프로바이더들의 클래스 이름을 나열하고 등록할 수 있는 `providers` 배열이 포함되어 있습니다. 기본적으로는 라라벨의 코어 서비스 프로바이더들이 배열에 나열되어 있습니다. 이 프로바이더들이 라라벨의 메일러, 큐, 캐시등과 같은 핵심적인 컴포넌트들을 부트스트랩핑 하게 됩니다.
+모든 서비스 프로바이더들은 `config/app.php` 설정 파일에 등록되어 있습니다. 이 파일에는 서비스 프로바이더들의 클래스 이름을 나열하고 등록할 수 있는 `providers` 배열이 포함되어 있습니다. 기본적으로는 라라벨의 코어 서비스 프로바이더들이 배열에 등록되어 있습니다. 기본 프로바이더들이 라라벨의 메일러, 큐, 캐시등과 같은 핵심적인 컴포넌트들을 부트스트랩핑 하게 됩니다.
 
 To register your provider, add it to the array:
 
 여러분의 프로바이더들을 등록하려면 이 배열에 추가 하면 됩니다.
 
-    'providers' => [
+    'providers' => ServiceProvider::defaultProviders()->merge([
         // Other Service Providers
 
         App\Providers\ComposerServiceProvider::class,
-    ],
+    ])->toArray(),
 
 <a name="deferred-providers"></a>
 ## Deferred Providers
@@ -227,6 +221,7 @@ To defer the loading of a provider, implement the `\Illuminate\Contracts\Support
     namespace App\Providers;
 
     use App\Services\Riak\Connection;
+    use Illuminate\Contracts\Foundation\Application;
     use Illuminate\Contracts\Support\DeferrableProvider;
     use Illuminate\Support\ServiceProvider;
 
@@ -234,12 +229,10 @@ To defer the loading of a provider, implement the `\Illuminate\Contracts\Support
     {
         /**
          * Register any application services.
-         *
-         * @return void
          */
-        public function register()
+        public function register(): void
         {
-            $this->app->singleton(Connection::class, function ($app) {
+            $this->app->singleton(Connection::class, function (Application $app) {
                 return new Connection($app['config']['riak']);
             });
         }
@@ -247,9 +240,9 @@ To defer the loading of a provider, implement the `\Illuminate\Contracts\Support
         /**
          * Get the services provided by the provider.
          *
-         * @return array
+         * @return array<int, string>
          */
-        public function provides()
+        public function provides(): array
         {
             return [Connection::class];
         }

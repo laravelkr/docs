@@ -64,7 +64,7 @@ The default Laravel application structure is intended to provide a great startin
 
 기본적인 라라벨 애플리케이션의 구조는 애플리케이션이 크건, 작건 좋은 시작점이 되는것을 의도하고 있습니다. 애플리케이션을 원하는대로 구성해도 됩니다. 컴포저가 클래스를 오토로딩할 수 있는 한 클래스를 어디에 위치시키는가에 대한 제약사항은 없습니다.
 
-> **Note**  
+> **Note**
 > New to Laravel? Check out the [Laravel Bootcamp](https://bootcamp.laravel.com) for a hands-on tour of the framework while we walk you through building your first Laravel application.
 
 > **Note**  
@@ -105,14 +105,6 @@ The `config` directory, as the name implies, contains all of your application's 
 The `database` directory contains your database migrations, model factories, and seeds. If you wish, you may also use this directory to hold an SQLite database.
 
 `database` 디렉토리는 데이터베이스 마이그레이션 파일, 모델 팩토리, 시딩 파일들을 포함하고 있습니다. 원한다면, 이 디렉토리를 SQLite 데이터베이스가 저장되는 곳으로 사용할수도 있습니다.
-
-<a name="the-lang-directory"></a>
-#### The Lang Directory
-#### Lang 디렉토리
-
-The `lang` directory houses all of your application's language files.
-
-`lang` 디렉토리는 애플리케이션의 다국어 파일들이 위치합니다.
 
 <a name="the-public-directory"></a>
 #### The Public Directory

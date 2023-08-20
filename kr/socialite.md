@@ -17,6 +17,8 @@
     - [인증과 저장](#authentication-and-storage)
     - [Access Scopes](#access-scopes)
     - [스코프 접근하기](#access-scopes)
+    - [Slack Bot Scopes](#slack-bot-scopes)
+    - [슬랙봇 스코프](#slack-bot-scopes)
     - [Optional Parameters](#optional-parameters)
     - [옵션 파라미터](#optional-parameters)
 - [Retrieving User Details](#retrieving-user-details)
@@ -25,20 +27,21 @@
 ## Introduction
 ## 시작하기
 
-In addition to typical, form based authentication, Laravel also provides a simple, convenient way to authenticate with OAuth providers using [Laravel Socialite](https://github.com/laravel/socialite). Socialite currently supports authentication via Facebook, Twitter, LinkedIn, Google, GitHub, GitLab, and Bitbucket.
+In addition to typical, form based authentication, Laravel also provides a simple, convenient way to authenticate with OAuth providers using [Laravel Socialite](https://github.com/laravel/socialite). Socialite currently supports authentication via Facebook, Twitter, LinkedIn, Google, GitHub, GitLab, Bitbucket, and Slack.
 
-일반적인 Form을 기반으로한 인증에 더해서, 라라벨은 [라라벨 소셜라이트-Socialite](https://github.com/laravel/socialite)를 사용하여 OAuth 인증을 간단하고 편리하게 제공합니다. Socialite는 현재 페이스북, 트위터, 링크드인, 구글, 깃허브, 깃랩 그리고 Bitbucket을 기본적으로 지원하고 있습니다.
+일반적인 Form을 기반으로한 인증에 더해서, 라라벨은 [라라벨 소셜라이트-Socialite](https://github.com/laravel/socialite)를 사용하여 OAuth 인증을 간단하고 편리하게 제공합니다. Socialite는 현재 페이스북, 트위터, 링크드인, 구글, 깃허브, 깃랩, Bitbucket, 슬랙을 기본적으로 지원하고 있습니다.
 
 > **Note**  
 > Adapters for other platforms are available via the community driven [Socialite Providers](https://socialiteproviders.com/) website.
 
 > **Note**  
 > 다른 플랫폼을 위한 어댑터는 커뮤니티에서 주도하는 [Socialite Providers](https://socialiteproviders.com/) 웹사이트에서 확인할 수 있습니다. (한국 사용자들이 많이 사용하는 카카오, 네이버, 라인등도 제공됩니다)
-
+         
+<a name="installation"></a>
 ## Installation
 ## 설치하기
 
-To get started with Socialite, use Composer to add the package to your project's dependencies:
+To get started with Socialite, use the Composer package manager to add the package to your project's dependencies:
 
 Socialite를 사용하기 위해서는 컴포저를 사용하여 프로젝트에 의존성 패키지를 추가하십시오:
 
@@ -46,6 +49,7 @@ Socialite를 사용하기 위해서는 컴포저를 사용하여 프로젝트에
 composer require laravel/socialite
 ```
 
+<a name="upgrading-socialite"></a>
 ## Upgrading Socialite
 ## Socialite 업그레이드하기
 
@@ -53,6 +57,7 @@ When upgrading to a new major version of Socialite, it's important that you care
 
 새로운 메이저 버전의 Socialite를 업그레이드 한다면, [업그레이드 가이드](https://github.com/laravel/socialite/blob/master/UPGRADE.md) 를 꼭 확인하시기 바랍니다.
 
+<a name="configuration"></a>
 ## Configuration
 ## 설정하기
 
@@ -60,9 +65,9 @@ Before using Socialite, you will need to add credentials for the OAuth providers
 
 Socialite를 사용하기 전에 애플리케이션에서 사용할 OAuth 공급자의 인증 정보를 추가해야합니다. 일반적으로 이 인증정보는 인증 서비스의 대시보드의 "개발 애플리케이션" 부분에서 찾을 수 있습니다. 
 
-These credentials should be placed in your application's `config/services.php` configuration file, and should use the key `facebook`, `twitter` (OAuth 1.0), `twitter-oauth-2` (OAuth 2.0), `linkedin`, `google`, `github`, `gitlab`, or `bitbucket`, depending on the providers your application requires:
+These credentials should be placed in your application's `config/services.php` configuration file, and should use the key `facebook`, `twitter` (OAuth 1.0), `twitter-oauth-2` (OAuth 2.0), `linkedin`, `google`, `github`, `gitlab`, `bitbucket`, or `slack`, depending on the providers your application requires:
 
-인증 정보는 `config/services.php` 설정 파일에서 추가하면 되며, 애플리케이션에서 필요한 서비스에 따라서, `facebook`, `twitter` (OAuth 1.0), `twitter-oauth-2` (OAuth 2.0), `linkedin`, `google`, `github`, `gitlab`, `bitbucket` 키를 사용해야 합니다. 다음의 예제를 보십시오.
+인증 정보는 `config/services.php` 설정 파일에서 추가하면 되며, 애플리케이션에서 필요한 서비스에 따라서, `facebook`, `twitter` (OAuth 1.0), `twitter-oauth-2` (OAuth 2.0), `linkedin`, `google`, `github`, `gitlab`, `bitbucket`, `slack` 키를 사용해야 합니다. 다음의 예제를 보십시오.
 
     'github' => [
         'client_id' => env('GITHUB_CLIENT_ID'),
@@ -76,9 +81,11 @@ These credentials should be placed in your application's `config/services.php` c
 > **Note**  
 > `redirect` 옵션값에 상대경로가 포함된경우, 자동으로 Full URL로 인식됩니다.
 
+<a name="authentication"></a>
 ## Authentication
 ## 인증
 
+<a name="routing"></a>
 ### Routing
 ### 라우팅
 
@@ -159,6 +166,45 @@ You can overwrite all existing scopes on the authentication request using the `s
         ->setScopes(['read:user', 'public_repo'])
         ->redirect();
 
+<a name="slack-bot-scopes"></a>
+### Slack Bot Scopes
+### 슬랙봇 스코프
+
+Slack's API provides [different types of access tokens](https://api.slack.com/authentication/token-types), each with their own set of [permission scopes](https://api.slack.com/scopes). Socialite is compatible with both of the following Slack access tokens types:
+
+Slack의 API는 각각 고유한 [권한 범위-스코프](https://api.slack.com/scopes)를 가지는 [여러 타입의 액세스 토큰](https://api.slack.com/authentication/token-types)을 제공합니다. Socialite는 다음 두 가지 Slack 액세스 토큰 유형과 호환됩니다:
+
+<div class="content-list" markdown="1">
+
+- Bot (prefixed with `xoxb-`)
+- User (prefixed with `xoxp-`)
+
+</div>
+
+By default, the `slack` driver will generate a `user` token and invoking the the driver's `user` method will return the user's details.
+
+기본적으로 `slack` 드라이버는 `user` 토큰을 생성하며, 드라이버의 `user` 메서드를 호출하면 사용자의 세부 정보가 반환됩니다.
+
+Bot tokens are primarily useful if your application will be sending notifications to external Slack workspaces that are owned by your application's users. To generate a bot token, invoke the `asBotUser` method before redirecting the user to Slack for authentication:
+
+봇 토큰은 주로 애플리케이션의 사용자가 소유한 외부 Slack 워크스페이스로 알림을 보내는 경우에 유용합니다. 봇 토큰을 생성하려면 사용자를 인증을 위해 Slack으로 리다이렉션하기 전에 `asBotUser` 메서드를 호출하세요.
+
+    return Socialite::driver('slack')
+        ->asBotUser()
+        ->setScopes(['chat:write', 'chat:write.public', 'chat:write.customize'])
+        ->redirect();
+
+In addition, you must invoke the `asBotUser` method before invoking the `user` method after Slack redirects the user back to your application after authentication:
+
+추가적으로 Slack이 인증을 완료하고 난뒤에 사용자를 애플리케이션으로 다시 리다이렉션 하고나서 `user` 메서드를 호출하기 전에 `asBotUser` 메서드를 호출해야 합니다.
+
+    $user = Socialite::driver('slack')->asBotUser()->user();
+
+When generating a bot token, the `user` method will still return a `Laravel\Socialite\Two\User` instance; however, only the `token` property will be hydrated. This token may be stored in order to [send notifications to the authenticated user's Slack workspaces](/docs/{{version}}/notifications#notifying-external-slack-workspaces).
+
+봇 토큰을 생성할 때 `user` 메서드는 `Laravel\Socialite\Two\User` 인스턴스를 반환하며 `token` 속성에 값이 채워집니다. 이 토큰값은 [인증된 사용자의 Slack 워크스페이스로 알림을 보내기 위해](/docs/{{version}}/notifications#notifying-external-slack-workspaces) 저장할 수 있습니다.
+
+<a name="optional-parameters"></a>
 ### Optional Parameters
 ### 옵션 파라미터
 
@@ -178,6 +224,7 @@ A number of OAuth providers support other optional parameters on the redirect re
 > **Warning**  
 > When using the `with` method, be careful not to pass any reserved keywords such as `state` or `response_type`.
 
+<a name="retrieving-user-details"></a>
 ## Retrieving User Details
 ## 사용자의 상세정보 조회하기
 
@@ -211,6 +258,7 @@ Differing properties and methods may be available on this object depending on wh
         $user->getAvatar();
     });
 
+<a name="retrieving-user-details-from-a-token-oauth2"></a>
 #### Retrieving User Details From A Token (OAuth2)
 #### 토큰으로 부터 사용자 상세정보 조회하기 (OAuth2)
 
@@ -222,6 +270,7 @@ If you already have a valid access token for a user, you can retrieve their user
 
     $user = Socialite::driver('github')->userFromToken($token);
 
+<a name="retrieving-user-details-from-a-token-and-secret-oauth1"></a>
 #### Retrieving User Details From A Token And Secret (OAuth1)
 #### 토큰과 비밀번호를 사용하여 사용자 정보 조회하기 (OAuth1)
 
@@ -233,6 +282,7 @@ If you already have a valid token and secret for a user, you can retrieve their 
 
     $user = Socialite::driver('twitter')->userFromTokenAndSecret($token, $secret);
 
+<a name="stateless-authentication"></a>
 #### Stateless Authentication
 #### 상태를 유지하지 않는 인증
 

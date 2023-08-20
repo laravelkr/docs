@@ -48,7 +48,7 @@ Under the hood, Laravel utilizes the [Monolog](https://github.com/Seldaek/monolo
 ## Configuration
 ## 설정하기
 
-All of the configuration options for your application's logging behavior is housed in the `config/logging.php` configuration file. This file allows you to configure your application's log channels, so be sure to review each of the available channels and their options. We'll review a few common options below.
+All of the configuration options for your application's logging behavior are housed in the `config/logging.php` configuration file. This file allows you to configure your application's log channels, so be sure to review each of the available channels and their options. We'll review a few common options below.
 
 애플리케이션의 로깅 동작에 대한 모든 설정 옵션은 `config/logging.php` 설정 파일에 존재합니다. 이 파일을 사용하여 애플리케이션의 로그 채널을 설정할 수 있으므로, 사용 가능한 각 채널과 해당 옵션을 검토하십시오. 아래에서 몇 가지 일반적인 옵션을 검토합니다.
 
@@ -271,18 +271,16 @@ You may call any of these methods to log a message for the corresponding level. 
     use App\Http\Controllers\Controller;
     use App\Models\User;
     use Illuminate\Support\Facades\Log;
+    use Illuminate\View\View;
 
     class UserController extends Controller
     {
         /**
          * Show the profile for the given user.
-         *
-         * @param  int  $id
-         * @return \Illuminate\Http\Response
          */
-        public function show($id)
+        public function show(string $id): View
         {
-            Log::info('Showing the user profile for user: '.$id);
+            Log::info('Showing the user profile for user: {id}', ['id' => $id]);
 
             return view('user.profile', [
                 'user' => User::findOrFail($id)
@@ -300,7 +298,7 @@ An array of contextual data may be passed to the log methods. This contextual da
 
     use Illuminate\Support\Facades\Log;
 
-    Log::info('User failed to login.', ['id' => $user->id]);
+    Log::info('User {id} failed to login.', ['id' => $user->id]);
 
 Occasionally, you may wish to specify some contextual information that should be included with all subsequent log entries in a particular channel. For example, you may wish to log a request ID that is associated with each incoming request to your application. To accomplish this, you may call the `Log` facade's `withContext` method:
 
@@ -311,19 +309,19 @@ Occasionally, you may wish to specify some contextual information that should be
     namespace App\Http\Middleware;
 
     use Closure;
+    use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Log;
     use Illuminate\Support\Str;
+    use Symfony\Component\HttpFoundation\Response;
 
     class AssignRequestId
     {
         /**
          * Handle an incoming request.
          *
-         * @param  \Illuminate\Http\Request  $request
-         * @param  \Closure  $next
-         * @return mixed
+         * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
          */
-        public function handle($request, Closure $next)
+        public function handle(Request $request, Closure $next): Response
         {
             $requestId = (string) Str::uuid();
 
@@ -346,10 +344,8 @@ If you would like to share contextual information across _all_ logging channels,
     {
         /**
          * Bootstrap any application services.
-         *
-         * @return void
          */
-        public function boot()
+        public function boot(): void
         {
             Log::shareContext([
                 'invocation-id' => (string) Str::uuid(),
@@ -434,17 +430,15 @@ Once you have configured the `tap` option on your channel, you're ready to defin
 
     namespace App\Logging;
 
+    use Illuminate\Log\Logger;
     use Monolog\Formatter\LineFormatter;
 
     class CustomizeFormatter
     {
         /**
          * Customize the given logger instance.
-         *
-         * @param  \Illuminate\Log\Logger  $logger
-         * @return void
          */
-        public function __invoke($logger)
+        public function __invoke(Logger $logger): void
         {
             foreach ($logger->getHandlers() as $handler) {
                 $handler->setFormatter(new LineFormatter(
@@ -508,6 +502,38 @@ If you are using a Monolog handler that is capable of providing its own formatte
         'formatter' => 'default',
     ],
 
+
+ <a name="monolog-processors"></a>
+ #### Monolog Processors
+ #### Monolog Processors
+
+ Monolog can also process messages before logging them. You can create your own processors or use the [existing processors offered by Monolog](https://github.com/Seldaek/monolog/tree/main/src/Monolog/Processor).
+
+Monolog는 메시지를 로깅하기 전에 필요한 작업을 수행할 수도 있습니다. 자체적으로 프로세서를 만들거나 Monolog에서 제공하는 [기본 프로세서](https://github.com/Seldaek/monolog/tree/main/src/Monolog/Processor)를 사용할 수 있습니다.
+
+ If you would like to customize the processors for a `monolog` driver, add a `processors` configuration value to your channel's configuration:
+
+`monolog` 드라이버를 위한 자체 프로세서를 커스터마이징 하려면 채널의 설정의 `processors` 값을 추가하면 됩니다.
+
+     'memory' => [
+         'driver' => 'monolog',
+         'handler' => Monolog\Handler\StreamHandler::class,
+         'with' => [
+             'stream' => 'php://stderr',
+         ],
+         'processors' => [
+             // Simple syntax...
+             Monolog\Processor\MemoryUsageProcessor::class,
+
+             // With options...
+             [
+                'processor' => Monolog\Processor\PsrLogMessageProcessor::class,
+                'with' => ['removeUsedContextFields' => true],
+            ],
+         ],
+     ],
+
+
 <a name="creating-custom-channels-via-factories"></a>
 ### Creating Custom Channels Via Factories
 ### 팩토리를 사용하여 커스텀 채널 생성하기
@@ -537,11 +563,8 @@ Once you have configured the `custom` driver channel, you're ready to define the
     {
         /**
          * Create a custom Monolog instance.
-         *
-         * @param  array  $config
-         * @return \Monolog\Logger
          */
-        public function __invoke(array $config)
+        public function __invoke(array $config): Logger
         {
             return new Logger(/* ... */);
         }

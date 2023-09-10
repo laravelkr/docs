@@ -5,46 +5,48 @@
 - [시작하기](#introduction)
 - [Installation](#installation)
 - [설치하기](#installation)
-  - [Upgrading Valet](#upgrading-valet)
-  - [발렛 업그레이드](#upgrading-valet)
+    - [Upgrading Valet](#upgrading-valet)
+    - [발렛 업그레이드](#upgrading-valet)
 - [Serving Sites](#serving-sites)
 - [사이트 동작시키기](#serving-sites)
-  - [The "Park" Command](#the-park-command)
-  - ["Park" 명령어](#the-park-command)
-  - [The "Link" Command](#the-link-command)
-  - ["Link" 명령어](#the-link-command)
-  - [Securing Sites With TLS](#securing-sites)
-  - [TLS를 사용한 안전한 사이트](#securing-sites)
-  - [Serving a Default Site](#serving-a-default-site)
-  - [기본 사이트 제공](#serving-a-default-site)
-  - [Per-Site PHP Versions](#per-site-php-versions)
-  - [사이트별 PHP 버](#per-site-php-versions)
+    - [The "Park" Command](#the-park-command)
+    - ["Park" 명령어](#the-park-command)
+    - [The "Link" Command](#the-link-command)
+    - ["Link" 명령어](#the-link-command)
+    - [Securing Sites With TLS](#securing-sites)
+    - [TLS를 사용한 안전한 사이트](#securing-sites)
+    - [Serving a Default Site](#serving-a-default-site)
+    - [기본 사이트 제공](#serving-a-default-site)
+    - [Per-Site PHP Versions](#per-site-php-versions)
+    - [사이트별 PHP 버](#per-site-php-versions)
 - [Sharing Sites](#sharing-sites)
 - [사이트 공유하기](#sharing-sites)
-  - [Sharing Sites Via Ngrok](#sharing-sites-via-ngrok)
-  - [Ngrok을 통한 사이트 공유](#sharing-sites-via-ngrok)
-  - [Sharing Sites Via Expose](#sharing-sites-via-expose)
-  - [Expose를 통한 사이트 공유](#sharing-sites-via-expose)
-  - [Sharing Sites On Your Local Network](#sharing-sites-on-your-local-network)
-  - [로컬 네트워크에서 사이트 공유](#sharing-sites-on-your-local-network)
+    - [Sharing Sites On Your Local Network](#sharing-sites-on-your-local-network)
+    - [로컬 네트워크에서 사이트 공유](#sharing-sites-on-your-local-network)
 - [Site Specific Environment Variables](#site-specific-environment-variables)
 - [사이트 별 환경 변수](#site-specific-environment-variables)
 - [Proxying Services](#proxying-services)
 - [프록시 서비스](#proxying-services)
 - [Custom Valet Drivers](#custom-valet-drivers)
 - [사용자 정의-커스텀 발렛 드라이버](#custom-valet-drivers)
-  - [Local Drivers](#local-drivers)
-  - [로컬 드라이버](#local-drivers)
+    - [Local Drivers](#local-drivers)
+    - [로컬 드라이버](#local-drivers)
 - [Other Valet Commands](#other-valet-commands)
 - [기타 발렛 명령어들](#other-valet-commands)
 - [Valet Directories & Files](#valet-directories-and-files)
 - [Valet 디렉토리와 파일](#valet-directories-and-files)
-  - [Disk Access](#disk-access)
-  - [디스크 접근](#disk-access)
+    - [Disk Access](#disk-access)
+    - [디스크 접근](#disk-access)
 
 <a name="introduction"></a>
 ## Introduction
 ## 시작하기
+
+> **Note**
+> Looking for an even easier way to develop Laravel applications on macOS? Check out [Laravel Herd](https://herd.laravel.com). Herd includes everything you need to get started with Laravel development, including Valet, PHP, and Composer.
+
+> **Note**
+> macOS에서 라라벨 애플리케이션을 더 쉽게 개발할 수 있는 방법을 찾고 있다면, [라라벨 Herd](https://herd.laravel.com)를 확인해 보세요. Herd에는 Valet, PHP, Composer 등 라라벨 개발을 시작하는 데 필요한 모든 것이 포함되어 있습니다.
 
 [Laravel Valet](https://github.com/laravel/valet) is a development environment for macOS minimalists. Laravel Valet configures your Mac to always run [Nginx](https://www.nginx.com/) in the background when your machine starts. Then, using [DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq), Valet proxies all requests on the `*.test` domain to point to sites installed on your local machine.
 
@@ -110,9 +112,9 @@ Next, you should use Homebrew to install PHP:
 brew install php
 ```
 
-After installing PHP, you are ready to install the [Composer package manager](https://getcomposer.org). In addition, you should make sure the `~/.composer/vendor/bin` directory is in your system's "PATH". After Composer has been installed, you may install Laravel Valet as a global Composer package:
+After installing PHP, you are ready to install the [Composer package manager](https://getcomposer.org). In addition, you should make sure the `$HOME/.composer/vendor/bin` directory is in your system's "PATH". After Composer has been installed, you may install Laravel Valet as a global Composer package:
 
-PHP를 설치하면 [Composer 패키지 관리자](https://getcomposer.org)를 설치할 준비가 된 것입니다. 또한 `~.composer/vendor/bin` 디렉토리가 시스템의 "PATH"에 있는지 확인해야 합니다. Composer가 설치된 후 Laravel 발렛을 글로벌 Composer 패키지로 설치할 수 있습니다.
+PHP를 설치하면 [Composer 패키지 관리자](https://getcomposer.org)를 설치할 준비가 된 것입니다. 또한 `$HOME/.composer/vendor/bin` 디렉토리가 시스템의 "PATH"에 있는지 확인해야 합니다. Composer가 설치된 후 Laravel 발렛을 글로벌 Composer 패키지로 설치할 수 있습니다.
 
 ```shell
 composer global require laravel/valet
@@ -138,22 +140,28 @@ Valet will automatically start its required services each time your machine boot
 #### PHP Versions
 #### PHP 버전
 
+> **Note**  
+> Instead of modifying your global PHP version, you can instruct Valet to use per-site PHP versions via the `isolate` [command](#per-site-php-versions).
+
+> **Note**  
+> 글로벌 PHP 버전을 수정하는 대신에, `isolate` [명령어](#per-site-php-versions)를 사용하여 Valet 이 사이트별로 사용하는 PHP를 지정하도록 할 수 있습니다.
+
 Valet allows you to switch PHP versions using the `valet use php@version` command. Valet will install the specified PHP version via Homebrew if it is not already installed:
 
 발렛을 사용하면 `valet use php@version` 명령을 사용하여 PHP 버전을 전환할 수 있습니다. 발렛은 Homebrew가 아직 설치되지 않은 경우, 지정한 PHP 버전을 설치합니다.
 
 ```shell
-valet use php@7.2
+valet use php@8.1
 
 valet use php
 ```
 
-You may also create a `.valetphprc` file in the root of your project. The `.valetphprc` file should contain the PHP version the site should use:
+You may also create a `.valetrc` file in the root of your project. The `.valetrc` file should contain the PHP version the site should use:
 
-프로젝트 루트에 `.valetphprc` 파일을 생성할 수도 있습니다. `.valetphprc` 파일에는 사이트에서 사용해야 하는 PHP 버전이 포함되어야 합니다.
+프로젝트 루트에 `.valetrc` 파일을 생성할 수도 있습니다. `.valetrc` 파일에는 사이트에서 사용해야 하는 PHP 버전이 포함되어야 합니다.
 
 ```shell
-php@7.2
+php=php@8.1
 ```
 
 Once this file has been created, you may simply execute the `valet use` command and the command will determine the site's preferred PHP version by reading the file.
@@ -170,7 +178,7 @@ Once this file has been created, you may simply execute the `valet use` command 
 #### Database
 #### 데이터베이스
 
-If your application needs a database, check out [DBngin](https://dbngin.com). DBngin provides a free, all-in-one database management tool that includes MySQL, PostgreSQL, and Redis. After DBngin has been installed, you can connect to your database at `127.0.0.1` using the `root` username and an empty string for the password.
+If your application needs a database, check out [DBngin](https://dbngin.com), which provides a free, all-in-one database management tool that includes MySQL, PostgreSQL, and Redis. After DBngin has been installed, you can connect to your database at `127.0.0.1` using the `root` username and an empty string for the password.
 
 애플리케이션에 데이터베이스가 필요한 경우 [DBngin](https://dbngin.com)을 확인하세요. DBngin은 MySQL, PostgreSQL 및 Redis를 포함하는 무료 올인원 데이터베이스 관리 도구를 제공합니다. DBngin을 설치한 후 `root` 사용자 이름과 비밀번호에 빈 문자열을 사용하여 `127.0.0.1`의 데이터베이스에 연결할 수 있습니다.
 
@@ -189,6 +197,26 @@ If you are having trouble getting your Valet installation to run properly, execu
 You may update your Valet installation by executing the `composer global require laravel/valet` command in your terminal. After upgrading, it is good practice to run the `valet install` command so Valet can make additional upgrades to your configuration files if necessary.
 
 터미널에서 `composer global require laravel/valet` 명령을 실행하여 발렛 설치를 업데이트할 수 있습니다. 업그레이드 후에는 발렛이 필요할 경우, 설정 파일을 추가로 업그레이드할 수 있도록 `valet install` 명령을 실행하는 것이 좋습니다.
+
+<a name="upgrading-to-valet-4"></a>
+#### Upgrading To Valet 4
+#### 발렛 4로 업그레이드하기
+
+If you're upgrading from Valet 3 to Valet 4, take the following steps to properly upgrade your Valet installation:
+
+Valet 3에서 Valet 4로 업그레이드하는 경우 다음 단계에 따라 Valet을 올바르게 업그레이드하세요:
+
+<div class="content-list" markdown="1">
+
+- If you've added `.valetphprc` files to customize your site's PHP version, rename each `.valetphprc` file to `.valetrc`. Then, prepend `php=` to the existing content of the `.valetrc` file.
+- Update any custom drivers to match the namespace, extension, type-hints, and return type-hints of the new driver system. You may consult Valet's [SampleValetDriver](https://github.com/laravel/valet/blob/d7787c025e60abc24a5195dc7d4c5c6f2d984339/cli/stubs/SampleValetDriver.php) as an example.
+- If you use PHP 7.1 - 7.4 to serve your sites, make sure you still use Homebrew to install a version of PHP that's 8.0 or higher, as Valet will use this version, even if it's not your primary linked version, to run some of its scripts.
+
+</div>
+
+- 사이트의 PHP 버전을 커스터마이즈하기 위해 `.valetphprc` 파일을 추가한 경우 각 `.valetphprc` 파일의 이름을 `.valetrc`으로 변경합니다. 그런 다음 `.valetrc` 파일의 기존 내용에 `php=`를 추가합니다.
+- 새 드라이버 시스템의 네임스페이스, 확장자, 타입 힌트, 반환 타입 힌트와 일치하도록 모든 커스텀 드라이버를 업데이트합니다. Valet의 [SampleValetDriver](https://github.com/laravel/valet/blob/d7787c025e60abc24a5195dc7d4c5c6f2d984339/cli/stubs/SampleValetDriver.php)를 예로 참조할 수 있습니다.
+- Valet 이 8.0 이상 버전의 스크립트를 실행하므로, PHP 7.1 - 7.4를 사용하여 사이트를 서비스하던 경우라면 Homebrew를 사용하여 8.0 이상 버전의 PHP를 설치해야 합니다.
 
 <a name="serving-sites"></a>
 ## Serving Sites
@@ -352,17 +380,25 @@ valet unisolate
 ## Sharing Sites
 ## 사이트 공유
 
-Valet even includes a command to share your local sites with the world, providing an easy way to test your site on mobile devices or share it with team members and clients.
+Valet includes a command to share your local sites with the world, providing an easy way to test your site on mobile devices or share it with team members and clients.
 
-발렛에는 로컬 사이트를 외부와 공유하는 명령도 포함되어 있어, 모바일 장치에서 사이트를 쉽게 테스트하거나 팀 구성원 및 클라이언트와 공유할 수 있습니다.
+Valet에는 로컬 사이트를 외부와 공유하는 명령도 포함되어 있어, 모바일 장치에서 사이트를 쉽게 테스트하거나 팀 구성원 및 클라이언트와 공유할 수 있습니다.
 
-<a name="sharing-sites-via-ngrok"></a>
-### Sharing Sites Via Ngrok
-### Ngrok을 통한 사이트 공유
+Out of the box, Valet supports sharing your sites via ngrok or Expose. Before sharing a site, you should update your Valet configuration using the `share-tool` command, specifying either `ngrok` or `expose`:
 
-To share a site, navigate to the site's directory in your terminal and run Valet's `share` command. A publicly accessible URL will be inserted into your clipboard and is ready to paste directly into your browser or share with your team:
+별다른 설정 없이도, Valet 은 ngrok 이나 Expose 를 사용한 사이트 공유기능을 제공합니다. 사이트를 공유하기 전에 `share-tool` 명령어를 사용해 Valet 설정을 `ngrok` 또는 `expose`을 사용하도록 업데이트 해야합니다. 
 
-사이트를 공유하려면 터미널에서 사이트 디렉토리로 이동하여 발렛의 `share` 명령을 실행하세요. 공개적으로 액세스할 수 있는 URL이 클립보드에 삽입되고, 브라우저에 직접 붙여넣거나 팀과 공유할 수 있습니다.
+```shell
+valet share-tool ngrok
+```
+
+If you choose a tool and don't have it installed via Homebrew (for ngrok) or Composer (for Expose), Valet will automatically prompt you to install it. Of course, both tools require you to authenticate your ngrok or Expose account before you can start sharing sites.
+
+어떤 방식으로 공유할 것인지 선택했지만 Homebrew(ngrok) 또는 Composer(Expose)를 통해서 아직 설치를 하지 않은 경우에 Valet에서 자동으로 설치를 완료하라는 메세지가 표시됩니다. 물론 두 가지 경우 모두 공유를 시작하기 전에 계정을 인증해야합니다. 
+
+To share a site, navigate to the site's directory in your terminal and run Valet's `share` command. A publicly accessible URL will be placed into your clipboard and is ready to paste directly into your browser or to be shared with your team:
+
+사이트를 공유하려면 터미널에서 사이트의 디렉토리로 이동하여 Valet의 `share` 명령을 실행하면 됩니다. 공개적으로 액세스할 수 있는 URL이 클립보드에 복사되며, 브라우저에 직접 붙여넣거나 팀멤버들과 공유할 수 있습니다.
 
 ```shell
 cd ~/Sites/laravel
@@ -374,27 +410,40 @@ To stop sharing your site, you may press `Control + C`.
 
 사이트 공유를 중지하려면 `Control + C`를 누르면 됩니다.
 
-> **Note**  
-> You may pass additional Ngrok parameters to the share command, such as `valet share --region=eu`. For more information, consult the [ngrok documentation](https://ngrok.com/docs).
+> **Warning**
+> If you're using a custom DNS server (like `1.1.1.1`), ngrok sharing may not work correctly. If this is the case on your machine, open your Mac's system settings, go to the Network settings, open the Advanced settings, then go the DNS tab and add `127.0.0.1` as your first DNS server.
+
+> **Warning**
+> `1.1.1.1`과 같이 별도의 커스텀 DNS 서버를 사용중이라면, ngrok 공유기능은 제대로 동작하지 않습니다. 여러분이 이런 경우에 해당한다면 Mac 의 시스템 설정에서 네트워크 설정을 열어 추가 셋팅에 `127.0.0.1` 을 첫번째 DNS 서버로 추가하십시오. 
+
+<a name="sharing-sites-via-ngrok"></a>
+#### Sharing Sites Via Ngrok
+
+Sharing your site using ngrok requires you to [create an ngrok account](https://dashboard.ngrok.com/signup) and [set up an authentication token](https://dashboard.ngrok.com/get-started/your-authtoken). Once you have an authentication token, you can update your Valet configuration with that token:
+
+ngrok을 사용하여 사이트를 공유하려면 [ngrok 계정을 생성](https://dashboard.ngrok.com/signup)하고 [인증 토큰을 설정](https://dashboard.ngrok.com/get-started/your-authtoken) 해야합니다. 인증토큰을 발급받으면 Valet 설정을 업데이트 하십시오.  
+
+```shell
+valet set-ngrok-token YOUR_TOKEN_HERE
+```
 
 > **Note**  
-> `valet share --region=eu`와 같은 추가 Ngrok 매개변수를 share 명령에 전달할 수 있습니다. 자세한 내용은 [ngrok 문서](https://ngrok.com/docs) 를 참조하세요.
+> You may pass additional ngrok parameters to the share command, such as `valet share --region=eu`. For more information, consult the [ngrok documentation](https://ngrok.com/docs).
+
+> **Note**  
+> `valet share --region=eu`와 같은 추가 ngrok 매개변수를 share 명령에 전달할 수 있습니다. 자세한 내용은 [ngrok 문서](https://ngrok.com/docs) 를 참조하세요.
 
 <a name="sharing-sites-via-expose"></a>
-### Sharing Sites Via Expose
-### Expose를 통한 사이트 공유
+#### Sharing Sites Via Expose
+#### Expose를 통한 사이트 공유
 
-If you have [Expose](https://expose.dev) installed, you can share your site by navigating to the site's directory in your terminal and running the `expose` command. Consult the [Expose documentation](https://expose.dev/docs) for information regarding the additional command-line parameters it supports. After sharing the site, Expose will display the sharable URL that you may use on your other devices or amongst team members:
+Sharing your site using Expose requires you to [create an Expose account](https://expose.dev/register) and [authenticate with Expose via your authentication token](https://expose.dev/docs/getting-started/getting-your-token).
 
-[Expose](https://expose.dev)가 설치되어 있으면, 터미널에서 사이트 디렉토리로 이동하고 `expose` 명령을 실행하여 사이트를 공유할 수 있습니다. 지원하는 추가 명령줄 매개변수에 대한 정보는 [Expose 문서](https://expose.dev/docs) 를 참조하십시오. 사이트를 공유한 후 Expose는 다른 장치에서 또는 팀 구성원 간에 사용할 수 있는 공유 가능한 URL을 표시합니다.
+Expose을 사용하여 사이트를 공유하려면 [Expose 계정을 생성](https://expose.dev/register)하고 [인증 토큰을 설정](https://expose.dev/docs/getting-started/getting-your-token) 해야합니다. 
 
-    cd ~/Sites/laravel
+You may consult the [Expose documentation](https://expose.dev/docs) for information regarding the additional command-line parameters it supports.
 
-    expose
-
-To stop sharing your site, you may press `Control + C`.
-
-사이트 공유를 중지하려면 `Control + C`를 누르면 됩니다.
+[Expose 매뉴얼](https://expose.dev/docs)을 통해서 보다 자세한 내용을 확인할 수 있습니다.
 
 <a name="sharing-sites-on-your-local-network"></a>
 ### Sharing Sites On Your Local Network
@@ -508,13 +557,8 @@ For example, let's imagine we are writing a `WordPressValetDriver`. Our `serves`
 
     /**
      * Determine if the driver serves the request.
-     *
-     * @param  string  $sitePath
-     * @param  string  $siteName
-     * @param  string  $uri
-     * @return bool
      */
-    public function serves($sitePath, $siteName, $uri)
+    public function serves(string $sitePath, string $siteName, string $uri): bool
     {
         return is_dir($sitePath.'/wp-admin');
     }
@@ -530,12 +574,9 @@ The `isStaticFile` should determine if the incoming request is for a file that i
     /**
      * Determine if the incoming request is for a static file.
      *
-     * @param  string  $sitePath
-     * @param  string  $siteName
-     * @param  string  $uri
      * @return string|false
      */
-    public function isStaticFile($sitePath, $siteName, $uri)
+    public function isStaticFile(string $sitePath, string $siteName, string $uri)
     {
         if (file_exists($staticFilePath = $sitePath.'/public/'.$uri)) {
             return $staticFilePath;
@@ -560,13 +601,8 @@ The `frontControllerPath` method should return the fully qualified path to your 
 
     /**
      * Get the fully resolved path to the application's front controller.
-     *
-     * @param  string  $sitePath
-     * @param  string  $siteName
-     * @param  string  $uri
-     * @return string
      */
-    public function frontControllerPath($sitePath, $siteName, $uri)
+    public function frontControllerPath(string $sitePath, string $siteName, string $uri): string
     {
         return $sitePath.'/public/index.php';
     }
@@ -585,26 +621,16 @@ If you would like to define a custom Valet driver for a single application, crea
     {
         /**
          * Determine if the driver serves the request.
-         *
-         * @param  string  $sitePath
-         * @param  string  $siteName
-         * @param  string  $uri
-         * @return bool
          */
-        public function serves($sitePath, $siteName, $uri)
+        public function serves(string $sitePath, string $siteName, string $uri): bool
         {
             return true;
         }
 
         /**
          * Get the fully resolved path to the application's front controller.
-         *
-         * @param  string  $sitePath
-         * @param  string  $siteName
-         * @param  string  $uri
-         * @return string
          */
-        public function frontControllerPath($sitePath, $siteName, $uri)
+        public function frontControllerPath(string $sitePath, string $siteName, string $uri): string
         {
             return $sitePath.'/public_html/index.php';
         }

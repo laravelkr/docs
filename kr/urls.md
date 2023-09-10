@@ -81,7 +81,7 @@ The `route` helper may be used to generate URLs to [named routes](/docs/{{versio
 `route` 헬퍼는 [이름이 지정된 라우트](/docs/{{version}}/routing#named-routes) URL을 생성하는데 사용될 수 있습니다. 라우트에 이름을 지정하여 사용하면, 라우트에 정의된 실제 URL에 구애받지 않고서도 URL을 생성할 수 있습니다. 따라서 라우트의 URL이 변경되었다고 해서 `route` 함수를 호출한 곳을 모두 수정할 필요가 없습니다. 예를 들자면 애플리케이션에서 다음과 같이 정의된 라우트를 가지고 있다고 가정해보십시오:
 
     Route::get('/post/{post}', function (Post $post) {
-        //
+        // ...
     })->name('post.show');
 
 To generate a URL to this route, you may use the `route` helper like so:
@@ -97,7 +97,7 @@ Of course, the `route` helper may also be used to generate URLs for routes with 
 물론, `route` 헬퍼는 또한 여러개의 파라미터를 가진 라우트 URL을 생성할 수도 있습니다.
 
     Route::get('/post/{post}/comment/{comment}', function (Post $post, Comment $comment) {
-        //
+        // ...
     })->name('comment.show');
 
     echo route('comment.show', ['post' => 1, 'comment' => 3]);
@@ -114,7 +114,7 @@ Any additional array elements that do not correspond to the route's definition p
 
 <a name="eloquent-models"></a>
 #### Eloquent Models
-#### 엘로퀀트 모델
+#### Eloquent 모델
 
 You will often be generating URLs using the route key (typically the primary key) of [Eloquent models](/docs/{{version}}/eloquent). For this reason, you may pass Eloquent models as parameter values. The `route` helper will automatically extract the model's route key:
 
@@ -174,18 +174,18 @@ Sometimes, you may need to allow your application's frontend to append data to a
         abort(401);
     }
 
-Instead of validating signed URLs using the incoming request instance, you may assign the `Illuminate\Routing\Middleware\ValidateSignature` [middleware](/docs/{{version}}/middleware) to the route. If it is not already present, you should assign this middleware a key in your HTTP kernel's `routeMiddleware` array:
+Instead of validating signed URLs using the incoming request instance, you may assign the `Illuminate\Routing\Middleware\ValidateSignature` [middleware](/docs/{{version}}/middleware) to the route. If it is not already present, you may assign this middleware an alias in your HTTP kernel's `$middlewareAliases` array:
 
-유입되는 요청 인스턴스를 사용해서 서명이 적용된 URL의 유효성 검사를 수행하는 대신, `Illuminate\Routing\Middleware\ValidateSignature` [미들웨어](/docs/{{version}}/middleware)를 라우트에 지정할 수도 있습니다. 이 미들웨어를 찾을 수 없다면 HTTP 커널에 이 미들웨어를 `routeMiddleware` 배열에 있는 키로 지정해야 합니다.
+유입되는 요청 인스턴스를 사용해서 서명이 적용된 URL의 유효성 검사를 수행하는 대신, `Illuminate\Routing\Middleware\ValidateSignature` [미들웨어](/docs/{{version}}/middleware)를 라우트에 지정할 수도 있습니다. 이 미들웨어를 아직 찾을 수 없다면 HTTP 커널에 이 미들웨어를 `$middlewareAliases` 배열의 별칭으로 할당할 수 있습니다. 
 
     /**
-     * The application's route middleware.
+     * The application's middleware aliases.
      *
-     * These middleware may be assigned to groups or used individually.
+     * Aliases may be used to conveniently assign middleware to routes and groups.
      *
-     * @var array
+     * @var array<string, class-string|string>
      */
-    protected $routeMiddleware = [
+    protected $middlewareAliases = [
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
     ];
 
@@ -209,10 +209,8 @@ When someone visits a signed URL that has expired, they will receive a generic e
 
     /**
      * Register the exception handling callbacks for the application.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->renderable(function (InvalidSignatureException $e) {
             return response()->view('error.link-expired', [], 403);
@@ -246,7 +244,7 @@ For some applications, you may wish to specify request-wide default values for c
 몇몇 애플리케이션에서는 특정 URL 파라미터에 대해 요청-reqeust 전의 기본값을 지정할 수 있습니다. 예를 들어, 다수의 라우트에서 `{locale}` 파라미터를 정의한다고 가정해보겠습니다.
 
     Route::get('/{locale}/posts', function () {
-        //
+        // ...
     })->name('post.index');
 
 It is cumbersome to always pass the `locale` every time you call the `route` helper. So, you may use the `URL::defaults` method to define a default value for this parameter that will always be applied during the current request. You may wish to call this method from a [route middleware](/docs/{{version}}/middleware#assigning-middleware-to-routes) so that you have access to the current request:
@@ -258,18 +256,18 @@ It is cumbersome to always pass the `locale` every time you call the `route` hel
     namespace App\Http\Middleware;
 
     use Closure;
+    use Illuminate\Http\Request;
     use Illuminate\Support\Facades\URL;
+    use Symfony\Component\HttpFoundation\Response;
 
     class SetDefaultLocaleForUrls
     {
         /**
-         * Handle the incoming request.
+         * Handle an incoming request.
          *
-         * @param  \Illuminate\Http\Request  $request
-         * @param  \Closure  $next
-         * @return \Illuminate\Http\Response
+         * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
          */
-        public function handle($request, Closure $next)
+        public function handle(Request $request, Closure $next): Response
         {
             URL::defaults(['locale' => $request->user()->locale]);
 

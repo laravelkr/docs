@@ -599,7 +599,7 @@ If you would like complete control over the prompt, you may provide a closure th
 > **Note**  
 The comprehensive [Laravel Prompts](/docs/{{version}}/prompts) documentation includes additional information on the available prompts and their usage.
  
-> 종합적인 [라라벨 프롬프트](/docs/{{version}}/prompts) 문서에는 사용 가능한 프롬프트와 그 사용법에 대한 추가 정보가 포함되어 있습니다.
+> [라라벨 Prompt](/docs/{{version}}/prompts) 문서에는 사용 가능한 프롬프트와 그 사용법에 대한 추가 정보가 포함되어 있습니다.
 
 If you wish to prompt the user to select or enter [options](#options), you may include prompts in your command's `handle` method. However, if you only wish to prompt the user when they have also been automatically prompted for missing arguments, then you may implement the `afterPromptingForMissingArguments` method:
 

@@ -1,74 +1,80 @@
-# Upgrade Guide
+# 업그레이드 가이드
 
-- [Upgrading To 10.0 From 9.x](#upgrade-10.0)
+- [9.x 버전에서 10.0으로 업그레이드](#upgrade-10.0)
 
 <a name="high-impact-changes"></a>
+
 ## High Impact Changes
 
 <div class="content-list" markdown="1">
 
-- [Updating Dependencies](#updating-dependencies)
-- [Updating Minimum Stability](#updating-minimum-stability)
+- [의존성 업데이트](#updating-dependencies)
+- [Minimum Stability 업데이트](#updating-minimum-stability)
 
 </div>
 
 <a name="medium-impact-changes"></a>
+
 ## Medium Impact Changes
 
 <div class="content-list" markdown="1">
 
-- [Database Expressions](#database-expressions)
-- [Model "Dates" Property](#model-dates-property)
+- [데이터베이스 구문](#database-expressions)
+- ["Dates" 모델 프로퍼티](#model-dates-property)
 - [Monolog 3](#monolog-3)
-- [Redis Cache Tags](#redis-cache-tags)
-- [Service Mocking](#service-mocking)
-- [The Language Directory](#language-directory)
+- [Redis 캐시 태그](#redis-cache-tags)
+- [서비스 모킹](#service-mocking)
+- [언어](#language-directory)
 
 </div>
 
 <a name="low-impact-changes"></a>
+
 ## Low Impact Changes
 
 <div class="content-list" markdown="1">
 
-- [Closure Validation Rule Messages](#closure-validation-rule-messages)
-- [Form Request `after` Method](#form-request-after-method)
-- [Public Path Binding](#public-path-binding)
-- [Query Exception Constructor](#query-exception-constructor)
-- [Rate Limiter Return Values](#rate-limiter-return-values)
-- [Relation `getBaseQuery` Method](#relation-getbasequery-method)
-- [The `Redirect::home` Method](#redirect-home)
-- [The `Bus::dispatchNow` Method](#dispatch-now)
-- [The `registerPolicies` Method](#register-policies)
-- [ULID Columns](#ulid-columns)
+- [클로저 검증 규칙 메시지](#closure-validation-rule-messages)
+- [Form 요청 `after` 메소드](#form-request-after-method)
+- [Public 경로 바인딩](#public-path-binding)
+- [쿼리 예외 생성자](#query-exception-constructor)
+- [Rate Limiter 반환 값](#rate-limiter-return-values)
+- [Relation `getBaseQuery` 메소드](#relation-getbasequery-method)
+- [`Redirect::home` 메소드](#redirect-home)
+- [`Bus::dispatchNow` 메소드](#dispatch-now)
+- [`registerPolicies` 메소드](#register-policies)
+- [ULID 컬럼](#ulid-columns)
 
 </div>
 
 <a name="upgrade-10.0"></a>
+
 ## Upgrading To 10.0 From 9.x
 
 <a name="estimated-upgrade-time-??-minutes"></a>
-#### Estimated Upgrade Time: 10 Minutes
 
-> **Note**  
-> We attempt to document every possible breaking change. Since some of these breaking changes are in obscure parts of the framework only a portion of these changes may actually affect your application. Want to save time? You can use [Laravel Shift](https://laravelshift.com/) to help automate your application upgrades.
+#### 예상 소요 시간 : 10분
+
+> **Note**
+> 모든 주요 변경 사항을 문서화하고자 했습니다. 몇몇 변경 사항은 프레임워크의 모호한 부분에 있기 때문에 일정 부분 당신의 애플리케이션에 실질적인 영향을 줄 수 있습니다. 시간을 절약하고 싶으신가요? 업그레이드 자동화를 위해 [Laravel Shift](https://laravelshift.com/)를 이용할 수 있습니다.
 
 <a name="updating-dependencies"></a>
-### Updating Dependencies
 
-**Likelihood Of Impact: High**
+### 의존성 업데이트
 
-#### PHP 8.1.0 Required
+**영향도 : 높음**
 
-Laravel now requires PHP 8.1.0 or greater.
+#### PHP 8.1.0 필요
 
-#### Composer 2.2.0 Required
+Laravel은 이제 PHP 8.1 이상을 요구합니다.
 
-Laravel now requires [Composer](https://getcomposer.org) 2.2.0 or greater.
+#### Composer 2.2.0 필요
 
-#### Composer Dependencies
+라라벨은 [Composer](https://getcomposer.org) 2.2.0 버전 이상을 요구합니다.
 
-You should update the following dependencies in your application's `composer.json` file:
+#### Composer 의존성
+
+`composer.json` 파일에 기재된 애플리케이션의 의존성을 업데이트 해야 합니다.
 
 <div class="content-list" markdown="1">
 
@@ -76,13 +82,13 @@ You should update the following dependencies in your application's `composer.jso
 - `laravel/sanctum` to `^3.2`
 - `doctrine/dbal` to `^3.0`
 - `spatie/laravel-ignition` to `^2.0`
-- `laravel/passport` to `^11.0` ([Upgrade Guide](https://github.com/laravel/passport/blob/11.x/UPGRADE.md))
+- `laravel/passport` to `^11.0` ([가이드](https://github.com/laravel/passport/blob/11.x/UPGRADE.md))
 
 </div>
 
-If you are upgrading to Sanctum 3.x from the 2.x release series, please consult the [Sanctum upgrade guide](https://github.com/laravel/sanctum/blob/3.x/UPGRADE.md).
+Sanctum 2.x 버전에서 3.x 버전으로 업데이트 하자고 한다면, [Sanctum upgrade guide](https://github.com/laravel/sanctum/blob/3.x/UPGRADE.md)를 참고하세요.
 
-Furthermore, if you wish to use [PHPUnit 10](https://phpunit.de/announcements/phpunit-10.html), you should delete the `processUncoveredFiles` attribute from the `<coverage>` section of your application's `phpunit.xml` configuration file. Then, update the following dependencies in your application's `composer.json` file:
+나아가 [PHPUnit 10](https://phpunit.de/announcements/phpunit-10.html)를 사용하고자 한다면, `phpunit.xml` 설정 파일에 있는 `<coverage>` 섹션에서 `processUncoveredFiles` 속성을 삭제하세요. 그런 다음 `composer.json` 파일 내 아래 의존성을 업데이트 하세요.
 
 <div class="content-list" markdown="1">
 
@@ -91,12 +97,13 @@ Furthermore, if you wish to use [PHPUnit 10](https://phpunit.de/announcements/ph
 
 </div>
 
-Finally, examine any other third-party packages consumed by your application and verify you are using the proper version for Laravel 10 support.
+마지막으로 서드파티 패키지를 검사하고 해당 패키지들이 Laravel 10을 지원하는지 확인하세요
 
 <a name="updating-minimum-stability"></a>
+
 #### Minimum Stability
 
-You should update the `minimum-stability` setting in your application's `composer.json` file to `stable`. Or, since the default value of `minimum-stability` is `stable`, you may delete this setting from your application's `composer.json` file:
+`composer.json` 파일 내에 `minimum-stability` 속성을 `stable`로 바꿔주어야 합니다. `minimum-stability`의 기본값이 `stable`이므로 해당 설정을 삭제하셔도 됩니다.
 
 ```json
 "minimum-stability": "stable",
@@ -105,48 +112,57 @@ You should update the `minimum-stability` setting in your application's `compose
 ### Application
 
 <a name="public-path-binding"></a>
-#### Public Path Binding
+
+#### Public 경로 바인딩
 
 **Likelihood Of Impact: Low**
+**영향도 : 낮음**
 
 If your application is customizing its "public path" by binding `path.public` into the container, you should instead update your code to invoke the `usePublicPath` method offered by the `Illuminate\Foundation\Application` object:
+애플리케이션에 `path.public`를 바인딩하여 "public 경로"를 수정하고 싶다면, `Illuminate\Foundation\Application`가 제공하는 `usePublicPath` 메서드를 호출하여야 합니다.
 
 ```php
 app()->usePublicPath(__DIR__.'/public');
 ```
 
-### Authorization
+### 인증
 
 <a name="register-policies"></a>
-### The `registerPolicies` Method
+
+### `registerPolicies` 메소드
 
 **Likelihood Of Impact: Low**
+**영향도 : 낮음**
 
-The `registerPolicies` method of the `AuthServiceProvider` is now invoked automatically by the framework. Therefore, you may remove the call to this method from the `boot` method of your application's `AuthServiceProvider`.
+`AuthServiceProvider` 내 `registarPolicies` 메소드는 프레임워크에 의해 자동으로 호출됩니다. 그러므로 `AuthServiceProvider`의 `boot` 메서드에서 해당 메서드 호출은 삭제해주세요.
 
-### Cache
+### 캐시
 
 <a name="redis-cache-tags"></a>
-#### Redis Cache Tags
+
+#### Redis 캐시 태그
 
 **Likelihood Of Impact: Medium**
+**영향도 : 중간**
 
-Redis [cache tag](/docs/{{version}}/cache#cache-tags) support has been rewritten for better performance and storage efficiency. In previous releases of Laravel, stale cache tags would accumulate in the cache when using Redis as your application's cache driver.
+Redis [cache tag](/docs/{{version}}/cache#cache-tags) 지원이 더 나은 성능과 저장 효율을 위해 다시 짜여졌습니다. 이전 라라벨 버전에서는, Redis를 캐시 드라이버로 사용하는 경우 stale 캐시도 누적되었습니다.
 
-However, to properly prune stale cache tag entries, Laravel's new `cache:prune-stale-tags` Artisan command should be [scheduled](/docs/{{version}}/scheduling) in your application's `App\Console\Kernel` class:
+그러나 stale 캐시를 적절하게 삭제하기 위해 새로운 `cache:prune-stale-tags` 아티잔 커맨드가 `App\Console\Kernel` 클래스 내에 실행 예정되어 있습니다.
 
     $schedule->command('cache:prune-stale-tags')->hourly();
 
-### Database
+### 데이터베이스
 
 <a name="database-expressions"></a>
-#### Database Expressions
+
+#### 데이터베이스 구문
 
 **Likelihood Of Impact: Medium**
+**영향도: 중간**
 
-Database "expressions" (typically generated via `DB::raw`) have been rewritten in Laravel 10.x to offer additional functionality in the future. Notably, the grammar's raw string value must now be retrieved via the expression's `getValue(Grammar $grammar)` method. Casting an expression to a string using `(string)` is no longer supported.
+(보통 `DB::raw` 형태로 생성되는) 데이터베이스 "구문"이 추가적인 기능을 제공하기 위해 새로 짜여졌습니다. 특히 `getValue(Grammar $grammer)` 메소드 구문을 통해 DB 문법을 따르는 문자열이 제공되어야 한다는 점입니다. `(string)`을 사용해 데이터베이스 표현을 제공하는 방식은 더 이상 지원되지 않습니다.
 
-**Typically, this does not affect end-user applications**; however, if your application is manually casting database expressions to strings using `(string)` or invoking the `__toString` method on the expression directly, you should update your code to invoke the `getValue` method instead:
+**일반적으로 최종 사용자용 애플리케이션에는 영향을 주지 않습니다**; 그러나, 당신의 애플리케이션이 `(string)` 으로 수동으로 데이터베이스 구문을 제공하고 있거나 `__toString`을 호출하여 데이터베이스 구문을 직접 사용하고 있다면, `getValue` 메소드를 호출하도록 코드를 수정해야 합니다.
 
 ```php
 use Illuminate\Support\Facades\DB;
@@ -157,33 +173,39 @@ $string = $expression->getValue(DB::connection()->getQueryGrammar());
 ```
 
 <a name="query-exception-constructor"></a>
-#### Query Exception Constructor
+
+#### 쿼리 예외 생성자
 
 **Likelihood Of Impact: Very Low**
+**영향도 : 매우 낮음**
 
 The `Illuminate\Database\QueryException` constructor now accepts a string connection name as its first argument. If your application is manually throwing this exception, you should adjust your code accordingly.
+`Illuminate\Database\QueryException` 생성자는 첫 번째 인자로 문자열 타입 연결명을 받습니다. 수동으로 해당 예외를 던지고 있다면, 이에 맞게 코드를 수정해주세요.
 
 <a name="ulid-columns"></a>
+
 #### ULID Columns
 
 **Likelihood Of Impact: Low**
+**영향도 : 낮음**
 
-When migrations invoke the `ulid` method without any arguments, the column will now be named `ulid`. In previous releases of Laravel, invoking this method without any arguments created a column erroneously named `uuid`:
+`ulid` 메소드를 인자 없이 호출할 경우, 컬럼명은 `ulid`가 될 것입니다. 이전 라라벨 버전에서는 인자 없이 이 함수를 호출하면 `uuid`로 틀리게 컬럼이 생성되었습니다.
 
     $table->ulid();
 
-To explicitly specify a column name when invoking the `ulid` method, you may pass the column name to the method:
+`ulid` 함수 호출 시 컬럼명을 명시하고자 한다면, 컬럼명을 인자로 던져주세요.
 
     $table->ulid('ulid');
 
 ### Eloquent
 
 <a name="model-dates-property"></a>
-#### Model "Dates" Property
 
-**Likelihood Of Impact: Medium**
+#### "Dates" 모델 속성
 
-The Eloquent model's deprecated `$dates` property has been removed. Your application should now use the `$casts` property:
+**영향도 : 중간**
+
+삭제된 Eloquent 모델의 `$dates` 속성이 삭제되었습니다. 애플리케이션은 `$casts` 속성을 사용해야 합니다.
 
 ```php
 protected $casts = [
@@ -192,20 +214,22 @@ protected $casts = [
 ```
 
 <a name="relation-getbasequery-method"></a>
-#### Relation `getBaseQuery` Method
 
-**Likelihood Of Impact: Very Low**
+#### `getBaseQuery` Relation 메소드
 
-The `getBaseQuery` method on the `Illuminate\Database\Eloquent\Relations\Relation` class has been renamed to `toBase`.
+**영향도 : 매우 낮음**
+
+`Illuminate\Database\Eloquent\Relations\Relation` 클래스 내 `getBaseQuery` 메소드는 `toBase`로 함수명이 변경되었습니다.
 
 ### Localization
 
 <a name="language-directory"></a>
-#### The Language Directory
 
-**Likelihood Of Impact: None**
+#### Language 디렉토리
 
-Though not relevant to existing applications, the Laravel application skeleton no longer contains the `lang` directory by default. Instead, when writing new Laravel applications, it may be published using the `lang:publish` Artisan command:
+**영향도 : 낮음**
+
+이미 생성된 애플리케이션과는 무관하지만, 라라벨 애플리케이션 뼈대는 더 이상 `lang` 디렉토리를 포함하지 않습니다. 대신 새 라라벨 애플리케이션을 생성하는 경우 `lang:publish` 아티잔 커맨드를 이용하여 생성될 수 있습니다.
 
 ```shell
 php artisan lang:publish
@@ -214,38 +238,43 @@ php artisan lang:publish
 ### Logging
 
 <a name="monolog-3"></a>
+
 #### Monolog 3
 
-**Likelihood Of Impact: Medium**
+**영향도 : 중간**
 
-Laravel's Monolog dependency has been updated to Monolog 3.x. If you are directly interacting with Monolog within your application, you should review Monolog's [upgrade guide](https://github.com/Seldaek/monolog/blob/main/UPGRADE.md).
+라라벨의 Monolog 의존성은 Monolog 3.x 버전으로 업데이트 되었습니다. Monolog와 직접 상호작용한다면, Monolog의 [upgrade guide](https://github.com/Seldaek/monolog/blob/main/UPGRADE.md) 살펴보시기를 권장합니다.
 
-If you are using third-party logging services such as BugSnag or Rollbar, you may need to upgrade those third-party packages to a version that supports Monolog 3.x and Laravel 10.x.
+만약 BugSnag 이나 Rollbar와 같은 서드 파티 로깅 서비스를 이용하고 있다면 해당 서드파티 패키지를 Monolog 3.x 및 Laravel 10.x 버전에 맞게 업그레이드 해야할 수 있습니다.
 
 ### Queues
 
 <a name="dispatch-now"></a>
-#### The `Bus::dispatchNow` Method
 
-**Likelihood Of Impact: Low**
+#### `Bus::dispatchNow` 메소드
 
-The deprecated `Bus::dispatchNow` and `dispatch_now` methods have been removed. Instead, your application should use the `Bus::dispatchSync` and `dispatch_sync` methods, respectively.
+**영향도 : 낮음**
+
+`Bus::dispatchNow`와 `dispatch_now` 메소드가 삭제되었습니다. 대신 `Bus::dispatchSync`와 `dispatch_sync` 메소드를 사용하세요.
 
 ### Routing
 
 <a name="middleware-aliases"></a>
-#### Middleware Aliases
 
-**Likelihood Of Impact: Optional**
+#### 미들웨어 별칭
 
-In new Laravel applications, the `$routeMiddleware` property of the `App\Http\Kernel` class has been renamed to `$middlewareAliases` to better reflect its purpose. You are welcome to rename this property in your existing applications; however, it is not required.
+**영향도 : 선택적**
+
+새로운 라라벨 애플리케이션에서 `App\Http\Kernel` 클래스 내 `$routeMiddleware` 속성이 목적에 맞게 `$middlewareAliases`로 변경되었습니다. 사용중인 애플리케이션에서도 속성명을 바꾸는 것이 좋지만, 꼭 필요한 것은 아닙니다.
 
 <a name="rate-limiter-return-values"></a>
-#### Rate Limiter Return Values
 
-**Likelihood Of Impact: Low**
+#### Rate Limiter 반환 값
+
+**영향도 : 낮음**
 
 When invoking the `RateLimiter::attempt` method, the value returned by the provided closure will now be returned by the method. If nothing or `null` is returned, the `attempt` method will return `true`:
+`RateLimiter::attempt` 메소드를 호출할 때 인자로 제공된 클로저에 의해 반환된 값은 메소드로 반환됩니다. 반환된 값이 없거나 `null`인 경우, `attempt` 메소드는 `true`를 반환합니다.
 
 ```php
 $value = RateLimiter::attempt('key', 10, fn () => ['example'], 1);
@@ -254,11 +283,13 @@ $value; // ['example']
 ```
 
 <a name="redirect-home"></a>
-#### The `Redirect::home` Method
+
+#### `Redirect::home` 메소드
 
 **Likelihood Of Impact: Very Low**
+**영향도 : 매우 낮음**
 
-The deprecated `Redirect::home` method has been removed. Instead, your application should redirect to an explicitly named route:
+`Redirect::home`은 삭제되었습니다. 대신 명시적으로 명명된 경로로 리다이렉트 될 것입니다.
 
 ```php
 return Redirect::route('home');
@@ -267,24 +298,26 @@ return Redirect::route('home');
 ### Testing
 
 <a name="service-mocking"></a>
-#### Service Mocking
 
-**Likelihood Of Impact: Medium**
+#### 서비스 모킹
 
-The deprecated `MocksApplicationServices` trait has been removed from the framework. This trait provided testing methods such as `expectsEvents`, `expectsJobs`, and `expectsNotifications`.
+**영향도 : 중간**
 
-If your application uses these methods, we recommend you transition to `Event::fake`, `Bus::fake`, and `Notification::fake`, respectively. You can learn more about mocking via fakes in the corresponding documentation for the component you are attempting to fake.
+`MocksApplicationServices` 트레이트가 삭제되었습니다. 해당 트레이트는 `expectsEvents`, `expectsJobs`, `expectsNotifications` 등의 메소드를 제공했습니다.
+
+위와 같은 메소드를 사용하고자 한다면, `Event::fake`, `Bus::fake`, `Notification::fake`로 전환할 것을 권장합니다. 각 컴포넌트 문서를 통해 임의값을 만들어 대체하는 법에 대해서 배울 수 있습니다.
 
 ### Validation
 
 <a name="closure-validation-rule-messages"></a>
-#### Closure Validation Rule Messages
 
-**Likelihood Of Impact: Very Low**
+#### 클로저 유효성 검사 메시지
 
-When writing closure based custom validation rules, invoking the `$fail` callback more than once will now append the messages to an array instead of overwriting the previous message. Typically, this will not affect your application.
+**영향도 : 매우 낮음**
 
-In addition, the `$fail` callback now returns an object. If you were previously type-hinting the return type of your validation closure, this may require you to update your type-hint:
+클로저 기반의 유효성 검사 규칙을 만드는 경우, `$fail` 콜백 함수를 한 번 이상 호출하게 된다면 이전 메시지를 덮어쓰는 대신 배열에 메시지가 추가됩니다. 일반적으로 당신의 애플리케이션에 영향을 주지는 않습니다.
+
+이에 더해, `$fail` 콜백 함수는 객체를 반환합니다. 유효성 검사 클로저에 반환값 타입을 기재하였다면, 타입 힌트를 업데이트 해야합니다.
 
 ```php
 public function rules()
@@ -298,15 +331,16 @@ public function rules()
 ```
 
 <a name="form-request-after-method"></a>
-#### Form Request After Method
 
-**Likelihood Of Impact: Very Low**
+### Form 요청 After 메소드
 
-Within form requests, the `after` method is now [reserved by Laravel](https://github.com/laravel/framework/pull/46757). If your form requests define an `after` method, the method should be renamed or modified to utilize the new "after validation" feature of Laravel's form requests.
+**영향도 : 매우 낮음**
+
+form 요청 내 `after` 메소드는 이제 [라라벨이 사전 정의](https://github.com/laravel/framework/pull/46757)합니다. form 요청이 `after` 메소드를 정의하고 있다면, 해당 메소드는 이름을 바꾸거나 라라벨의 새로운 "유효성 검사 다음" 기능을 활용하기 위해 수정되어야 합니다.
 
 <a name="miscellaneous"></a>
-### Miscellaneous
 
-We also encourage you to view the changes in the `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel). While many of these changes are not required, you may wish to keep these files in sync with your application. Some of these changes will be covered in this upgrade guide, but others, such as changes to configuration files or comments, will not be.
+### 기타
 
-You can easily view the changes with the [GitHub comparison tool](https://github.com/laravel/laravel/compare/9.x...10.x) and choose which updates are important to you. However, many of the changes shown by the GitHub comparison tool are due to our organization's adoption of PHP native types. These changes are backwards compatible and the adoption of them during the migration to Laravel 10 is optional.
+`laravel/laravel` [GitHub repository](https://github.com/laravel/laravel) 변경 사항을 보시는 것을 권장합니다. 모든 변경 사항이 필요한 것은 아니지만, 일부 파일은 당신의 애플리케이션과 동기화되어야 할 수 있습니다. 어떤 변경 사항은 이 가이드에 의해 다뤄지지만 설정 파일, 주석 등은 그렇지 않을 수 있습니다.
+[GitHub comparison tool](https://github.com/laravel/laravel/compare/9.x...10.x)를 통해 변경 사항과 어떤 업데이트가 중요한지 볼 수 있습니다. 그러나 Github 비교 도구에 의해 보여지는 변경 내용은 우리 조직의 PHP 고유 타입 적용에 의한 것입니다. 라라벨 10 마이그레이션 중 발생하는 이러한 변경은 되돌릴 수 있으며 선택 사항입니다.

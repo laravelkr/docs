@@ -684,7 +684,7 @@ Similar to the `lazy` method, the `cursor` method may be used to significantly r
 
 The `cursor` method will only execute a single database query; however, the individual Eloquent models will not be hydrated until they are actually iterated over. Therefore, only one Eloquent model is kept in memory at any given time while iterating over the cursor.
 
-`cursor` 메소드는 단일 데이터베이스 쿼리만 실행합니다. 그러나 개별 Eloquent 모델은 실제로 반복될 때까지 수화되지 않습니다. 따라서 커서를 반복하는 동안 주어진 시간에 하나의 Eloquent 모델만 메모리에 유지됩니다.
+`cursor` 메소드는 단일 데이터베이스 쿼리만 실행합니다. 그러나 개별 Eloquent 모델은 실제로 반복될 때까지 생성되지 않습니다. 따라서 커서를 반복하는 동안 주어진 시간에 하나의 Eloquent 모델만 메모리에 유지됩니다.
 
 > **Warning**
 > Since the `cursor` method only ever holds a single Eloquent model in memory at a time, it cannot eager load relationships. If you need to eager load relationships, consider using [the `lazy` method](#chunking-using-lazy-collections) instead.

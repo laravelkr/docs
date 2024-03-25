@@ -112,7 +112,7 @@ Once the test has been generated, you may define test methods as you normally wo
 
 <a name="running-tests"></a>
 ## Running Tests
-## 테스틑 실행
+## 테스트 실행
 
 As mentioned previously, once you've written tests, you may run them using `phpunit`:
 
